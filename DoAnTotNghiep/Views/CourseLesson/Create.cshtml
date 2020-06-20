@@ -1,0 +1,60 @@
+﻿@model CourseLessonVM
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = null;
+}
+
+
+@using (Html.BeginForm("Create", "CourseLesson", FormMethod.Post, new { id = "frmCreateCourseLesson", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <input type="hidden" asp-for="Id" />
+    <div class="panel-body p10">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div>Tên bài học<span style="color:red">*</span></div>
+                        <input class="form-control" asp-for="Name" placeholder="Nhập tên bài học" />
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                    <div class="col-md-12">
+                        <div>Thứ tự<span style="color:red">*</span></div>
+                        <input class="form-control" asp-for="SortOrder" placeholder="Nhập thứ tự bài học"/>
+                        @Html.ValidationMessageFor(m => m.SortOrder)
+                    </div>                  
+                    <div class="col-md-12">
+                        <div>Chọn video<span style="color:red">*</span></div>
+                        <div>
+                            <span>@Model.VideoDisplay</span>
+                            <input asp-for="Video" class="form-control" accept="" />
+                            @Html.ValidationMessageFor(m => m.Video)
+                            <input type="hidden" asp-for="VideoPath" />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div>Chọn tài liệu</div>
+                        <div>
+                            <span>@Model.SlideDisplay</span>
+                            <input asp-for="Slide" class="form-control" accept="" />
+                            @Html.ValidationMessageFor(m => m.Slide)
+                            <input type="hidden" asp-for="SlidePath" />
+                        </div>
+                    </div>
+                    <input type="hidden" asp-for="ChapterId" />
+                </div>
+            </div>
+        </div>
+        <div class="clearfix text-center">
+            <button type="submit" id="btnSubmit" class="btn btn-success"><span class='fa fa-save'>Lưu</span></button>
+            <button type="button" class="btn btn-danger btn-popup-cancel btnClose" data-dismiss="modal"><span class='fa fa-close'>Huỷ</span></button>
+        </div>
+    </div>
+}
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/controllers/courselessonController.js"></script>
+}

@@ -1,0 +1,56 @@
+﻿@model CourseCategoryVM
+@{
+    ViewData["Title"] = "View";
+}
+
+<header id="topbar">
+    <div class="topbar-left">
+
+    </div>
+    <div class="topbar-right" data-tour-init="1" data-tour-key="createButton">
+        <a href="javascript:void(0);"
+           data-href="dsoft-popup-modal"
+           data-event="popup-modal"
+           data-url="/CourseCategory/Create"
+           data-title="Thêm mới"
+           data-width="1000"
+           data-height="600"
+           class="btn btn-sm btn-radius-left btn-info dsoft-btn-show-popup">
+            <span class="fa fa-edit"></span> Thêm mới
+        </a>
+    </div>
+</header>
+<div class="m10">
+    <div class="tray tray-center pt20 va-t posr">
+        <div class="panel">
+            <div class="panel-menu p12 admin-form theme-primary">
+                <div class="form-search">
+                    <input type="hidden" name="p" />
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Tên danh mục</label>
+                            <label for="Description" class="field prepend-icon">
+                                <input asp-for="SearchName" placeholder="Nhập tên danh mục" />
+                                <i class="arrow"></i>
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <br />
+                            <button type="submit" id="btnSearch" class="btn btn-hover btn-info"><i class="fa fa-search" aria-hidden="true"></i>Tìm kiếm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="divListCourseCategory" class="panel-body pn">
+                @await Html.PartialAsync("_Index")
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/controllers/coursecategoryController.js"></script>
+}

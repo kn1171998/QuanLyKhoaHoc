@@ -1,0 +1,180 @@
+﻿@model DetailHomeVM
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<section>
+    <div class="container detail-hero clearfix  mb-5">
+        <div class="row pl-4 pr-5">
+            <div class="col-12 col-md-8 w-100  h-auto pr-0">
+                <div class="row info-courses mb-3 p-2 bg-dark text-white">
+                    <div class="col-12">
+                        <div class="detail_title">
+                            <h3 class="">
+                                @Model.NameCategory
+                            </h3>
+                            <p class="text-white" id="Content">
+                                @Model.Description
+                            </p>
+                        </div>
+                        <div class="detail-intructor text-white row p-3 pt-0 p-md-0">
+                            <div class="star-courses star-detail cleafix text-left col-md-4 col-12 p-0">
+                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                <a> 5.0(100 ratings)</a>
+                            </div>
+                            <div class="student col-md-3 col-12">
+                                <span>
+                                    1000 Student
+                                </span>
+                            </div>
+                            <div class="detail-intructor col-12 col-md-4 p-0">
+                                <span>Create by <a href="#">@Model.FullName</a> </span>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row info-courses  mb-3 p-2">
+                    <h3 class="col-12 p-2">What you'll learn</h3>
+                    @Html.Raw(Model.Content)
+                    @*<div class="col-12 col-md-12 col-lg-6">
+                            <p>
+                                <ion-icon name="checkmark-outline"></ion-icon>
+                                <span>Use MongoDB to its full potential in future projects</span>
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-12 col-lg-6">
+                            <p>
+                                <ion-icon name="checkmark-outline"></ion-icon>
+                                <span>
+                                    Write efficient and well-performing queries to fetch data in the format you need it
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-12 col-md-12 col-lg-6">
+                            <p>
+                                <ion-icon name="checkmark-outline"></ion-icon>
+                                <span>
+                                    Use all features MongoDB offers you to work with data efficiently
+                                </span>
+                        </div>*@
+
+                </div>
+                <div class="row Course content mr-2">
+
+                    <div class="col-12 ">
+                        <div class="navbar p-0 clearfix navbar-default navbar-fixed-top w-100" role="navigation">
+                            <div class="container p-0">
+                                <div class="navbar-header">
+                                    <h3 class="col-12">Course content</h3>
+                                </div>
+                                <div class="collapse navbar-collapse d-block">
+                                    <ul class="nav navbar-nav w-100" id="menu-course">
+                                        @foreach (var item in Model.lstChapter)
+                                        {
+                                        <li class="w-100">
+                                            <a href="#" class=" w-100 title-course " data-toggle="dropdown">
+                                                <span class="course-title ">
+                                                    <ion-icon name="chevron-down-outline"></ion-icon>
+                                                    @item.NameChapter
+                                                </span>
+                                                <span class="time-course ">03:00</span>
+                                                <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu ">
+                                                @foreach (var child in Model.lstCourseLesson.Where(m=>m.ChapterId ==item.Id))
+                                                    {
+                                                <li class="my-dropdown-menu">
+                                                    <a href="#" class="title-course">
+                                                        <span class="course-title">
+                                                            <ion-icon name="play-circle-outline"></ion-icon>
+                                                            @child.Name
+                                                        </span>
+                                                        <span class="time-course">03:00</span>
+                                                        <b class="caret"></b>
+                                                    </a>
+                                                </li>
+                                                    }
+                                            </ul>
+                                        </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row info-courses mt-5 p-2">
+                    <div class="col-12 Lecturer-information mb-3">
+                        <div class="lecturer-img d-float">
+                            <img src="./img/c1.jpg" alt="teacher">
+                        </div>
+                        <div class="lecturer-info-content d-float ">
+                            <p><small>Lecturers</small></p>
+                            <a href="#" class="name-author">
+                                <h5>@Model.FullName</h5>
+                            </a>
+                            <div class="star-courses cleafix text-left">
+                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 detail_title">
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-12 col-md-3   price-cart " id="price-cart ">
+                <div class="price-img ">
+                    <img src="@Model.Image" class="img-responsive" alt="img">
+
+                </div>
+
+                <div class="price detail-price p-3">
+
+                    <span href="#" class="real ">@Model.Price </span>
+                    <span href="#" class="fake "><small> <del> @Model.PromotionPrice </del></small></span>
+                </div>
+                <div class="btn w-100">
+                    <button class="btn btn-danger w-100 mb-2">Add to cart</button>
+                    <button class="btn btn-outline-danger w-100 ">Buy now</button>
+                    <a href="/Home/View/@Model.IdCourse" class="btn btn-success w-100">Free</a>
+                </div>
+                <div class="detail-courses p-3">
+                    <p>
+                        <ion-icon name="car-outline" class="icon-cart"></ion-icon>
+                        <span>
+                            Free ship
+                        </span>
+                    </p>
+                    <p>
+                        <ion-icon name="reload-outline" class="icon-cart"></ion-icon>
+                        <span>
+                            Money-back commitment
+                        </span>
+                    </p>
+                    <p>
+                        <ion-icon name="desktop-outline" class="icon-cart">
+
+                        </ion-icon>
+                        <span>
+                            Study on the computer
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
