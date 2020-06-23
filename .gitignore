@@ -261,3 +261,9 @@ __pycache__/
 *.pyc
 /DoAnTotNghiep/wwwroot/resource/videos/7
 /DoAnTotNghiep/wwwroot/resource/slides/7/Lưu ý quan trọng.txt
+/WebServices/AutoTest.cs
+/WebServices/obj/project.assets.json
+/WebData/obj/project.assets.json
+/WebData/bin/Debug/netcoreapp2.1/WebData.runtimeconfig.dev.json
+/DoAnTotNghiep/obj/project.assets.json
+/WebServices/AutoTest.cs
