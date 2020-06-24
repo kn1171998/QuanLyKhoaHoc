@@ -41,31 +41,37 @@
     <script src="~/lib/jquery.form/jquery.form.js"></script>
     <script id="ChapterLesson" type="x-tmpl-mustache">
         <li>
-            <div>
-                Chương: {{OrderChapter}} {{Name}}
-                <a href="javascript:void(0);"
-                   data-message-confirm="Bạn có muốn xoá không?"
-                   action="/Chapter/Delete"
-                   data-id="{{ID}}"
-                   class="btn btn-sm btn-danger btn-radius-right btn-delete btnDelete">
-                    <span class="fa fa-window-close"></span>
-                </a>
-                <a href="javascript:void(0);"
-                   data-href="dsoft-popup-modal"
-                   data-event="popup-modal"
-                   data-url="/Chapter/Create?ID={{ID}}&CourseId={{CourseId}}"
-                   data-course-id="{{CourseId}}"
-                   data-chapter-id="{{ID}}"
-                   class="btn btn-sm btn-radius-right btn-warning dsoft-btn-show-popup">
-                    <span class="fa fa-edit"></span>
-                </a>
-                <a href="javascript:void(0);"
-                   data-href="dsoft-popup-modal"
-                   data-event="popup-modal"
-                   data-url="/CourseLesson/Create?ID=0&ChapterId={{ID}}"
-                   class="btn btn-sm btn-radius-right btn-success dsoft-btn-show-popup" id="chapter{{ID}}">
-                    <span class="fa fa-plus"></span>
-                </a>
+            <div class="row">
+                <div class="col-8 text-left">
+                    Chương: {{OrderChapter}} {{Name}}
+                </div>
+                <div class="col-4 text-right">
+                    <a href="javascript:void(0);"
+                       data-message-confirm="Bạn có muốn xoá không?"
+                       action="/Chapter/Delete"
+                       data-id="{{ID}}"
+                       class="btn btn-sm btn-danger btn-radius-right btn-delete btnDelete">
+                        <span class="fa fa-window-close"></span>
+                    </a>
+                    <a href="javascript:void(0);"
+                       data-href="dsoft-popup-modal"
+                       data-event="popup-modal"
+                       data-url="/Chapter/Create?ID={{ID}}&CourseId={{CourseId}}"
+                       data-course-id="{{CourseId}}"
+                       data-chapter-id="{{ID}}"
+                       class="btn btn-sm btn-radius-right btn-warning dsoft-btn-show-popup">
+                        <span class="fa fa-edit"></span>
+                    </a>
+                    <a href="javascript:void(0);"
+                       data-href="dsoft-popup-modal"
+                       data-event="popup-modal"
+                       data-url="/CourseLesson/Create?ID=0&ChapterId={{ID}}"
+                       class="btn btn-sm btn-radius-right btn-success dsoft-btn-show-popup" id="chapter{{ID}}">
+                        <span class="fa fa-plus"></span>
+                    </a>
+                </div>
+                
+              
             </div>
             <ul id="{{ID}}"></ul>
         </li>

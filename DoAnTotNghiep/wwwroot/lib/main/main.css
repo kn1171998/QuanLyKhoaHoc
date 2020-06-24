@@ -279,24 +279,37 @@ font-weight: initial;
 }
 .card-img-top{
     transform: scale(1);
-    transition: transform 0.5s, opacity0.5s;
+    transition: transform 0.5s, opacity 0.5s;
     overflow: hidden;
     height: auto;
 }
-.card-img-top:hover{
-    transform: scale(1.05);
-    opacity: 0.7;
-    -webkit-transform: scale(1.05);
-    -moz-transform: scale(1.05);
-    -ms-transform: scale(1.05);
-    -o-transform: scale(1.05);
-}
-.mycard{
+.card-img-top:hover {
+        transform: scale(1.05) ;
+        opacity: 0.7;
+        -webkit-transform: scale(1.05);
+        -moz-transform: scale(1.05);
+        -ms-transform: scale(1.05) ;
+        -o-transform: scale(1.05);
+    }
+.mycard {
     width: 100%;
     cursor: pointer;
     border: 0;
-    box-shadow: 5px 5px   rgba(0, 0, 0, 0.3);
-   
+    box-shadow:0 5px 5px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+   transform: translateY(0);
+   transition:all .3s;
+}
+    .mycard:hover .card-img-top {
+        transform: scale(1.05);
+        opacity: 0.7;
+        -webkit-transform: scale(1.05) ;
+        -moz-transform: scale(1.05) ;
+        -ms-transform: scale(1.05) ;
+        -o-transform: scale(1.05) ;
+    }
+.mycard:hover{
+    transform: translateY(3%);
 }
 .mycard-body{
     
@@ -373,6 +386,7 @@ font-weight: initial;
     letter-spacing: 2px;
     
     text-shadow: initial;
+    padding-bottom: 1%;
 }
 .title
 {
@@ -390,7 +404,7 @@ font-weight: initial;
 }
 /* Today */
 .bg-info{
-    background-image: url(../img/bg3.jpg);
+    background-image: url(../../img/bg3.jpg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -483,7 +497,7 @@ height: 29%;
 /* Whylearn */
 .bg-why{
     background-color: #F9FAFB;
-    padding-top: 5%;
+    padding: 5% 0;
 }
 .today_icon{
     font-size: 200%;
@@ -505,16 +519,21 @@ height: 29%;
     color: #232222;
  
 }
-.whyContent{
+.whyContent {
     /* background-color: #ece6e6; */
     box-shadow: magenta;
     /* text-align: center; */
-    border-radius: 5%;
+    border-radius: 5px;
     padding-bottom: 2px;
     cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    text-align:center;
+    padding:20% 10%;
+    transform:translateY(0);
+    transition: all .3s;
 }
-.whyContent:hover h5{
-    /* color: rgb(217,4,95); */
+.whyContent:hover {
+    transform: translateY(5%);
 }
 .whyContent p{
     color: #5f5f5f;
@@ -668,7 +687,7 @@ height: 29%;
 }
 /* FORM SIGNIN */
 .bg-SignIn{
-    background: linear-gradient(rgba(27,29,61,0.9),rgba(27,29,61,0.9)), url(../img/bg3.jpg);
+    background: linear-gradient(rgba(27,29,61,0.9),rgba(27,29,61,0.9)), url(../../img/bg3.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -789,7 +808,7 @@ height: 29%;
       color: white;
   }
   .bg-intructor{
-      background-image:linear-gradient(rgba(27,29,61,0.9),rgba(27,29,61,0.9))  ,url(../img/bg4.jpg);
+      background-image:linear-gradient(rgba(27,29,61,0.9),rgba(27,29,61,0.9))  ,url(../../img/bg4.jpg);
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
@@ -1120,15 +1139,19 @@ height: 29%;
     margin-bottom: 5%;
 }
 /* ---------------END DETAIL----------------------- */
+
+/*Modal*/
+.myModalFooter{
+    justify-content:center;
+    padding:0;
+}
 /* ----------------------------------------------- */
 /* Animations */
 /* ----------------------------------------------- */
-
 .js--wp-1,
 .js--wp-2,
 .js--wp-3,
-.js--wp-5
-{
+.js--wp-5 {
     opacity: 0;
     -webkit-animation-duration: 1s;
     animation-duration: 1s;
@@ -1158,7 +1181,17 @@ height: 29%;
    } */
 
 /* --------------------- */
-@media only screen and (max-width:1119px){
+@media only screen and (min-width:1119px){
+    .myCaption {
+        text-align: center;
+        font-family: 'Lato', sans-serif;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+    }
+
     .btn:link,
     .btn:visited{
         transition:background-color 0.2s, boder 0.2s, color 0.2s;
@@ -1210,13 +1243,89 @@ height: 29%;
         
     } */
 }
+@media only screen and (max-width:1119px) {
+    .myCaption {
+        text-align: center;
+        font-family: 'Lato', sans-serif;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+    }
+    
+    .btn:link,
+    .btn:visited {
+        transition: background-color 0.2s, boder 0.2s, color 0.2s;
+    }
+
+    .btn-pink {
+        color: white;
+        border: 2px solid white;
+        font-size: 16px;
+        padding: 10px 25px;
+        box-shadow: white;
+        margin-top: 2%;
+        margin-bottom: 12%;
+        position: relative;
+    }
+
+        .btn-pink:hover a {
+            color: white;
+        }
+
+        .btn-pink::before {
+            position: absolute;
+            content: " ";
+            width: 0;
+            height: 100%;
+            color: white;
+            background: linear-gradient(to right,#eea3d1f5,rgb(217,4,95));
+            bottom: 0px;
+            left: 0px;
+            z-index: -1;
+        }
+
+        .btn-pink:hover::before {
+            color: white;
+            font-size: 16px;
+            width: 100%;
+            height: 100%;
+            transition: all 0.5s ease-in-out;
+        }
+
+    /* .btn-pink:hover{
+        color: rgb(217,4,95);
+        border: 2px solid rgb(217,4,95)            ;
+        font-size: 16px;
+        background-color: white;
+        transition:background-color 0.2s, boder 0.2s, color 0.2s;
+      
+        
+        
+    } */
+    #mySearch input {
+        background-color: white;
+        border: 1px solid rgb(217,4,95);
+    }
+}
 @media only screen and (max-width:911px){
     .myCaption{
         text-align: center;
         font-family: 'Lato', sans-serif;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width:100%;
+       
+
+    }
+    .myCaption p{
+        display: none;
     }
     .myCaption h3{
-    font-size: 40px;
+    font-size: 30px;
     letter-spacing: 2px;
     color: white;
     font-weight: initial;
@@ -1225,10 +1334,11 @@ height: 29%;
         color: white;
         border: 2px solid white             ;
         font-size: 16px;
-        padding: 10px 25px;
+        padding: 7px 20px;
         box-shadow: white;
-        margin-top: 0;
-        margin-bottom:0 ;
+        margin-top: 2%;
+        margin-bottom:3% ;
+        margin-bottom:3% ;
         position: relative;
         
     }
@@ -1245,6 +1355,24 @@ height: 29%;
     }
     .sticky{
         padding: 0 7%;
+    }
+    .whyContent p {
+        display: none;
+    }
+
+    .navbar{
+        z-index:10020;
+        padding-bottom: 3%;
+    }
+    .navbar-nav {
+        background-color:white;
+        color: rgb(217,4,95);
+    }
+    
+  
+    #mySearch input {
+        background-color: white;
+        border: 1px solid rgb(217,4,95);
     }
 }
 @media only screen and (max-width:767px){
@@ -1280,6 +1408,7 @@ height: 29%;
     }
     .sale_content{
     margin: 2%;
+    
     }
     .sticky{
         padding: 0 10%;
@@ -1290,18 +1419,19 @@ height: 29%;
     .price-cart{
         display: none;
     }
+    .whyContent p {
+        display: none;
+    }
+    
+    element.style {
+    }
+
+    .sticky #mySearch{
+        border:none;
+    }
 }
 @media only screen and (max-width:575px){
-    .myCaption{
-        text-align: center;
-        font-family: 'Lato', sans-serif;
-    }
-    .myCaption h3{
-    font-size: 28px;
-    letter-spacing: 2px;
-    color: white;
-    font-weight: initial;
-    }
+   
     .myCaption p{
         display: none;
 
@@ -1327,5 +1457,11 @@ height: 29%;
     .detail-hero{
         margin-top: 15%;
     }
-   
+    .whyContent p{
+        display: none;
+    }
+    .carousel-indicators{
+        display: none;
+    }
+    
 }
