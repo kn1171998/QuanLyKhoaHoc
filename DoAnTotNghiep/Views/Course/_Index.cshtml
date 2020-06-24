@@ -29,8 +29,8 @@
         <td>{{Price}}</td>
         <td class="text-center col-md-2">
             <a href="/CourseLesson/Index/{{ID}}"                         
-               class="btn btn-sm btn-radius-left btn-radius-right btn-success" id="detail{{ID}}">
-                <span class="fa fa-plus"></span>Chi tiết
+               class="btn btn-sm btn-radius-left btn-radius-right btn-success mb-2" id="detail{{ID}}">
+                <span class="fa fa-plus"></span>
             </a>
             <a href="javascript:void(0);"
                data-href="dsoft-popup-modal"
@@ -38,15 +38,15 @@
                data-url="/Course/Create/{{ID}}"               
                data-width="1000"
                data-height="600"
-               class="btn btn-sm btn-radius-left btn-info dsoft-btn-show-popup">
-                <span class="fa fa-edit"></span> Sửa
+               class="btn btn-sm btn-radius-left btn-warning dsoft-btn-show-popup mb-2">
+                <span class="fa fa-edit"></span> 
             </a>
             <a href="javascript:void(0);"
                data-message-confirm="Bạn có muốn xoá không?"
                action="/Course/Delete"
                data-id="{{ID}}"
                class="btn btn-sm btn-danger btn-radius-right btn-delete btnDelete">
-                <span class="fa fa-remove"></span>Xoá
+                <span class="fa fa-remove"></span>
             </a>
         </td>
     </tr>

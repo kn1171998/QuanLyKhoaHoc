@@ -6,38 +6,40 @@
     <div class="topbar-left">
 
     </div>
-    <div class="topbar-right" data-tour-init="1" data-tour-key="createButton">
-        <a href="javascript:void(0);"
-           data-href="dsoft-popup-modal"
-           data-event="popup-modal"
-           data-url="/Course/Create"
-           data-width="1000"
-           data-height="600"
-           class="btn btn-sm btn-radius-left btn-info dsoft-btn-show-popup">
-            <span class="fa fa-edit"></span> Thêm mới
-        </a>
+    <div class="row">
+        <div class="col-3 topbar-right" data-tour-init="1" data-tour-key="createButton">
+            <a href="javascript:void(0);"
+               data-href="dsoft-popup-modal"
+               data-event="popup-modal"
+               data-url="/Course/Create"
+               data-width="1000"
+               data-height="600"
+               class="btn  btn-info dsoft-btn-show-popup  ">
+                <span class="fa fa-plus-square pr-1"></span> Thêm mới
+            </a>
+        </div>
+
+        <div class="col-9 text-right  p12 admin-form theme-primary">
+            <div class="form-search input-group mb-3">
+                <input type="hidden" name="p" />               
+                       
+                            <input class="form-control" asp-for="SearchCourse" placeholder="Nhập tên khoá học" />
+                            <i class="arrow"></i>
+                      
+                        <div class="input-group-append">
+                            <button type="button" id="btnSearch" class="btn btn-info"><i class="fa fa-search pr-1" aria-hidden="true"></i>Tìm kiếm</button>
+                        </div>
+                                    
+            </div>
+        </div>
     </div>
+
+   
 </header>
 <div class="m10">
     <div class="tray tray-center pt20 va-t posr">
         <div class="panel">
-            <div class="panel-menu p12 admin-form theme-primary">
-                <div class="form-search">
-                    <input type="hidden" name="p" />
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label for="Description" class="field prepend-icon">
-                                <input class="form-control" asp-for="SearchCourse" placeholder="Nhập tên khoá học" />
-                                <i class="arrow"></i>
-                            </label>
-                        </div>
-                        <div class="col-md-3">
-                            <br />
-                            <button type="button" id="btnSearch" class="btn btn-hover btn-info"><i class="fa fa-search" aria-hidden="true"></i>Tìm kiếm</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <div id="divListCourse" class="panel-body pn">
                 @if (ViewBag.IsSuccess != null && ViewBag.IsSuccess == true)
                 {
