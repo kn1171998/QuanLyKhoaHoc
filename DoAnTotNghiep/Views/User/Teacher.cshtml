@@ -1,0 +1,61 @@
+﻿@model UserVM
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+<div class="container">
+    <form class="p-4" asp-controller="User" asp-action="Index">
+        <input asp-for="Id" type="hidden" />
+        <div class="col-md-6">
+            <div class="fileupload fileupload-new" data-provides="fileupload">
+                <div class="row">
+                    <div class="col-md-12 fileupload-name">
+                        <div class="fileupload-new control-label">Ảnh</div>
+                        <div class="fileupload-exists control-label">Ảnh</div>
+                    </div>
+                    <div class="col-md-12 fileupload-img">
+                        <span class="button btn-system btn-file  ">
+                            <label class="btn btn-default btn-file chooseFile p-2">Chọn ảnh</label>
+                            <input type="file" name="LImage" />
+                        </span>
+                    </div>
+                </div>
+                <div class="fileupload-preview thumbnail mb15" id="thumbnailpost">
+                    <img style="margin-bottom:14px;" src="~/img/p2.jpg" />
+                    @*<input asp-for="Image" type="hidden" />*@
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputFullname">Họ tên</label>
+            <input type="text" class="form-control" asp-for="FullName" placeholder="Lanh Nguyen">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">Email</label>
+                <input type="email" class="form-control" asp-for="Email" readonly placeholder="Email">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPassword4">Password</label>
+                <input type="hidden" asp-for="Password">
+                <input type="hidden" asp-for="TypeUser">
+            </div>
+        </div>
+
+
+
+        <div class="form-row">
+            <div class="form-group col-md-6 p-0">
+                <label for="inputAddress2">Ngày sinh</label>
+                <input type="Date" class="form-control" asp-for="Birthday" placeholder="">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputSex">Giới tính</label>
+                <input type="text" class="form-control" asp-for="Sex" placeholder="Nam">
+            </div>
+
+
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+    </form>
+</div>
