@@ -451,6 +451,7 @@ letter-spacing: 2px;
 }
 .todayContent{
     position: relative;
+    overflow:hidden;
 }
 .todayContent img{
     border-radius:5px ;
@@ -638,6 +639,19 @@ height: 29%;
     color: #252b33;
   }
   /* TEACHER */
+.bg-teacher {
+    background-color: #F9FAFB;
+}
+.myteacher {
+    margin: 2%;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    background-color: white;
+}
   .teacher-img img{
       width: 145px;
       height: 145px;
@@ -650,12 +664,12 @@ height: 29%;
       display: block;
       
   }
-  .teacher-carousel{
-      text-align: center;
-      justify-content: center;
-      align-items: center;
-      padding: 0 10%;
-  }
+.teacher-carousel {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 3% 3%;
+}
   .star{
       justify-content: center;
       display: flex;
@@ -664,12 +678,18 @@ height: 29%;
   .teacher-content {
       color: #5f5f5f;
   }
-  .gmail_teacher     {
-      color: #00d1cd;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 200;
-  }
+.box-teacher{
+    box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+}
+.name-teacher {
+    color: rgb(217,4,95);
+}
+.gmail_teacher {
+    color: #00d1cd;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 200;
+}
   .my-carousel-icon{
       color: #252b33;
       padding: 4px;
@@ -1179,7 +1199,30 @@ height: 29%;
     left: 100%;
     margin-top: -1px;
    } */
+/* ====================Category=================== */
+.box-category {
+    color: #212529;
+    background-color: white;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
 
+    .box-category ul li a {
+        color: #212529;
+        text-decoration: none;
+        font-size: 16px;
+        /* font-weight: 500; */
+        font-family: 'Lato';
+    }
+
+    .box-category li:hover {
+        background-color: rgb(245, 218, 218);
+    }
+
+    .box-category ul li {
+        padding: 5% 7%;
+        border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+    }
+    /*=======================================================*/
 /* --------------------- */
 @media only screen and (min-width:1119px){
     .myCaption {
@@ -1231,6 +1274,12 @@ height: 29%;
         width: 100%;
         height: 100%;
         transition:all 0.5s ease-in-out; 
+    }
+    #mySearch input::-webkit-input-placeholder {
+        color: white;
+    }
+    .sticky #mySearch input::-webkit-input-placeholder {
+        color: #5f5f5f;
     }
     /* .btn-pink:hover{
         color: rgb(217,4,95);
@@ -1293,7 +1342,13 @@ height: 29%;
             height: 100%;
             transition: all 0.5s ease-in-out;
         }
-
+    #mySearch input::-webkit-input-placeholder{
+        color: white;
+      
+    }
+    .sticky #mySearch input::-webkit-input-placeholder {
+        color: #5f5f5f;
+    }
     /* .btn-pink:hover{
         color: rgb(217,4,95);
         border: 2px solid rgb(217,4,95)            ;
@@ -1304,10 +1359,7 @@ height: 29%;
         
         
     } */
-    #mySearch input {
-        background-color: white;
-        border: 1px solid rgb(217,4,95);
-    }
+    
 }
 @media only screen and (max-width:911px){
     .myCaption{
