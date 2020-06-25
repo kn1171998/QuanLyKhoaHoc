@@ -36,13 +36,13 @@ function scrollFunction() {
     mybutton.style.display = "none";
    
   }
-  if ((document.body.scrollTop > 700   || document.documentElement.scrollTop > 700)) {
-    mypire.style.display = "none";
+  //if ((document.body.scrollTop > 700   || document.documentElement.scrollTop > 700)) {
+  //  mypire.style.display = "none";
  
-  } else {
-    mypire.style.display = "block";
+  //} else {
+  //  mypire.style.display = "block";
    
-  }
+  //}
   
 }
 
@@ -75,20 +75,20 @@ $(document).ready(function(){
 //    $('html,body').animate({scrollTop: $('.js-section-SignIn').offset().top},1000);
 //  })
 
- $(function() {
-  $('a[href*=#]:not([href=#])').click(function() {
-    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-      var target = $(this.hash);
-      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-      if (target.length) {
-        $('html,body').animate({
-          scrollTop: target.offset().top
-        }, 1000);
-        return false;
-      }
-    }
-  });
-});
+// $(function() {
+//  $('a[href*=#]:not([href=#])').click(function() {
+//    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+//      var target = $(this.hash);
+//      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+//      if (target.length) {
+//        $('html,body').animate({
+//          scrollTop: target.offset().top
+//        }, 1000);
+//        return false;
+//      }
+//    }
+//  });
+//});
 
 $('.js--wp-1').waypoint(function(direction) {
   $('.js--wp-1').addClass('animated animate__fadeIn');
@@ -106,7 +106,7 @@ $('.js--wp-3').waypoint(function(direction) {
   offset: '50%'
 });
 $('.js--wp-5').waypoint(function(direction) {
-  $('.js--wp-5').addClass('animated animate__zoomIn');
+    $('.js--wp-5').addClass('animated animate__fadeIn');
 }, {
   offset: '50%'
 });
