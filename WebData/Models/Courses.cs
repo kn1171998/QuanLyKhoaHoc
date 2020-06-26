@@ -24,6 +24,7 @@ namespace WebData.Models
         public bool? Status { get; set; }
         public int? CategoryId { get; set; }
         public int? UserId { get; set; }
+        public bool? IsFree { get; set; }
 
         public CourseCategories Category { get; set; }
         public Users User { get; set; }

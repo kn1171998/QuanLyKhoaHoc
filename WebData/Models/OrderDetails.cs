@@ -5,7 +5,7 @@ namespace WebData.Models
 {
     public partial class OrderDetails
     {
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
         public int CourseId { get; set; }
         public decimal? Quantity { get; set; }
         public int? DiscountId { get; set; }

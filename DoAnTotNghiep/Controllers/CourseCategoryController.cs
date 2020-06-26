@@ -3,6 +3,7 @@ using DoAnTotNghiep.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebData.Implementation;
@@ -15,14 +16,18 @@ namespace DoAnTotNghiep.Controllers
         private readonly ICourseCategoryService _courseCategoryService;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IMapper _mapper;
+        private readonly ICourseService _courseService;
 
         public CourseCategoryController(ICourseCategoryService courseCategoryService,
             IHostingEnvironment hostingEnvironment,
-            IMapper mapper)
+            IMapper mapper,
+            ICourseService courseService
+            )
         {
             _hostingEnvironment = hostingEnvironment;
             _courseCategoryService = courseCategoryService;
             _mapper = mapper;
+            _courseService = courseService;
         }
 
         public IActionResult Index()
@@ -132,6 +137,124 @@ namespace DoAnTotNghiep.Controllers
                 result = false;
                 return Json(result);
             }
-        }        
+        }
+
+        public IActionResult CategoryToCourse(int id)
+        {
+            var context = _courseService.GetContext();
+            var d = from c in context.Courses
+                    join u in context.Users
+                    on c.UserId equals u.Id
+                    join cate in context.CourseCategories
+                    on c.CategoryId equals cate.Id
+                    where cate.Id == id
+                    select new CourseVM
+                    {
+                        Id = c.Id,                      
+                        Name = c.Name,                     
+                        FullName = u.FullName,
+                        UserId = u.Id,
+                        PromotionPrice = c.PromotionPrice ?? 0,
+                        Price = c.Price ?? 0,
+                        Content = c.Content,
+                        Image = c.Image,
+                        Description = c.Description
+                    };
+            var courseVM = new CourseVM();
+            courseVM.lstCourse = d.ToList();
+            courseVM.CategoryId = id;
+            return View("CategoryToCourse", courseVM);
+        }
+        public IActionResult Sort(int id, string sortPrice, string radiofree)
+        {
+            var context = _courseService.GetContext();
+            List<CourseVM> d = new List<CourseVM>();
+            if (string.IsNullOrEmpty(sortPrice))
+            {
+                d=( from c in context.Courses
+                   join u in context.Users
+                   on c.UserId equals u.Id
+                   join cate in context.CourseCategories
+                   on c.CategoryId equals cate.Id
+                   where cate.Id == id
+                   select new CourseVM
+                   {
+                       Id = c.Id,
+                       Name = c.Name,
+                       FullName = u.FullName,
+                       UserId = u.Id,
+                       PromotionPrice = c.PromotionPrice ?? 0,
+                       Price = c.Price ?? 0,
+                       Content = c.Content,
+                       Image = c.Image,
+                       Description = c.Description,
+                       IsFree = c.IsFree ?? false
+                   }).ToList();
+            }
+            else
+            {
+                d = sortPrice == "1" ? (from c in context.Courses
+                                        join u in context.Users
+                                        on c.UserId equals u.Id
+                                        join cate in context.CourseCategories
+                                        on c.CategoryId equals cate.Id
+                                        where cate.Id == id
+                                        select new CourseVM
+                                        {
+                                            Id = c.Id,
+                                            Name = c.Name,
+                                            FullName = u.FullName,
+                                            UserId = u.Id,
+                                            PromotionPrice = c.PromotionPrice ?? 0,
+                                            Price = c.Price ?? 0,
+                                            Content = c.Content,
+                                            Image = c.Image,
+                                            Description = c.Description,
+                                            IsFree = c.IsFree ?? false
+                                        }).OrderByDescending(m => m.Price).ToList() :
+                    (from c in context.Courses
+                     join u in context.Users
+                     on c.UserId equals u.Id
+                     join cate in context.CourseCategories
+                     on c.CategoryId equals cate.Id
+                     where cate.Id == id
+                     select new CourseVM
+                     {
+                         Id = c.Id,
+                         Name = c.Name,
+                         FullName = u.FullName,
+                         UserId = u.Id,
+                         PromotionPrice = c.PromotionPrice ?? 0,
+                         Price = c.Price ?? 0,
+                         Content = c.Content,
+                         Image = c.Image,
+                         Description = c.Description,
+                         IsFree = c.IsFree ?? false
+                     }).OrderBy(m => m.Price).ToList();
+                    
+            }
+       
+            var listTemp = new List<CourseVM>();
+            var courseVM = new CourseVM();
+            if (radiofree == "0") //free là 0
+            {
+                listTemp = d.Where(m => m.IsFree == true).Select(m => m).ToList();
+                courseVM.IsFree = true;
+            }
+            else if(radiofree =="1")
+            {
+                listTemp = d.Where(m => m.IsFree == false).Select(m => m).ToList();
+                courseVM.IsFree = false;
+            }
+            else
+            {
+                listTemp = d.ToList();
+            }
+    
+            courseVM.lstCourse = listTemp;
+            courseVM.CategoryId = id;
+
+            return Json(new {status=true ,data=listTemp});
+        }
     }
 }

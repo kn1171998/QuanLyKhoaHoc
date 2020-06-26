@@ -22,9 +22,9 @@ namespace WebData.Models
         public string Password { get; set; }
         public string Token { get; set; }
         public string Introduction { get; set; }
-        public int? FacebookId { get; set; }
-        public int? GoogleId { get; set; }
-        public int? ImageUrl { get; set; }
+        public decimal? FacebookId { get; set; }
+        public decimal? GoogleId { get; set; }
+        public string ImageUrl { get; set; }
         public bool? Status { get; set; }
         public DateTime? CreatedDate { get; set; }
 

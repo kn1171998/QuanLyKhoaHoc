@@ -10,11 +10,11 @@ namespace WebData.Models
             OrderDetails = new HashSet<OrderDetails>();
         }
 
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int? UserId { get; set; }
-        public byte[] PayMethod { get; set; }
+        public string PayMethod { get; set; }
         public DateTime? OrderDate { get; set; }
-        public bool? Status { get; set; }
+        public string Status { get; set; }
         public decimal? TotalAmount { get; set; }
 
         public Users User { get; set; }
