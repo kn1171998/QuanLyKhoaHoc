@@ -5,18 +5,12 @@ namespace WebData.Models
 {
     public partial class MasterList
     {
-        public MasterList()
-        {
-            Orders = new HashSet<Orders>();
-            Users = new HashSet<Users>();
-        }
-
         public string MasterListCode { get; set; }
-        public string MasterListGroupCde { get; set; }
-        public string MasterListDefaultValue { get; set; }
-        public string Description { get; set; }
-
-        public ICollection<Orders> Orders { get; set; }
-        public ICollection<Users> Users { get; set; }
+        public string MasterListGroup { get; set; }
+        public string MasterListDefault { get; set; }
+        public string MasterListValue1 { get; set; }
+        public string MasterListValue2 { get; set; }
+        public string MasterListValue3 { get; set; }
+        public string MasterListValue4 { get; set; }
     }
 }

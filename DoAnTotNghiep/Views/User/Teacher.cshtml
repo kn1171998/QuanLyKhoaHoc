@@ -1,48 +1,9 @@
 ﻿@model UserVM
 @{
     ViewData["Title"] = "View";
-    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    Layout = "~/Views/Shared/_LayoutDetail.cshtml";
 }
-<section class="myCarousel mb-5">
 
-    <div id="carouselId" class="carousel slide carousel-fade" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselId" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselId" data-slide-to="1"></li>
-            <li data-target="#carouselId" data-slide-to="2"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active">
-                <img src="~/img/banner1.jpg" class="d-block w-100" alt="First slide">
-                <div class="caroseul-overlay"></div>
-                <div class="carousel-caption myCaption d-none d-md-block text-white js--wp-4">
-                    <h3> Motivated By The Desire <br> To Achieve</h3>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-                  
-                </div>
-
-            </div>
-            <div class="carousel-item">
-                <img src="~/img/banner2.jpg" class="d-block w-100" alt="Second slide">
-                <div class="caroseul-overlay"></div>
-                <div class="carousel-caption myCaption d-none d-md-block text-white js--wp-4">
-                    <h3>Motivated By The Desire <br> To Achieve</h3>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-                    
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="~/img/banner3.jpg" class="d-block w-100" alt="Third slide">
-                <div class="caroseul-overlay"></div>
-                <div class="carousel-caption myCaption d-none d-md-block text-white js--wp-4">
-                    <h3>Motivated By The Desire <br> To Achieve</h3>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <div class="container">
     <section class="  teacher mb-5 bg-teacher mt-4">
         <div class="container">
@@ -56,7 +17,7 @@
                             <div class="col-lg-6 col-sm-12 mb-md-3">
                                 <div class="border p-2 pt-3 m-1 box-teacher">
                                     <div class="teacher-img">
-                                        <img src="~/img/c1.jpg" class="d-block  cangiua" alt="First slide">
+                                        <img src="@Model.ImageUrl" class="d-block  cangiua" alt="First slide">
                                     </div>
                                     <div class="teacher-caption mt-2 p-3">
                                         <p class=" m-1">
@@ -95,17 +56,17 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4 col-12 potential_Content ">
-                                                <i class="fa fa-film big_icon" aria-hidden="true"></i>
+                                                <i class="fa fa-film big_icon today_icon" aria-hidden="true"></i>
                                                 <h5>Khóa học</h5>
                                                 <p>Lamet consectetur adipisicing.</p>
                                             </div>
                                             <div class="col-md-4 col-12 potential_Content ">
-                                                <i class="fa fa-users big_icon" aria-hidden="true"></i>
+                                                <i class="fa fa-users big_icon today_icon" aria-hidden="true"></i>
                                                 <h5>Học sinh</h5>
                                                 <p>Lorem ipsum dolor sit, </p>
                                             </div>
                                             <div class="col-md-4 col-12 potential_Content ">
-                                                <i class="fa fa-comments big_icon" aria-hidden="true"></i>
+                                                <i class="fa fa-comments big_icon today_icon" aria-hidden="true"></i>
                                                 <h5>Đánh giá</h5>
                                                 <p>Lorem ipsum dolor sit, amet.</p>
                                             </div>

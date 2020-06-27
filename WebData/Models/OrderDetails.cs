@@ -7,12 +7,11 @@ namespace WebData.Models
     {
         public string OrderId { get; set; }
         public int CourseId { get; set; }
-        public decimal? Quantity { get; set; }
+        public long? Quantity { get; set; }
         public int? DiscountId { get; set; }
-        public decimal? Amount { get; set; }
+        public long? Amount { get; set; }
 
         public Courses Course { get; set; }
         public Discount Discount { get; set; }
-        public Orders Order { get; set; }
     }
 }

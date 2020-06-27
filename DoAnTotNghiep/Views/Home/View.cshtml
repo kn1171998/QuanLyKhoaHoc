@@ -1,73 +1,76 @@
 ﻿@model DetailHomeVM
 @{
-    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    Layout = "~/Views/Shared/_LayoutView.cshtml";
 }
 <section>
-    <div class="container">
-        <div class="row bg-dark  mb-3 p-2 text-white">
+    <div class="container-fluid">
+        <div class="row bg-dark  mb-3 p-3 text-white">
             <div class="col-2 text-white">
                 <a href="#" text-white> &crarr; Back Home</a>
 
             </div>
             <div class="col-8 text-white">
-                @Model.Description
+                @Model.Name
             </div>
         </div>
-        <div class="row bg-dark">
-            <div class="col-md-12 col-lg-9 col-12 col-sm-12">
-                <div class="video w-100">
-                    <video class="w-100" control id="videoLesson" autoplay>
-                        <source src="@Url.Action("GetMedia","Home",new { path = Model.lstCourseLesson[0].VideoPath })" type="video/mp4">
-                        @*<source src="@Url.Content(Model.lstCourseLesson[0].VideoPath)" type="video/ogg">*@
-                    </video>
-                </div>
-                <div class="row info-courses mr-0 ml-1 mb-3">
-                    <h3 class="col-12 p-2">What you'll learn</h3>
-                </div>
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-12 col-lg-9 col-12 col-sm-12">
+                    <div class="video w-100">
+                        <video class="w-100" control id="videoLesson" autoplay>
+                            <source src="@Url.Action("GetMedia","Home",new { path = Model.lstCourseLesson[0].VideoPath })" type="video/mp4">
+                            @*<source src="@Url.Content(Model.lstCourseLesson[0].VideoPath)" type="video/ogg">*@
+                        </video>
+                    </div>
+                    <div class="row info-courses mr-0 ml-1 mb-3">
+                        <h3 class="col-12 p-2">What you'll learn</h3>
+                    </div>
 
-            </div>
-            <div class="col-lg-3 col-12 col-md-12 pr-0 pl-0">
-                <div class="navbar p-0 clearfix navbar-default navbar-fixed-top w-100" role="navigation">
-                    <div class="container p-0">
-                        <div class="navbar-header">
-                            <h3 class="col-12">Course content</h3>
-                        </div>
-                        <div class="collapse navbar-collapse d-block">
-                            <ul class="nav navbar-nav w-100" id="menu-course">
-                                @foreach (var item in Model.lstChapter)
-                                {
-                                    <li class="w-100">
-                                        <a href="#" class=" w-100 title-course " data-toggle="dropdown">
-                                            <span class="course-title ">
-                                                <ion-icon name="chevron-down-outline"></ion-icon>
-                                                @item.NameChapter
-                                            </span>
-                                            <span class="time-course ">03:00</span>
-                                            <b class="caret"></b>
-                                        </a>
-                                        <ul class="dropdown-menu ">
-                                            @foreach (var child in Model.lstCourseLesson.Where(m => m.ChapterId == item.Id))
-                                            {
-                                                <li class="my-dropdown-menu">
-                                                    <a href="#" class="title-course" id="lesson" data-src-lesson="@child.VideoPath">
-                                                        <span class="course-title">
-                                                            <ion-icon name="play-circle-outline"></ion-icon>
-                                                            @child.Name
-                                                        </span>
-                                                        <span class="time-course">03:00</span>
-                                                        <b class="caret"></b>
-                                                    </a>
-                                                </li>
-                                            }
-                                        </ul>
-                                    </li>
-                                }
-                            </ul>
+                </div>
+                <div class="col-lg-3 col-12 col-md-12 pr-0 pl-0">
+                    <div class="navbar p-0 clearfix navbar-default navbar-fixed-top w-100" role="navigation">
+                        <div class="container p-0">
+                            <div class="navbar-header">
+                                <h3 class="col-12">Course content</h3>
+                            </div>
+                            <div class="collapse navbar-collapse d-block">
+                                <ul class="nav navbar-nav w-100" id="menu-course">
+                                    @foreach (var item in Model.lstChapter)
+                                    {
+                                        <li class="w-100">
+                                            <a href="#" class=" w-100 title-course " data-toggle="dropdown">
+                                                <span class="course-title ">
+                                                    <ion-icon name="chevron-down-outline"></ion-icon>
+                                                    @item.NameChapter
+                                                </span>
+                                                <span class="time-course ">03:00</span>
+                                                <b class="caret"></b>
+                                            </a>
+                                            <ul class="dropdown-menu ">
+                                                @foreach (var child in Model.lstCourseLesson.Where(m => m.ChapterId == item.Id))
+                                                {
+                                                    <li class="my-dropdown-menu">
+                                                        <a href="#" class="title-course" id="lesson" data-src-lesson="@child.VideoPath">
+                                                            <span class="course-title">
+                                                                <ion-icon name="play-circle-outline"></ion-icon>
+                                                                @child.Name
+                                                            </span>
+                                                            <span class="time-course">03:00</span>
+                                                            <b class="caret"></b>
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+       
     </div>
 </section>
 @section Scripts{
