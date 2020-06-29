@@ -457,29 +457,9 @@
         </div>
     </div>
 </section>
-<section class="bg-SignIn js-section-SignIn" id="register">
-    <div class="SignIn container">
-        <h3 class="h3_title   h3_title-sigin"> BECOME A MEMBER</h3>
-        <form class=" form-content">
-            <div class="form-group">
-
-                <input type="text" class="form-control" id="exampleInputUsername" placeholder="Username">
-
-            </div>
-            <div class="form-group">
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-            </div>
-            <div class="form-group">
-
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-signin w-100">Submit</button>
-        </form>
-
-    </div>
-</section>
-
+@model UserVM
+@{await Html.RenderPartialAsync("RegisterUser",Model);}
+      
 
 @section Scripts{
     <script type="text/x-jquery-tmpl" id="dropdownCategory">

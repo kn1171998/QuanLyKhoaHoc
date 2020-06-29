@@ -6,13 +6,14 @@
 
 <section>
     <div class="container detail-hero clearfix  mb-5">
+        <input type="hidden" asp-for="IdCourse" />
         <div class="row pl-4 pr-5">
             <div class="col-12 col-md-8 w-100  h-auto pr-0">
                 <div class="row info-courses mb-3 p-2 bg-dark text-white">
                     <div class="col-12">
                         <div class="detail_title">
                             <h3 class="">
-                                @Model.NameCategory
+                                @Model.Name
                             </h3>
                             <p class="text-white" id="Content">
                                 @Model.Description
@@ -141,17 +142,34 @@
                     <img src="@Model.Image" class="img-responsive" alt="img">
 
                 </div>
-
-                <div class="price detail-price p-3">
-
-                    <span href="#" class="real ">@Model.Price </span>
-                    <span href="#" class="fake "><small> <del> @Model.PromotionPrice </del></small></span>
-                </div>
-                <div class="btn w-100">
-                    <button class="btn btn-danger w-100 mb-2">Add to cart</button>
-                    <button class="btn btn-outline-danger w-100 ">Buy now</button>
-                    <a href="/Home/View/@Model.IdCourse" class="btn btn-success w-100">Free</a>
-                </div>
+                @if (!Model.IsFree)
+                {
+                    <div class="price detail-price p-3">
+                        <span href="#" class="real">@Model.Price </span>
+                        <span href="#" class="fake"><small> <del> @Model.PromotionPrice </del></small></span>
+                    </div>
+                    <div class="btn w-100">
+                        @if (!Model.HasBuy)
+                        {
+                            <button class="btn btn-danger w-100 mb-2">Add to cart</button>
+                            <a asp-action="BuyNow" asp-controller="Home" asp-route-listIdCourse="@Model.IdCourse.ToString()"  id="buynow" class="btn btn-outline-danger w-100 ">Buy now</a>
+                        }
+                        else
+                        {
+                            <button asp-action="View" asp-controller="Home" class="btn btn-outline-danger w-100 ">Enroll</button>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="price detail-price p-3">
+                        <span href="#" class="real">@Model.Price </span>
+                        <span href="#" class="fake"><small> <del> @Model.PromotionPrice </del></small></span>
+                    </div>
+                    <div class="btn w-100">
+                        <a href="/Home/View/@Model.IdCourse" class="btn btn-success w-100">Free</a>
+                    </div>
+                }
                 <div class="detail-courses p-3">
                     <p>
                         <ion-icon name="car-outline" class="icon-cart"></ion-icon>

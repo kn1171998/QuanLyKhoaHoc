@@ -7,11 +7,11 @@ namespace DoAnTotNghiep.Models
 {
     public class OrderVM
     {       
-        public long ID { get; set; }
-        public long UserId { get; set; }        
+        public int ID { get; set; }
+        public int UserId { get; set; }        
         public string PayMethod { get; set; }
         public DateTime OrderDate { get; set; }
-        public bool Status { get; set; }
+        public string Status { get; set; }
         public decimal TotalAmount { get; set; }
     }
 }

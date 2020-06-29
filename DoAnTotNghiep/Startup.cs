@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DoAnTotNghiep.MappingProfile;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -36,19 +37,18 @@ namespace DoAnTotNghiep
             services.AddDbContext<quanlykhoahocContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedEmail = true).AddEntityFrameworkStores<quanlykhoahocContext>();
-            services.AddAuthentication().AddFacebook(facebookOptions =>
-            {
-                facebookOptions.AppId = Configuration["Authentication:Facebook:541536780060115"];
-                facebookOptions.AppSecret = Configuration["Authentication:Facebook:00c6ebc65b45b3e62463faff6a580d63"];
-            });
-            services.AddAuthentication().AddGoogle(options =>
-            {
-                 IConfigurationSection googleAuthNSection =
-                     Configuration.GetSection("Authentication:Google");
-
-                 options.ClientId = googleAuthNSection["ClientId"];
-                 options.ClientSecret = googleAuthNSection["ClientSecret"];
-            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddFacebook(facebookOptions =>
+                {
+                    facebookOptions.AppId = "541536780060115";// Configuration["Authentication:Facebook:541536780060115"];
+                    facebookOptions.AppSecret = "00c6ebc65b45b3e62463faff6a580d63"; //Configuration["Authentication:Facebook:00c6ebc65b45b3e62463faff6a580d63"];
+                })
+                .AddCookie(options =>
+                {
+                    options.AccessDeniedPath = "/Home/Error404";
+                    options.LogoutPath = "/Home/Index";
+                    options.LoginPath = "/Home/Index";
+                });
             services.AddTransient<SendMailHelper>();
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<ICourseCategoryService, CourseCategoryService>();
@@ -76,7 +76,9 @@ namespace DoAnTotNghiep
             {
                 mc.AddProfile(new MappingProfiles());
             });
+
             IMapper mapper = mappingConfig.CreateMapper();
+            services.AddDirectoryBrowser();
             services.AddSingleton(mapper);
             services.AddMemoryCache();
             services.AddSession();
@@ -96,8 +98,11 @@ namespace DoAnTotNghiep
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseFileServer(enableDirectoryBrowsing: false);
             app.UseSession();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
             app.UseMvc(routes =>
             {

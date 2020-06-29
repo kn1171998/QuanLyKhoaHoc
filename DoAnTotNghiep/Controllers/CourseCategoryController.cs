@@ -122,7 +122,7 @@ namespace DoAnTotNghiep.Controllers
                 }
             }
             return View(vm);
-        }      
+        }
         [HttpPost]
         public async Task<IActionResult> Delete(int ID)
         {
@@ -150,12 +150,12 @@ namespace DoAnTotNghiep.Controllers
                     where cate.Id == id
                     select new CourseVM
                     {
-                        Id = c.Id,                      
-                        Name = c.Name,                     
+                        Id = c.Id,
+                        Name = c.Name,
                         FullName = u.FullName,
                         UserId = u.Id,
                         PromotionPrice = c.PromotionPrice ?? 0,
-                        Price = c.Price ?? 0,
+                        Price = c.Price,
                         Content = c.Content,
                         Image = c.Image,
                         Description = c.Description
@@ -171,25 +171,25 @@ namespace DoAnTotNghiep.Controllers
             List<CourseVM> d = new List<CourseVM>();
             if (string.IsNullOrEmpty(sortPrice))
             {
-                d=( from c in context.Courses
-                   join u in context.Users
-                   on c.UserId equals u.Id
-                   join cate in context.CourseCategories
-                   on c.CategoryId equals cate.Id
-                   where cate.Id == id
-                   select new CourseVM
-                   {
-                       Id = c.Id,
-                       Name = c.Name,
-                       FullName = u.FullName,
-                       UserId = u.Id,
-                       PromotionPrice = c.PromotionPrice ?? 0,
-                       Price = c.Price ?? 0,
-                       Content = c.Content,
-                       Image = c.Image,
-                       Description = c.Description,
-                       IsFree = c.IsFree ?? false
-                   }).ToList();
+                d = (from c in context.Courses
+                     join u in context.Users
+                     on c.UserId equals u.Id
+                     join cate in context.CourseCategories
+                     on c.CategoryId equals cate.Id
+                     where cate.Id == id
+                     select new CourseVM
+                     {
+                         Id = c.Id,
+                         Name = c.Name,
+                         FullName = u.FullName,
+                         UserId = u.Id,
+                         PromotionPrice = c.PromotionPrice ?? 0,
+                         Price = c.Price,
+                         Content = c.Content,
+                         Image = c.Image,
+                         Description = c.Description,
+                         IsFree = c.IsFree ?? false
+                     }).ToList();
             }
             else
             {
@@ -206,7 +206,7 @@ namespace DoAnTotNghiep.Controllers
                                             FullName = u.FullName,
                                             UserId = u.Id,
                                             PromotionPrice = c.PromotionPrice ?? 0,
-                                            Price = c.Price ?? 0,
+                                            Price = c.Price,
                                             Content = c.Content,
                                             Image = c.Image,
                                             Description = c.Description,
@@ -225,15 +225,15 @@ namespace DoAnTotNghiep.Controllers
                          FullName = u.FullName,
                          UserId = u.Id,
                          PromotionPrice = c.PromotionPrice ?? 0,
-                         Price = c.Price ?? 0,
+                         Price = c.Price,
                          Content = c.Content,
                          Image = c.Image,
                          Description = c.Description,
                          IsFree = c.IsFree ?? false
                      }).OrderBy(m => m.Price).ToList();
-                    
+
             }
-       
+
             var listTemp = new List<CourseVM>();
             var courseVM = new CourseVM();
             if (radiofree == "0") //free là 0
@@ -241,7 +241,7 @@ namespace DoAnTotNghiep.Controllers
                 listTemp = d.Where(m => m.IsFree == true).Select(m => m).ToList();
                 courseVM.IsFree = true;
             }
-            else if(radiofree =="1")
+            else if (radiofree == "1")
             {
                 listTemp = d.Where(m => m.IsFree == false).Select(m => m).ToList();
                 courseVM.IsFree = false;
@@ -250,11 +250,11 @@ namespace DoAnTotNghiep.Controllers
             {
                 listTemp = d.ToList();
             }
-    
+
             courseVM.lstCourse = listTemp;
             courseVM.CategoryId = id;
 
-            return Json(new {status=true ,data=listTemp});
+            return Json(new { status = true, data = listTemp });
         }
     }
 }

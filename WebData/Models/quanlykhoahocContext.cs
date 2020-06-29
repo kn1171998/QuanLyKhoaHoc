@@ -22,8 +22,10 @@ namespace WebData.Models
         public virtual DbSet<Chapter> Chapter { get; set; }
         public virtual DbSet<Discount> Discount { get; set; }
         public virtual DbSet<LessonComments> LessonComments { get; set; }
+        public virtual DbSet<MasterList> MasterList { get; set; }
         public virtual DbSet<OrderDetails> OrderDetails { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<Sysdiagrams> Sysdiagrams { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<WareHouse> WareHouse { get; set; }
 
@@ -32,7 +34,7 @@ namespace WebData.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.;Database=quanlykhoahoc;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Data Source=SQL5050.site4now.net;Initial Catalog=DB_A63596_quanlykhoahoc;persist security info=True;User id=DB_A63596_quanlykhoahoc_admin; Password=pqpqPQ111");
             }
         }
 
@@ -168,15 +170,47 @@ namespace WebData.Models
                     .HasConstraintName("FK_LessonComments_Users");
             });
 
+            modelBuilder.Entity<MasterList>(entity =>
+            {
+                entity.HasKey(e => e.MasterListCode);
+
+                entity.Property(e => e.MasterListCode)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.MasterListDefault)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MasterListGroup)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MasterListValue1)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MasterListValue2)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MasterListValue3)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MasterListValue4)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<OrderDetails>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.CourseId });
 
-                entity.Property(e => e.OrderId).ValueGeneratedOnAdd();
-
-                entity.Property(e => e.Amount).HasColumnType("decimal(18, 0)");
-
-                entity.Property(e => e.Quantity).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.OrderId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.OrderDetails)
@@ -188,28 +222,53 @@ namespace WebData.Models
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.DiscountId)
                     .HasConstraintName("FK_OrderDetails_Discount");
-
-                entity.HasOne(d => d.Order)
-                    .WithMany(p => p.OrderDetails)
-                    .HasForeignKey(d => d.OrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderDetails_Orders");
             });
 
             modelBuilder.Entity<Orders>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID")
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.OrderDate).HasColumnType("datetime");
 
-                entity.Property(e => e.PayMethod).HasMaxLength(50);
+                entity.Property(e => e.PayMethod)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.RequestId)
+                    .HasMaxLength(2000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Signature)
+                    .HasMaxLength(2000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_Orders_Users");
+            });
+
+            modelBuilder.Entity<Sysdiagrams>(entity =>
+            {
+                entity.HasKey(e => e.DiagramId);
+
+                entity.ToTable("sysdiagrams");
+
+                entity.Property(e => e.DiagramId).HasColumnName("diagram_id");
+
+                entity.Property(e => e.Definition).HasColumnName("definition");
+
+                entity.Property(e => e.PrincipalId).HasColumnName("principal_id");
+
+                entity.Property(e => e.Version).HasColumnName("version");
             });
 
             modelBuilder.Entity<Users>(entity =>
@@ -224,13 +283,17 @@ namespace WebData.Models
                     .IsRequired()
                     .HasMaxLength(300);
 
+                entity.Property(e => e.FacebookId).HasColumnType("numeric(18, 0)");
+
                 entity.Property(e => e.FullName).HasMaxLength(200);
 
-                entity.Property(e => e.Introduction).HasMaxLength(10);
+                entity.Property(e => e.GoogleId).HasColumnType("numeric(18, 0)");
 
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(300);
+                entity.Property(e => e.ImageUrl).HasMaxLength(2000);
+
+                entity.Property(e => e.Introduction).HasMaxLength(2000);
+
+                entity.Property(e => e.Password).HasMaxLength(300);
 
                 entity.Property(e => e.Token).HasMaxLength(2000);
 

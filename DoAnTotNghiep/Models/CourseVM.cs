@@ -25,14 +25,14 @@ namespace DoAnTotNghiep.Models
         [Required(ErrorMessage = "Vui lòng không để trống")]
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
-        public decimal? Price { get; set; }
-        public decimal? PromotionPrice { get; set; }
+        public long? Price { get; set; }
+        public long? PromotionPrice { get; set; }
         public DateTime DateCreated { get; set; }
+        public bool IsFree { get; set; }
         public bool Status { get; set; }
         public int CategoryId { get; set; }        
         public int UserId { get; set; }
         public string FullName { get; set; }
-        public bool IsFree { get; set; }
         public string SearchCourse { get; set; }
     }
 }

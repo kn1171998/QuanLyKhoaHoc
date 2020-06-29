@@ -23,9 +23,11 @@ namespace DoAnTotNghiep.Models
         public string Description { get; set; }
         public string Image { get; set; }
         public string Content { get; set; }
-        public decimal? Price { get; set; }
-        public decimal? PromotionPrice { get; set; }
+        public long Price { get; set; }
+        public long? PromotionPrice { get; set; }
         public DateTime DateCreated { get; set; }
+        public bool IsFree { get; set; }
+        public bool HasBuy { get; set; }
         public bool Status { get; set; }
         public int CategoryId { get; set; }
         public string NameCategory { get; set; }

@@ -21,6 +21,7 @@ namespace DoAnTotNghiep
             WebHost.CreateDefaultBuilder(args)
                  .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))
                 .UseIISIntegration()
                 .UseStartup<Startup>();
     }

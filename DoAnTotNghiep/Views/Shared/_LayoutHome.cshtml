@@ -21,6 +21,11 @@
     @*<link rel="stylesheet" href="~/css/main.css">*@
     <link href="~/lib/main/main.css" rel="stylesheet" />
     <link href="~/css/startuppost.css" rel="stylesheet" />
+    <style>
+        label.error {
+            color: red;
+        }
+    </style>
     <link rel="apple-touch-icon" sizes="57x57" href="~/favition/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="~/favition/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="~/favition/apple-icon-72x72.png">
@@ -96,7 +101,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="/Home/Index">Home <span class="sr-only">(current)</span></a>
                         </li>
 
                         <li class="nav-item dropdown">
@@ -108,15 +113,25 @@
                                 <ul id="menuCategory"></ul>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <!-- <a class="nav-link disabled " data-toggle="modal" data-target="#exampleModal" href="#">Login</a> -->
-                            <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">
-                                login
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  js-scroll-to-regisster" href="#register">Register</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Home/Logout">
+                                    SignOut
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">
+                                    Login
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link  js-scroll-to-regisster" href="#register">Register</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link" href="#"><ion-icon class="icon-cart" name="cart-outline"></ion-icon></a>
                         </li>
@@ -131,42 +146,10 @@
 
 
     </header>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
 
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="form-group">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                    </div><button type="button " class="btn btn-search btn-login w-100">LogIn</button>
-                </div>
-                <div class="modal-footer text-center myModalFooter">
-                    <div class="form-group">
-                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                    </div>
-                    <div class="form-group">
-                        <div id="fb-roo" class="w-100 text-center">
-                            <div class="fb-login-button w-100" data-size="large" data-button-type="login_with" data-layout="rounded" scope="public_profile,email"
-                                 onlogin="checkLoginState();" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
-                        </div>
-                        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v7.0&appId=541536780060115&autoLogAppEvents=1" nonce="heMF7ETv"></script>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
     @RenderBody()
+    @{ await Html.RenderPartialAsync("Login");}
     <footer class="footer  pt-5 p-3 p-md-0 ">
         <div class="container-fluid pl-md-5 pr-4">
             <div class="row text-white">
@@ -241,11 +224,9 @@
         </div>
     </footer>
     <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="~/lib/ionicons/ionicons.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
     @*<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>*@
     @*<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

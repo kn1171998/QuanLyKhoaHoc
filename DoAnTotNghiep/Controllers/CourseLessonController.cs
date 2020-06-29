@@ -137,7 +137,7 @@ namespace DoAnTotNghiep.Controllers
                         {
                             Directory.CreateDirectory(pathUpload);
                         }
-                        using (var stream = new FileStream(savePath, FileMode.Create))
+                        using (var stream = new FileStream(savePath, FileMode.CreateNew))
                         {
                             await vm.Video.CopyToAsync(stream);
                         }
