@@ -123,7 +123,17 @@ namespace DoAnTotNghiep.Controllers
             }
             return View(vm);
         }
-        [HttpPost]
+        public IActionResult LoadCourse(string id)
+        {
+            var courseCategoryService = _courseCategoryService.GetParentCategory();
+            var countC = courseCategoryService.Count();
+            return Json(new
+            {
+                data = courseCategoryService,
+                status = countC == 0 ? false : true
+            });
+        }
+
         public async Task<IActionResult> Delete(int ID)
         {
             bool result = true;
@@ -165,7 +175,20 @@ namespace DoAnTotNghiep.Controllers
             courseVM.CategoryId = id;
             return View("CategoryToCourse", courseVM);
         }
-        public IActionResult Sort(int id, string sortPrice, string radiofree)
+
+        public IActionResult GetChildCategories(int id)
+        {
+         
+            var model = _courseCategoryService.GetById(id);   
+            var child = _courseCategoryService.GetChildCategory(model.ParentId).ToList();
+            return Json(new
+            {
+                child = child,
+                status = child.Count() == 0 ? false : true
+            });
+        }
+
+        public IActionResult Sort(int id, string sortPrice, string radiofree, string search)
         {
             var context = _courseService.GetContext();
             List<CourseVM> d = new List<CourseVM>();
@@ -250,7 +273,9 @@ namespace DoAnTotNghiep.Controllers
             {
                 listTemp = d.ToList();
             }
-
+            if (string.IsNullOrEmpty(search))
+                search = "";
+            listTemp = listTemp.Where(m => m.Name.Contains(search)).ToList();
             courseVM.lstCourse = listTemp;
             courseVM.CategoryId = id;
 

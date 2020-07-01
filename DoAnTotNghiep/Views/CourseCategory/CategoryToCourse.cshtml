@@ -15,23 +15,7 @@
         <div class="row">
             <div class="col-3 w-100    ">
                 <div class="box-category   text-dark mb-3">
-                    <ul class=" w-100">
-                        <li class="">
-                            <a class=" active" href="#">Công nghệ thông tin</a>
-                        </li>
-                        <li class="">
-                            <a class="" href="#">Ngôn ngữ lập trình</a>
-                        </li>
-                        <li class="">
-                            <a class=" " href="#">Thiết kế web</a>
-                        </li>
-                        <li class="">
-                            <a class=" " href="#">Cơ sở dữ liệu</a>
-                        </li>
-                        <li class="">
-                            <a class=" " href="#">Bảo mật</a>
-                        </li>
-                    </ul>
+                    <ul class=" w-100" id="idnamecourse"></ul>
                 </div>
 
 
@@ -69,13 +53,15 @@
                         </select>
                     </div>
                 </div>
+                
                 <button class="btn btn-outline-danger w-100" id="idbtnSearch"> Tìm kiếm</button>
                 @*</form>*@
             </div>
             <div class="col-9">
                 <div class="tab box-category mb-3">
-                    <button class="tablinks myTadBtn active" onclick="openCity(event, 'All')">Phổ biến nhất</button>
+                    <button class="tablinks myTadBtn active" onclick="openCity(event, 'All')">Tất cả</button>
                     <button class="tablinks myTadBtn" onclick="openCity(event, 'Business')">Mới nhất</button>
+                 
                 </div>
                 <div class="">
                     <div id="All" class="tabcontent  active">
@@ -83,33 +69,7 @@
                         </div>
                     </div>
                     <div id="Business" class="tabcontent  my-tabcontent ">
-                        @*<div class="row  owl-theme">
-                                @foreach (var item in Model.lstCourse)
-                                {
-                                    <div class="col-md-4 col-sm-12  sale_content">
-                                        <div class="card mycard">
-                                            <img class="card-img-top" src="@item.Image" alt="Card image cap">
-                                            <div class="card-body">
-                                                <h5 class="card-title">@item.Name</h5>
-                                                <a href="#" class="name-author"><small>@item.FullName</small> </a>
-                                                <div class="star-courses cleafix text-left">
-                                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                                </div>
-                                                <div class="price">
-                                                    <span class="fake"><small> <del> @item.PromotionPrice  </del></small></span>
-                                                    <span class="real"> @item.Price </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                }
-
-                            </div>*@
+                      
 
                     </div>
                 </div>
@@ -118,6 +78,9 @@
     </div>
 </section>
 @section Scripts{
+    <script type="text/x-jquery-tmpl" id="dropdownSubCategory">
+        <li><a class="dropdown-item" tabindex="-1" href="/CourseCategory/CategoryToCourse/{{ID}}">{{nameCourse}}</a></li>
+    </script>
     <script>
         $('body').on('change', '#sortPrice', function () {
             $('#filterPrice').submit();

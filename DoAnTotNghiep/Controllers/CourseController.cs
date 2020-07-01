@@ -111,6 +111,9 @@ namespace DoAnTotNghiep.Controllers
             return View(vm);
         }
 
+
+        
+
         public IActionResult GetChildCategories(int? parentId)
         {
             if (parentId == null)
