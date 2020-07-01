@@ -97,37 +97,45 @@
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon mynavicon "><i class="fa fa-bars"></i></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                        <li class="nav-item active mr-3">
+                            <a class="nav-link" href="/Home/Index">Trang chủ <span class="sr-only">(current)</span></a>
                         </li>
-
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown mr-3">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">
-                                Courses
+                                Danh mục
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <ul id="menuCategory"></ul>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <!-- <a class="nav-link disabled " data-toggle="modal" data-target="#exampleModal" href="#">Login</a> -->
-                            <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">
-                                login
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  js-scroll-to-regisster" href="#register">Register</a>
-                        </li>
-                        <li class="nav-item">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item mr-3">
+                                <a class="nav-link" href="/Home/Logout">
+                                    Đăng xuất
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item mr-3">
+                                <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">
+                                    Đăng nhập
+                                </a>
+                            </li>
+                            <li class="nav-item mr-2">
+                                <a class="nav-link  js-scroll-to-regisster" href="#register">Đăng kí</a>
+                            </li>
+                        }
+                        <li class="nav-item mr-3">
                             <a class="nav-link" href="#"><ion-icon class="icon-cart" name="cart-outline"></ion-icon></a>
                         </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0 " id="mySearch">
-                        <input class="form-control bg-line mr-ssale_contenttext-white" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control bg-line mr-ssale_contenttext-white" type="search" placeholder="Tìm kiếm..." aria-label="Search">
                         <button class="btn btn--success btn-search my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
                     </form>
                 </div>

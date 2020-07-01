@@ -1,6 +1,6 @@
 ﻿@model PaymentVM
 @{
-    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    Layout = "~/Views/Shared/_LayoutDetail.cshtml";
     string listcourse1 = string.Empty;
 }
 <section class="pay mt-5 container-fluid">
@@ -9,32 +9,32 @@
             <form action="PaymentComplete" class="form">
                 <div class="form-group p-3 m-3">
                     <h3 class="title mb-4">
-                        Payment Methods
+                        Phương thức thanh toán
                     </h3>
                     @Html.AntiForgeryToken()
                     <div class="form-check form-radio-group">
                         <input class="form-check-input radio-input" type="radio" asp-for="PaymentMethod" value="viettel">
                         <label class="form-check-label radio-label" for="paymentmethod">
                             <span class="radio-button"></span>
-                            Pay with Viettel wallet
+                            Thanh toán với Viettel Pay
                         </label>
                     </div>
                     <div class="form-check form-radio-group">
                         <input class="form-check-input radio-input" type="radio" asp-for="PaymentMethod" value="momo" checked>
                         <label class="form-check-label radio-label" for="paymentmethod">
                             <span class="radio-button"></span>
-                            Pay with Momo wallet
+                            Thanh toán ví Momo 
                         </label>
                     </div>
                     <div class="form-group w-100 mt-3">
-                        <button id="completepayment" type="button" class="btn btn-signin w-100">Complete Payment</button>
+                        <button id="completepayment" type="button" class="btn btn-signin w-100">Hoàn thành thanh toán</button>
                     </div>
                 </div>
             </form>
             <div class="orderDetail">
                 <div class="row">
                     <div class="col-12 p-3 pl-5 pl-sm-0 p-sm-5">
-                        <h3 class="title">Order Detail</h3>
+                        <h3 class="title">Chi tiết đặt hàng</h3>
                         @if (Model.lstCourse != null)
                         {
                             foreach (var item in Model.lstCourse)
@@ -65,23 +65,23 @@
         </div>
         <div class="col-12 w-100 col-lg-4 col-md-12 mt-sm-0 p-lg-0 pt-lg-5  mb-sm-4 mb-5 p-sm-5 pt-sm-0">
             <div class="toatal-box w-100 h-auto  p-3 pb-5 p-4">
-                <h3 class="title">Summary</h3>
+                <h3 class="title">Tổng</h3>
                 <div class="detail-courses p-1 ">
                     <p class="Origina-price ">
-                        <span class="Origina-text">Origina price:</span>
+                        <span class="Origina-text">Giá:</span>
                         <span class="origian-number">@Model.TotalMoney</span>
                     </p>
                     <p class="Coupon-discounts clearfix">
-                        <span class="Origina-text ">Code discount:</span>
+                        <span class="Origina-text ">Mã giảm giá:</span>
                         <input asp-for="Discount" class="form-control" />
                     </p>
                     <p class="Coupon-discounts clearfix">
-                        <span class="Origina-text ">Coupon discount:</span>
+                        <span class="Origina-text ">Giảm giá:</span>
                         <span class="origian-number">@Model.DiscountMoney</span>
                     </p>
                     <hr>
                     <p class="total">
-                        <span class="Origina-text total">Total:</span>
+                        <span class="Origina-text total">Tổng:</span>
                         <span class="origian-number">@Model.SumMoney</span>
                     </p>
                 </div>

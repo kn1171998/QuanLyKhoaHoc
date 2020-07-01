@@ -5,7 +5,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     @*<link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />*@
@@ -22,6 +21,7 @@
     <link href="~/lib/main/main.css" rel="stylesheet" />
     <link href="~/css/startuppost.css" rel="stylesheet" />
     <style>
+
         label.error {
             color: red;
         }
@@ -56,7 +56,6 @@
                             <span class="fa fa-user"></span>
                             Sign In
                         </a>
-
                     </li>
                     <li>
                         <a href="#">
@@ -97,17 +96,15 @@
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon mynavicon "><i class="fa fa-bars"></i></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/Home/Index">Home <span class="sr-only">(current)</span></a>
+                        <li class="nav-item active mr-3">
+                            <a class="nav-link" href="/Home/Index">Trang chủ <span class="sr-only">(current)</span></a>
                         </li>
-
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown mr-3">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">
-                                Courses
+                                Danh mục
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <ul id="menuCategory"></ul>
@@ -115,39 +112,37 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
+                            <li class="nav-item mr-3">
                                 <a class="nav-link" href="/Home/Logout">
-                                    SignOut
+                                    Đăng xuất
                                 </a>
                             </li>
                         }
                         else
                         {
-                            <li class="nav-item">
+                            <li class="nav-item mr-3">
                                 <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">
-                                    Login
+                                    Đăng nhập
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link  js-scroll-to-regisster" href="#register">Register</a>
+                            <li class="nav-item mr-2">
+                                <a class="nav-link  js-scroll-to-regisster" href="#register">Đăng kí</a>
                             </li>
                         }
-                        <li class="nav-item">
+                        <li class="nav-item mr-3">
                             <a class="nav-link" href="#"><ion-icon class="icon-cart" name="cart-outline"></ion-icon></a>
                         </li>
                     </ul>
                     <form class="form-inline my-2 my-lg-0 " id="mySearch">
-                        <input class="form-control bg-line mr-ssale_contenttext-white" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control bg-line mr-ssale_contenttext-white" type="search" placeholder="Tìm kiếm..." aria-label="Search">
                         <button class="btn btn--success btn-search my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
             </nav>
         </div>
 
-
     </header>
     <script src="~/lib/jquery/dist/jquery.js"></script>
-
     @RenderBody()
     @{ await Html.RenderPartialAsync("Login");}
     <footer class="footer  pt-5 p-3 p-md-0 ">
@@ -158,29 +153,25 @@
                         <h2>LE<span>AR</span>N</h2>
                     </a>
                     <p>
-                        <span class="footer__releasse_span">Address:</span> <br>
+                        <span class="footer__releasse_span">Địa chỉ:</span> <br>
                         140 Lê Trọng Tấn P. Tây Thạnh Q.Tân Phú TP.HCM
                     </p>
-
                     <p>
                         <span class="footer__releasse_span">Email:</span> <br>
                         learn@gmail.com
                     </p>
                     <p>
-                        <span class="footer__releasse_span"> Phone:</span> <br>
+                        <span class="footer__releasse_span"> Điện thoại:</span> <br>
                         0389453020
                     </p>
-
                 </div>
                 <div class="col-md-2 col-sm-6 w-100 h-100 footer_Us">
                     <h3 class="footer-text-title mt-3 mb-4">About Us</h3>
-                    <p> <a href="#">About LEARN</a>  </p>
-
+                    <p> <a href="#">Thông tin LEARN</a>  </p>
 
                     <p> <a href="#">Terms of service</a>  </p>
                     <p> <a href="#">Payment Guide</a>  </p>
                     <p> <a href="#">Privacy Policy</a>  </p>
-
                 </div>
                 <div class="col-md-3 col-sm-6 footer_cooperation">
                     <h3 class="footer-text-title mt-3 mb-4">Cooperation Link</h3>
@@ -200,7 +191,6 @@
                         </a>
                     </p>
 
-
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <h3 class="footer-text-title mt-3 mb-4">Link</h3>
@@ -209,7 +199,6 @@
                     </p>
                 </div>
             </div>
-
 
         </div>
         <div class="container-fluid row footer_copy text-white p-3">
@@ -243,7 +232,6 @@
     <script src="~/lib/owl-carousel/owl.carousel.min.js"></script>
     @*<script src="~/js/jquery.waypoints.min.js"></script>*@
     <script src="~/lib/waypoints/jquery.waypoints.min.js"></script>
-
     @*<script src="~/js/main.js"></script>*@
     <script src="~/lib/mustache/mustache.js"></script>
     <script src="~/lib/main/main.js"></script>

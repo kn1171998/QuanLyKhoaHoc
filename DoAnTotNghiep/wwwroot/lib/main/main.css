@@ -116,20 +116,21 @@ ul li {
     justify-content: center;
     align-items: center;
     padding: 0;
+    width: 100%;
 }
 
 .myMenu .nav-item {
     position: relative;
-    margin: 0 5%;
     font-weight: initial;
+    margin-right: auto;
 }
 
     .myMenu .nav-item .nav-link {
         color: white;
-        margin: 2%;
+        margin: 4%;
         padding: 2px;
         font-size: 16px;
-        font-weight: 500;
+        font-weight: 400;
         font-family: 'Lato', sans-serif;
     }
 
@@ -642,7 +643,7 @@ ul li {
 }
 
 .my-tabcontent {
-    display: none;
+    display: block;
 }
 
 .tabcontent:active {
@@ -1314,9 +1315,10 @@ a {
     margin-top: -1px;
    } */
 /* ====================Category=================== */
-.category-box{
+.category-box {
     margin-top: 7%;
 }
+
 .box-category {
     color: #212529;
     background-color: white;
@@ -1435,7 +1437,213 @@ a {
     }
 }
 
+/* ---------------------------------RADIO-BUTTON----------------------------------- */
+.form-radio-group {
+    width: 100%;
+    display: inline-block;
+    margin-bottom: 20px;
+}
 
+.radio-input {
+    display: none;
+}
+
+.radio-label {
+    position: relative;
+    font-size: 16px;
+    padding-left: 45px;
+    cursor: pointer;
+}
+
+.radio-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border: 5px solid rgb(217,4,95);
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0px;
+}
+
+    .radio-button::after {
+        content: "";
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+        background-color: rgb(217,4,95);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        opacity: 0;
+    }
+
+.form-check-input:checked ~ .radio-label .radio-button::after {
+    opacity: 1;
+}
+
+.form {
+    border: 1px solid #dedfe0;
+    box-shadow: 0 15px 20px #ddd;
+}
+/* order detail */
+.orderDetail-box {
+    background-color: #fbfcfd;
+    height: auto;
+    font-size: 14px;
+}
+
+.img-detail {
+    width: 35px;
+    height: 35px;
+    float: left;
+}
+
+.box-left {
+    float: left;
+    width: 80%;
+}
+
+.box-right {
+    float: right;
+    color: #999;
+}
+/* ====================SUMARY=================== */
+.Origina-text {
+    float: left;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.origian-number {
+    float: right;
+}
+
+.total {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.toatal-box {
+    border: 1px solid #dedfe0;
+    box-shadow: 0 15px 20px #ddd;
+}
+/* ====================Category=================== */
+.box-category {
+    color: #212529;
+    background-color: white;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+    .box-category ul li a {
+        color: #212529;
+        text-decoration: none;
+        font-size: 16px;
+        /* font-weight: 500; */
+        font-family: 'Lato';
+    }
+
+    .box-category li:hover {
+        background-color: rgb(245, 218, 218);
+    }
+
+    .box-category ul li {
+        padding: 5% 7%;
+        border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+    }
+/* ----------COMMENT----------- */
+.comment {
+    border: 2px solid #ccc;
+    background-color: #eee;
+    border-radius: 5px;
+    padding: 16px;
+    margin: 16px 0
+}
+
+    .comment::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .comment img {
+        float: left;
+        margin-right: 20px;
+        border-radius: 50%;
+    }
+
+    .comment span {
+        font-size: 20px;
+        margin-right: 15px;
+    }
+
+@media (max-width: 500px) {
+    .container {
+        text-align: center;
+    }
+
+        .container img {
+            margin: auto;
+            float: none;
+            display: block;
+        }
+}
+
+
+/* =======================REVENUE================ */
+.revenue-box {
+    display: flex;
+    padding: 3%;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    /* justify-content: space-between; */
+    box-sizing: border-box;
+}
+
+.icon-revenue {
+    font-size: 44px;
+    margin-right: 5%;
+    color: rgb(217,4,95);
+}
+
+.content-revenue__text {
+    color: rgb(37,43,51);
+    font-size: 16px;
+    letter-spacing: 1.6;
+    font-weight: 600;
+}
+
+.content-revenue__number {
+    font-size: 20px;
+    color: #e67e22;
+}
+
+.revenue-detail {
+    padding: 3%;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+    margin: 3%;
+}
+
+.revenue-detail__item {
+    display: flex;
+    border-bottom: 3px dotted rgba(0, 0, 0, 0.1);
+}
+
+    .revenue-detail__item:last-child {
+        border-bottom: none;
+    }
 /* ----------REPONSIVE----------- */
 @media only screen and (min-width:1119px) {
     .myCaption {
@@ -1530,6 +1738,10 @@ a {
         width: 100%;
     }
 
+        .myCaption h3 {
+            font-size: 37px;
+        }
+
     .btn:link,
     .btn:visited {
         transition: background-color 0.2s, boder 0.2s, color 0.2s;
@@ -1577,18 +1789,8 @@ a {
     .sticky #mySearch input::-webkit-input-placeholder {
         color: #5f5f5f;
     }
-    /* .btn-pink:hover{
-        color: rgb(217,4,95);
-        border: 2px solid rgb(217,4,95)            ;
-        font-size: 16px;
-        background-color: white;
-        transition:background-color 0.2s, boder 0.2s, color 0.2s;
-      
-        
-        
-    } */
+
     .today_overlay {
-        /*padding-bottom: 5%;*/
         height: 29%;
     }
 
