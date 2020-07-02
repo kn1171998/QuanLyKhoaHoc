@@ -25,7 +25,7 @@ namespace WebData.Models
         public virtual DbSet<MasterList> MasterList { get; set; }
         public virtual DbSet<OrderDetails> OrderDetails { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
-        public virtual DbSet<Sysdiagrams> Sysdiagrams { get; set; }
+        //public virtual DbSet<Sysdiagrams> Sysdiagrams { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<WareHouse> WareHouse { get; set; }
 
@@ -256,20 +256,20 @@ namespace WebData.Models
                     .HasConstraintName("FK_Orders_Users");
             });
 
-            modelBuilder.Entity<Sysdiagrams>(entity =>
-            {
-                entity.HasKey(e => e.DiagramId);
+            //modelBuilder.Entity<Sysdiagrams>(entity =>
+            //{
+            //    entity.HasKey(e => e.DiagramId);
 
-                entity.ToTable("sysdiagrams");
+            //    entity.ToTable("sysdiagrams");
 
-                entity.Property(e => e.DiagramId).HasColumnName("diagram_id");
+            //    entity.Property(e => e.DiagramId).HasColumnName("diagram_id");
 
-                entity.Property(e => e.Definition).HasColumnName("definition");
+            //    entity.Property(e => e.Definition).HasColumnName("definition");
 
-                entity.Property(e => e.PrincipalId).HasColumnName("principal_id");
+            //    entity.Property(e => e.PrincipalId).HasColumnName("principal_id");
 
-                entity.Property(e => e.Version).HasColumnName("version");
-            });
+            //    entity.Property(e => e.Version).HasColumnName("version");
+            //});
 
             modelBuilder.Entity<Users>(entity =>
             {

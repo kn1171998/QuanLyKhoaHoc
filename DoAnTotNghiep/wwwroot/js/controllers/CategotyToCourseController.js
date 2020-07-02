@@ -8,8 +8,9 @@ var CategoryToCourseController = {
         CategoryToCourseController.registerEvent();
     },
     registerEvent: function () {
+        var idcategoryhidden = $('#idcategoryhidden').val();
         $('body').on('click', '#idbtnSearch', function () {
-            var idcategoryhidden = $('#idcategoryhidden').val();
+       
             var search = $('#search').val();
             var radiofree = $('input[id=idsearch]:checked').val();
             var sortPrice = $('#sortPrice').val();
@@ -88,11 +89,12 @@ var CategoryToCourseController = {
                             nameCourse: item.name
                         });
                     });
-        $('#idnamecourse').html(html);
+                    $('#idnamecourse').html(html);
                     //common.paging(res.total, function () {
                     //    CategoryToCourseController.loadData();
                     //}, changePageSize);
                 }
+                
             }
         });
     },
@@ -123,4 +125,5 @@ var CategoryToCourseController = {
         });
     }
 }
+
 

@@ -8,6 +8,12 @@ var homeController = {
         homeController.registerEvent();
     },
     registerEvent: function () {
+        $('body').on('click', '#btn-search', function () {
+      
+            var search = $('#search').val();
+         
+            homeController.Search(0, 2, 2, search);
+        });
     },
     loadData: function () {
         var listCate = [];
@@ -82,5 +88,12 @@ var homeController = {
                 }
             }
         });
+    },
+    Search: function (idcategoryhidden, radiofree, sortPrice, search) {
+        window.location.href = "/CourseCategory/search_home?search=" + search;
+        
     }
+
+
 }
+

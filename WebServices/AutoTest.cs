@@ -1,4 +1,4 @@
-﻿using AutoItX3Lib;
+﻿//using AutoItX3Lib;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -124,34 +124,34 @@ namespace WebServices
                         nameChapter.SendKeys("Khái niệm " + countLesson);
 
                         //// khởi tạo đối tượng autoIT để dùng cho C# -> nhờ nó send key click chuột dùm cái ở ngoài web browser
-                        AutoItX3 autoIT = new AutoItX3();
+                        //AutoItX3 autoIT = new AutoItX3();
                         //// đưa title của cửa sổ File upload vào chuỗi. 
                         //// Cửa sổ hiện ra có thể có tiêu đề là File Upload hoặc Tải lên một tập tin
                         //// lấy ra cửa sổ active có tiêu đề như dưới
-                        autoIT.WinActivate("Open");
+                        //autoIT.WinActivate("Open");
                         // file data nằm trong thư mục debug
                         // gửi link vào ô đường dẫn
-                        autoIT.Send(AppDomain.CurrentDomain.BaseDirectory + "logo2.jpg");
-                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                        //autoIT.Send(AppDomain.CurrentDomain.BaseDirectory + "logo2.jpg");
+                        //Thread.Sleep(TimeSpan.FromSeconds(1));
                         // gửi phím enter sau khi truyền link vào
-                        autoIT.Send("{ENTER}");
+                        //autoIT.Send("{ENTER}");
                         System.Threading.Thread.Sleep(2000);
 
                         // đổi frame
                         driver.SwitchTo().Frame(0);
 
                         //// khởi tạo đối tượng autoIT để dùng cho C# -> nhờ nó send key click chuột dùm cái ở ngoài web browser
-                        AutoItX3 autoITSlide = new AutoItX3();
+                        //AutoItX3 autoITSlide = new AutoItX3();
                         //// đưa title của cửa sổ File upload vào chuỗi. 
                         //// Cửa sổ hiện ra có thể có tiêu đề là File Upload hoặc Tải lên một tập tin
                         //// lấy ra cửa sổ active có tiêu đề như dưới
-                        autoITSlide.WinActivate("Open");
+                        //autoITSlide.WinActivate("Open");
                         // file data nằm trong thư mục debug
                         // gửi link vào ô đường dẫn
-                        autoITSlide.Send(AppDomain.CurrentDomain.BaseDirectory + "logo2.jpg");
-                        Thread.Sleep(TimeSpan.FromSeconds(1));
+                        //autoITSlide.Send(AppDomain.CurrentDomain.BaseDirectory + "logo2.jpg");
+                        //Thread.Sleep(TimeSpan.FromSeconds(1));
                         // gửi phím enter sau khi truyền link vào
-                        autoITSlide.Send("{ENTER}");
+                        //autoITSlide.Send("{ENTER}");
                         System.Threading.Thread.Sleep(2000);
 
                         // đổi frame
