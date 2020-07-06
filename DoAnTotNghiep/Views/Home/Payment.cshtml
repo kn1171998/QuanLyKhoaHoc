@@ -1,0 +1,116 @@
+﻿@model PaymentVM
+@{
+    Layout = "~/Views/Shared/_LayoutDetail.cshtml";
+    string listcourse1 = string.Empty;
+}
+<section class="pay mt-5 container-fluid">
+    <div class="row">
+        <div class="col-md-12 col-lg-7 col-sm-12 mt-4 ml-2 ml-sm-0 p-sm-3 p-lg-4">
+            <form action="PaymentComplete" class="form">
+                <div class="form-group p-3 m-3">
+                    <h3 class="title mb-4">
+                        Phương thức thanh toán
+                    </h3>
+                    @Html.AntiForgeryToken()
+                    <div class="form-check form-radio-group">
+                        <input class="form-check-input radio-input" type="radio" asp-for="PaymentMethod" value="viettel">
+                        <label class="form-check-label radio-label" for="paymentmethod">
+                            <span class="radio-button"></span>
+                            Thanh toán với Viettel Pay
+                        </label>
+                    </div>
+                    <div class="form-check form-radio-group">
+                        <input class="form-check-input radio-input" type="radio" asp-for="PaymentMethod" value="momo" checked>
+                        <label class="form-check-label radio-label" for="paymentmethod">
+                            <span class="radio-button"></span>
+                            Thanh toán ví Momo 
+                        </label>
+                    </div>
+                    <div class="form-group w-100 mt-3">
+                        <button id="completepayment" type="button" class="btn btn-signin w-100">Hoàn thành thanh toán</button>
+                    </div>
+                </div>
+            </form>
+            <div class="orderDetail">
+                <div class="row">
+                    <div class="col-12 p-3 pl-5 pl-sm-0 p-sm-5">
+                        <h3 class="title">Chi tiết đặt hàng</h3>
+                        @if (Model.lstCourse != null)
+                        {
+                            foreach (var item in Model.lstCourse)
+                            {
+                                <div class="orderDetail-box w-100 p-3 mb-5">
+                                    <div class="box-left">
+                                        <div style="width:100px;height:62px;">
+                                            <img src="@item.Image" style="width:100px;height:62px;" class="img-detail mr-3" alt="photo-course">
+                                        </div>
+                                        <p class="box-left-text total pl-5">
+                                            @item.Name
+                                        </p>
+                                    </div>
+                                    <div class="box-right">
+                                        <p>
+                                            <span>@item.Price</span><br>
+                                            <span><del>@item.PromotionPrice</del></span>
+                                        </p>
+                                    </div>
+                                </div>
+                                listcourse1 += item.Id + ";";
+                            }
+                        }
+                    </div>
+                    <input type="hidden"value="@listcourse1" id="lstcourse" />
+                </div>
+            </div>
+        </div>
+        <div class="col-12 w-100 col-lg-4 col-md-12 mt-sm-0 p-lg-0 pt-lg-5  mb-sm-4 mb-5 p-sm-5 pt-sm-0">
+            <div class="toatal-box w-100 h-auto  p-3 pb-5 p-4">
+                <h3 class="title">Tổng</h3>
+                <div class="detail-courses p-1 ">
+                    <p class="Origina-price ">
+                        <span class="Origina-text">Giá:</span>
+                        <span class="origian-number">@Model.TotalMoney</span>
+                    </p>
+                    <p class="Coupon-discounts clearfix">
+                        <span class="Origina-text ">Mã giảm giá:</span>
+                        <input asp-for="Discount" class="form-control" />
+                    </p>
+                    <p class="Coupon-discounts clearfix">
+                        <span class="Origina-text ">Giảm giá:</span>
+                        <span class="origian-number">@Model.DiscountMoney</span>
+                    </p>
+                    <hr>
+                    <p class="total">
+                        <span class="Origina-text total">Tổng:</span>
+                        <span class="origian-number">@Model.SumMoney</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script>
+     
+        $('body').on('click', '#completepayment', function () {
+            var listCourse = $('#lstcourse').val();
+            var token  = $('input[name=__RequestVerificationToken]').val();
+            $.ajax({
+                url: "/Home/PaymentComplete",
+                type: 'POST',      
+                data: {
+                    listIdCourse: listCourse,
+                    __RequestVerificationToken: token
+                },
+                success: function (res) {
+                    if (res.status) {
+                        window.location.href = res.loca;
+                    }
+                    else {
+                        common.showNotify("Thanh toán thất bại", "error");
+                    }
+                }
+            });
+        });
+    </script>
+}

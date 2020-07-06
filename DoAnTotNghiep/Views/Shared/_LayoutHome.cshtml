@@ -1,0 +1,241 @@
+﻿<!doctype html>
+<html lang="zxx">
+<head>
+    <title>Home</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    @*<link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" />*@
+    <link href="~/lib/animate.css/animate.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @*<link href="~/css/font-awesome/css/fontawesome.css" rel="stylesheet" />*@
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    @*<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />*@
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap" rel="stylesheet">
+    @*<link rel="stylesheet" href="~/css/owl.carousel.min.css">*@
+    <link href="~/lib/owl-carousel/owl.carousel.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="~/css/main.css">*@
+    <link href="~/lib/main/main.css" rel="stylesheet" />
+    <link href="~/css/startuppost.css" rel="stylesheet" />
+    <style>
+
+        label.error {
+            color: red;
+        }
+    </style>
+    <link rel="apple-touch-icon" sizes="57x57" href="~/favition/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/favition/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/favition/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/favition/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/favition/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/favition/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/favition/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/favition/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/favition/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/favition/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/favition/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/favition/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/favition/favicon-16x16.png">
+    <link rel="manifest" href="~/favition/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <header class="header">
+        <div class=" container-fluid pl-md-5 pr-md-5">
+            <div class="row header-detile">
+                <ul class="col-7 logoSignIn">
+                    <li class="signin">
+                        <a href="#">
+                            <span class="fa fa-user"></span>
+                            Sign In
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="fa fa-facebook"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="fa  fa-twitter"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="fa fa-instagram"></span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="col-5 myinfo">
+                    <li>
+                        <a href="#">
+                            <span class="fa fa-phone"></span>
+                            <span class="title">0389453020 </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="fas fa-mail-bulk"></span>
+                            <span class="title">lanhnv2697@gmail.com</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <input type="hidden" id="idcategoryhidden" value="0">
+            <nav class="navbar navbar-expand-lg bg-line navbar-line myMenu">
+                <a class="navbar-brand logo" href="#">
+                    <h2>LE<span>AR</span>N</h2>
+                </a>
+                <button class="navbar-toggler mytoggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon mynavicon "><i class="fa fa-bars"></i></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active mr-3">
+                            <a class="nav-link" href="/Home/Index">Trang chủ <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item dropdown mr-3">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                Danh mục
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <ul id="menuCategory"></ul>
+                            </div>
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item mr-3">
+                                <a class="nav-link" href="/Home/Logout">
+                                    Đăng xuất
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item mr-3">
+                                <a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModal">
+                                    Đăng nhập
+                                </a>
+                            </li>
+                            <li class="nav-item mr-2">
+                                <a class="nav-link  js-scroll-to-regisster" href="#register">Đăng kí</a>
+                            </li>
+                        }
+                        <li class="nav-item mr-3">
+                            <a class="nav-link" href="#"><ion-icon class="icon-cart" name="cart-outline"></ion-icon></a>
+                        </li>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0 " id="mySearch">
+                        <input class="form-control bg-line mr-ssale_contenttext-white" id="search" type="search" placeholder="Tìm kiếm..." aria-label="Search">
+                        <button class="btn btn--success btn-search my-2 my-sm-0" id="btn-search" type="button"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </nav>
+        </div>
+
+    </header>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    @RenderBody()
+    @{ await Html.RenderPartialAsync("Login");}
+    <footer class="footer  pt-5 p-3 p-md-0 ">
+        <div class="container-fluid pl-md-5 pr-4">
+            <div class="row text-white">
+                <div class="col-md-3 col-sm-6 w-100 h-100 footer__releasse">
+                    <a class="navbar-brand logo" href="#">
+                        <h2>LE<span>AR</span>N</h2>
+                    </a>
+                    <p>
+                        <span class="footer__releasse_span">Địa chỉ:</span> <br>
+                        140 Lê Trọng Tấn P. Tây Thạnh Q.Tân Phú TP.HCM
+                    </p>
+                    <p>
+                        <span class="footer__releasse_span">Email:</span> <br>
+                        learn@gmail.com
+                    </p>
+                    <p>
+                        <span class="footer__releasse_span"> Điện thoại:</span> <br>
+                        0389453020
+                    </p>
+                </div>
+                <div class="col-md-2 col-sm-6 w-100 h-100 footer_Us">
+                    <h3 class="footer-text-title mt-3 mb-4">About Us</h3>
+                    <p> <a href="#">Thông tin LEARN</a>  </p>
+
+                    <p> <a href="#">Terms of service</a>  </p>
+                    <p> <a href="#">Payment Guide</a>  </p>
+                    <p> <a href="#">Privacy Policy</a>  </p>
+                </div>
+                <div class="col-md-3 col-sm-6 footer_cooperation">
+                    <h3 class="footer-text-title mt-3 mb-4">Cooperation Link</h3>
+                    <p>
+                        <a href="#">
+                            Sign up for lecturers
+                        </a>
+                    </p>
+                    <p>
+                        <a href="#">
+                            Business training
+                        </a>
+                    </p>
+                    <p>
+                        <a href="#">
+                            E-learning solution
+                        </a>
+                    </p>
+
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <h3 class="footer-text-title mt-3 mb-4">Link</h3>
+                    <p>
+                        <a href="https://www.facebook.com/unica.vn/"><img src="~/img/IconsApp.png" class="w-50 h-100" alt=""></a>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <div class="container-fluid row footer_copy text-white p-3">
+            <p class="col-6">© 2020 LEARN. All rights reserved | Design by <span>NguyenLanh</span> </p>
+            <div class="col-6 footer-icon">
+                <a href="#"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-google" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-github" aria-hidden="true"></i> </a>
+            </div>
+        </div>
+    </footer>
+    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa fa-angle-double-up" aria-hidden="true"></i></button>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="~/lib/ionicons/ionicons.min.js"></script>
+    @*<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>*@
+    @*<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script src="~/lib/popper.js/dist/umd/popper.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    @*<script src="~/js/owl.carousel.min.js"></script>*@
+    <script src="~/lib/owl-carousel/owl.carousel.min.js"></script>
+    @*<script src="~/js/jquery.waypoints.min.js"></script>*@
+    <script src="~/lib/waypoints/jquery.waypoints.min.js"></script>
+    @*<script src="~/js/main.js"></script>*@
+    <script src="~/lib/mustache/mustache.js"></script>
+    <script src="~/lib/main/main.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
