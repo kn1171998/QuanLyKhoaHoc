@@ -60,7 +60,8 @@ namespace DoAnTotNghiep
             services.AddScoped<IOrderDetailService, OrderDetailService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IWareHouseService, WareHouseService>();
+            services.AddScoped<IDiscountCourseService, DiscountCourseService>();
+            services.AddScoped<IWareHouseService, WareHouseService>();            
 
             services.Configure<FormOptions>(opt =>
             {

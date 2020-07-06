@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DoAnTotNghiep.Models
 {
@@ -12,8 +8,10 @@ namespace DoAnTotNghiep.Models
         public DateTime ToDate { get; set; }
         public DateTime FromDate { get; set; }
         public string CodeDiscount { get; set; }
-        public decimal DiscountPercent { get; set; }
-        public decimal DiscountAmount { get; set; }
-        public long CourseId { get; set; }
+        public int CheckTypeDiscount { get; set; }
+        public int DiscountPercent { get; set; }
+        public long DiscountAmount { get; set; }
+        public string NameListCourse { get; set; }
+        public string SearchName { get; set; }
     }
 }

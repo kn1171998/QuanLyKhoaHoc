@@ -59,10 +59,18 @@ namespace PayCompute.Service
         public T GetBySingle(string code)
         => dbSet.Find(code);
 
-        public IEnumerable<T> GetPaging<TProperty>(Expression<Func<T, bool>> predicate, out int total, int page, int pageSize, Expression<Func<T, TProperty>> orderbyDes = null)
+        public IEnumerable<T> GetPaging<TProperty>(Expression<Func<T, bool>> predicate, out int total, int page, int pageSize, Expression<Func<T, TProperty>> orderbyDes = null, string[] includes = null)
         {
             int skipCount = (page - 1) * pageSize;
             IQueryable<T> _resetSet;
+            if (includes != null && includes.Count() > 0)
+            {
+                _resetSet = dbSet.Include(includes.First());
+                foreach (var include in includes.Skip(1))
+                {
+                    _resetSet = _resetSet.Include(include);
+                }            
+            }          
             _resetSet = predicate != null ? dbSet.Where<T>(predicate).AsQueryable() : dbSet.AsQueryable();
             _resetSet = orderbyDes != null ? _resetSet.OrderByDescending(orderbyDes).AsQueryable() : _resetSet;
             total = _resetSet.Count();

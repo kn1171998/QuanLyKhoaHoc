@@ -3,30 +3,29 @@
 });
 var CategoryToCourseController = {
     init: function () {
-        CategoryToCourseController.loadData();
-    //    CategoryToCourseController.loadDataC();
+        //CategoryToCourseController.loadData();
+        CategoryToCourseController.loadDataC();
         CategoryToCourseController.registerEvent();
     },
     registerEvent: function () {
-        var idcategoryhidden = $('#idcategoryhidden').val();
+        var idcategoryhidden = $('#idcategoryhidden').val() != 'undefined' ? $('#idcategoryhidden').val() : 3;
         $('body').on('click', '#idbtnSearch', function () {
-       
-            var search = $('#search').val();
-            var radiofree = $('input[id=idsearch]:checked').val();
-            var sortPrice = $('#sortPrice').val();
-            CategoryToCourseController.loadData(idcategoryhidden,radiofree, sortPrice, search);
+
+            var search = $('#search').val() != 'undefined' ? $('#search').val() : "";
+            var radiofree = $('input[id=idsearch]:checked').val() != 'undefined' ? $('input[id=idsearch]:checked').val() : 2;
+            var sortPrice = $('#sortPrice').val() != 'undefined' ? $('#sortPrice').val() : 2;
+            CategoryToCourseController.loadData(idcategoryhidden, radiofree, sortPrice, search);
         });
         $('body').on('click', '#btn-search', function () {
             var search = $('#search').val();
             var radiofree = 2;
             var sortPrice = 2;
             var idcategoryhidden = 0;
-            CategoryToCourseController.loadData(idcategoryhidden,radiofree, sortPrice, search);
+            CategoryToCourseController.loadData(idcategoryhidden, radiofree, sortPrice, search);
         });
     },
     loadData: function (idcategoryhidden, radiofree, sortPrice, search) {
-  
-  
+           //load component card category 
         $.ajax({
             url: '/CourseCategory/Sort',
             type: 'GET',
@@ -35,7 +34,7 @@ var CategoryToCourseController = {
                 id: idcategoryhidden,
                 sortPrice: sortPrice,
                 radiofree: radiofree,
-                search : search
+                search: search
                 //page: common.pageIndex,
                 //pageSize: common.pageSize
             },
@@ -48,7 +47,7 @@ var CategoryToCourseController = {
                     var data = res.data;
                     var formatter = new Intl.NumberFormat('en', {
                         notation: 'standard'
-              
+
                     });
                     $.each(data, function (i, item) {
                         html += Mustache.render(template, {
@@ -69,7 +68,7 @@ var CategoryToCourseController = {
             }
         });
 
-
+           //load component category left
         $.ajax({
             url: '/CourseCategory/GetChildCategories',
             type: 'GET',
@@ -86,7 +85,7 @@ var CategoryToCourseController = {
                     $.each(data, function (i, item) {
                         html += Mustache.render(template, {
                             ID: item.id,
-                            nameCourse: item.name
+                            Name: item.name
                         });
                     });
                     $('#idnamecourse').html(html);
@@ -94,33 +93,39 @@ var CategoryToCourseController = {
                     //    CategoryToCourseController.loadData();
                     //}, changePageSize);
                 }
-                
+
             }
         });
     },
 
     loadDataC: function () {
+        var idcategoryhidden = $('#idcategoryhidden').val() != 'undefined' ? $('#idcategoryhidden').val() : 3;
+        //load component category left
         $.ajax({
-            url: '/CourseCategory/LoadCourse',
+            url: '/CourseCategory/GetChildCategories',
             type: 'GET',
             data: {
-                id: "0"
+                id: idcategoryhidden
             },
             dataType: 'json',
             success: function (res) {
-                var data = res.data;
+                var data = res.child;
                 var html = '';
                 var template = $('#dropdownSubCategory').html();
                 if (res.status) {
-                    var data = res.data;
+                    var data = res.child;
                     $.each(data, function (i, item) {
                         html += Mustache.render(template, {
                             ID: item.id,
-                            nameCourse: item.name
+                            Name: item.name
                         });
                     });
                     $('#idnamecourse').html(html);
+                    //common.paging(res.total, function () {
+                    //    CategoryToCourseController.loadData();
+                    //}, changePageSize);
                 }
+
             }
         });
     }

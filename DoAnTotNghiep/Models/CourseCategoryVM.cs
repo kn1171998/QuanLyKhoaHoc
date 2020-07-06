@@ -7,6 +7,7 @@ namespace DoAnTotNghiep.Models
     {
         public CourseCategoryVM()
         {
+
         }
 
         public IEnumerable<CourseCategories> listCourseCategory { get; set; }

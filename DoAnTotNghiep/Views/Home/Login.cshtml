@@ -15,7 +15,11 @@
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" id="password" name="password" placeholder="Mật khẩu">
-                    </div><button type="submit" class="btn btn-search btn-login w-100">Đăng nhập</button>
+                    </div>
+                    <div>
+                        <span class="text-danger" id="errorLogin"></span>
+                    </div>
+                    <button type="button" id="btnLogin" class="btn btn-search btn-login w-100">Đăng nhập</button>
                 </div>
                 <div class="modal-footer ">
                     <div class="form-group">
@@ -30,7 +34,6 @@
                     </div>
                 </div>
             </form>
-
         </div>
     </div>
 </div>
@@ -38,28 +41,54 @@
     function checkLoginState() {
         FB.getLoginStatus(function (response) {
             if (response.status === 'connected') {
-                console.log("token: " + response.authResponse.accessToken);
-                console.log("authResponse: " + response.authResponse);
-                console.log("response: " + response);
                 var tokenFB = response.authResponse.accessToken;
                 var __RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
                 $.ajax({
                     url: "Home/FacebookLogin",
                     type: "POST",
+                    dataType: "JSON",
                     data: {
                         Token: tokenFB,
                         __RequestVerificationToken: __RequestVerificationToken
                     },
-                    success: function () {
-                        common.showNotify("Đăng nhập thành công", "success");
+                    success: function (res) {
+                        if (res.status) {
+                            window.location.reload();
+                            common.showNotify("Đăng nhập thành công", "success");
+                        } else {
+                            common.showNotify("Đăng nhập thất bại", "error");
+                        }
                     },
                     error: function () {
                         common.showNotify("Đăng nhập thất bại", "error");
                     }
-                })
+                });
             }
         });
     }
+</script>
+<script>
+    $('body').on('click', '#btnLogin', function () {
+        var email = $('#email').val();
+        var password = $('#password').val();
+        $.ajax({
+            url: "/Home/Login",
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                email: email,
+                password: password
+            },
+            success: function (res) {
+                if (res.status) {
+                    window.location.href = res.redirect;
+                    common.showNotify(res.message, "success");
+                } else {
+                    $('#errorLogin').text(res.message);
+                }
+            }
+        })
+    });
 </script>
 <script>
     $('#RegisterUser').validate({

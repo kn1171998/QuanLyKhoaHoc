@@ -8,7 +8,7 @@ namespace WebData.Models
         public string Id { get; set; }
         public int? UserId { get; set; }
         public string PayMethod { get; set; }
-        public DateTime? OrderDate { get; set; }
+        public DateTime OrderDate { get; set; }
         public string Status { get; set; }
         public long TotalAmount { get; set; }
         public string Signature { get; set; }

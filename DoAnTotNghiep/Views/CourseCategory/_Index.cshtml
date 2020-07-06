@@ -5,7 +5,7 @@
                 <thead class="thead-light text-center">
                     <tr>
                         <th>Tên danh mục</th>
-                        
+
                         <th>Vị trí </th>
                         <th>Trạng thái</th>
                         <th><span class="fa fa-cog"></span></th>
@@ -15,17 +15,16 @@
             </table>
         </div>
         <div id="pagination" class="pagination">
-
         </div>
     </div>
 </div>
 
 <script id="data-template" type="x-tmpl-mustache">
     <tr class="text-center">
-        <td class="col-md-2">{{Name}}</td>
-        <td class="col-md-3">{{SortOrder}}</td>
-        <td class="col-md-1">{{Status}}</td>
-        <td class="text-center col-md-2">
+        <td>{{Name}}</td>
+        <td>{{SortOrder}}</td>
+        <td>{{Status}}</td>
+        <td>
             <a href="javascript:void(0);"
                data-href="dsoft-popup-modal"
                data-event="popup-modal"
@@ -33,7 +32,7 @@
                data-width="1000"
                data-height="600"
                class="btn btn-sm btn-radius-left btn-warning dsoft-btn-show-popup mb-2">
-                <span class="fa fa-edit"></span> 
+                <span class="fa fa-edit"></span>
             </a>
             <a href="javascript:void(0);"
                data-message-confirm="Bạn có muốn xoá không?"
@@ -45,4 +44,3 @@
         </td>
     </tr>
 </script>
-
