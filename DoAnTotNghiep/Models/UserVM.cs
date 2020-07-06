@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebData.Models;
 
 namespace DoAnTotNghiep.Models
 {
@@ -40,5 +42,11 @@ namespace DoAnTotNghiep.Models
         public int? ImageUrl { get; set; }
         public bool? Status { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public string SearchName { get; set; }
+        public UserVM()
+        {
+        }
+
+        public IEnumerable<Users> listUsers { get; set; }
     }
 }
