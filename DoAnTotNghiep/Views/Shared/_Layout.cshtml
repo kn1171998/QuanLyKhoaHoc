@@ -14,13 +14,14 @@
     <environment include="Development">
 
         @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link href="~/css/font-awesome/css/fontawesome-all.css" rel="stylesheet" />*@
+            <link href="~/css/font-awesome/css/fontawesome-all.css" rel="stylesheet" />*@
         <link href="~/css/startuppost.css" rel="stylesheet" />
         <link href="~/css/style.css" rel="stylesheet" />
         <link href="~/css/bootstrap.min.css" rel="stylesheet" />
         <link href="~/lib/pnotify/pnotify.css" rel="stylesheet" />
         <link href="~/lib/upload/fileupload.css" rel="stylesheet" />
         <link href="~/lib/jqueryui/jquery-ui.css" rel="stylesheet" />
+        <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
         <!-- Custom CSS -->
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -48,10 +49,17 @@
                     <a href="#"><span class="fa fa-home mr-3"></span> Home</a>
                 </li>
                 <li>
+                    <a href="#"><span class="fa fa-trophy mr-3"></span> Thông tin doanh thu</a>
+                    <ul>
+                        <li><a asp-action="ReportRevenue" asp-controller="Dashboard">Báo cáo doanh thu</a></li>
+                    </ul>
+                </li>
+                <li>
                     <a href="#"><span class="fa fa-download mr-3 notif"><small class="d-flex align-items-center justify-content-center">5</small></span>Quản lý khoá học</a>
                     <ul>
                         <li><a asp-action="Index" asp-controller="CourseCategory">Danh mục khoá học</a></li>
                         <li><a asp-action="Index" asp-controller="Course">Các khoá học</a></li>
+                        <li><a asp-action="Index" asp-controller="Discount">Khuyến mãi khoá học</a></li>
                     </ul>
                 </li>
                 <li>
@@ -59,9 +67,6 @@
                     <ul>
                         <li><a asp-action="Index" asp-controller="User">Danh mục người dùng</a></li>
                     </ul>
-                </li>
-                <li>
-                    <a href="#"><span class="fa fa-trophy mr-3"></span> Top Review</a>
                 </li>
                 <li>
                     <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
@@ -87,7 +92,7 @@
                     <div class="modal-content panel">
                         <div class="modal-header panel-heading">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            
+
                         </div>
                         <div class="modal-body panel-content">
                         </div>
@@ -101,7 +106,7 @@
                     <div class="modal-content panel">
                         <div class="modal-header panel-heading">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            
+
                         </div>
                         <div class="modal-body panel-content">
                         </div>
@@ -109,7 +114,7 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
     <environment include="Development">
 
@@ -130,6 +135,7 @@
         <script src="~/lib/pnotify/pnotify.js"></script>
         <script src="~/lib/bootbox.js/bootbox.js"></script>
         <script src="~/lib/upload/fileupload.js"></script>
+        <script src="~/lib/select2/js/select2.min.js"></script>
         <!--Custom JavaScript -->
         @*<script src="~/js/custom.js"></script>*@
         <script src="~/js/main.js"></script>

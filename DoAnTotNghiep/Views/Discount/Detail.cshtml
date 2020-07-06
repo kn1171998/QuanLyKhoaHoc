@@ -1,0 +1,192 @@
+﻿@model DiscountDetailVM
+@{
+    ViewData["Title"] = "View";
+    Layout = null;
+}
+<link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="~/lib/datatables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" rel="stylesheet" />
+<style>
+    table.dataTable.select tbody tr,
+    table.dataTable thead th:first-child {
+        cursor: pointer;
+    }
+</style>
+@*<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/lib/datatables/css/dataTables.material.min.css" rel="stylesheet" />*@
+@Html.AntiForgeryToken()
+<input asp-for="ID" type="hidden" />
+<div class="row">
+    <div class="col-md-3">
+        <select name="CategoryParent" id="CategoryParent" class="form-control" asp-items="@Model.lstCategories">
+            <option value="-1">Danh mục cha</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select asp-for="CategoryId" class="form-control" asp-items="@Model.lstChildCategories">
+            <option value="-1">Danh mục con</option>
+        </select>
+        @Html.ValidationMessageFor(m => m.CategoryId)
+    </div>
+    <div class="col-md-3">
+        <select class="form-control" id="courseSelected">
+            <option value="-1">Tất cả</option>
+            <option value="1">Đã chọn</option>
+            <option value="0">Chưa chọn</option>
+        </select>
+    </div>
+</div>
+
+<button id="applyDiscount" class="btn btn-primary">Áp dụng</button>
+
+<div class="container">
+    <div>Khoá học chưa được chọn</div>
+    <table class="table table-bordered table-striped table-hover" cellspacing="0" width="100%" id="discountHasNotDiscount">
+        <thead class="thead-light text-center">
+            <tr>
+                <th><input name="select_all" value="1" type="checkbox"></th>
+                <th>Tên khoá học</th>
+                <th>Ảnh</th>
+                @*<th><span class="fa fa-cog"></span></th>*@
+            </tr>
+        </thead>
+        <tbody id="tblDiscountHasNotDiscount"></tbody>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th>Tên khoá học</th>
+                <th>Ảnh</th>
+            </tr>
+        </tfoot>
+
+    </table>
+</div>
+<hr />
+<div>
+    <div>Khoá học đã được chọn</div>
+    <div class="table-responsive " style="grid-auto-columns:auto">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="thead-light text-center">
+
+                <tr>
+                    <th><span class="fa fa-cog"></span></th>
+                    <th>Tên khoá học</th>
+                    <th>Ảnh</th>
+
+                </tr>
+            </thead>
+            <tbody id="tblDiscountHasDiscount"></tbody>
+        </table>
+    </div>
+</div>
+
+
+@*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+<script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/lib/datatables/js/dataTables.bootstrap.min.js"></script>
+@*<script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.material.min.js"></script>*@
+<script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
+
+<script id="CourseHasDiscount" type="x-tmpl-mustache">
+    <tr>
+        <td></td>
+        <td><input type="hidden" class="idcourse" value="{{ID}}" id="{{ID}}" name="{{ID}}" />{{Name}}</td>
+        <td><div style="width:100px;height:62px;"><img src="{{Image}}" style="width:100px;height:62px;" /></div></td>
+    </tr>
+</script>
+<script>
+    $(function () {
+        var id = $('input[name="ID"]').val();
+        console.log(id);
+        var table = null;
+        var loadData = {
+            innit: function () {
+                $.ajax({
+                    url: "/Discount/LoadDiscountHasCourse",
+                    type: "GET",
+                    data: {
+                        id: id
+                    },
+                    async: true,
+                    success: async function (res) {
+                        var template = $('#CourseHasDiscount').html();
+                        var html = '';
+                        var data = res.data;
+                        console.log(data);
+                        if (res.status) {
+                            await $.each(data.lstDiscountCourse, function (i, item) {
+                                html += Mustache.render(template, {
+                                    ID: item.idCourse,
+                                    Name: item.nameCourse,
+                                    Image: item.image
+                                });
+                            });
+                            await $('#tblDiscountHasDiscount').html(html);
+                        }
+                        html = '';
+                        await $.each(data.lstCourse, function (i, item) {
+                            html += Mustache.render(template, {
+                                ID: item.id,
+                                Name: item.name,
+                                Image: item.image
+                            });
+                        });
+                        await $('#tblDiscountHasNotDiscount').html(html);
+                        table = await $('#discountHasNotDiscount').DataTable({
+                            "language": {
+                                "url": "/lib/datatables/Vietnamese.json"
+                            },
+                            "lengthMenu": [3, 5, 10, 20],
+                            "processing": true,
+                            'columnDefs': [
+                                {
+                                    'className': 'dt-body-center',
+                                    'targets': 0,
+                                    'checkboxes': {
+                                        'selectRow': true
+                                    }
+                                }
+                            ],
+                            'select': {
+                                'style': 'multi'
+                            }
+                        });
+                    }
+                }).done(function () {
+                    $('#discountHasNotDiscount_wrapper div.row').addClass('container');
+                });
+            }
+        }
+        loadData.innit();
+        $('body').on('click', '#applyDiscount', function () {
+            var lstCourseHasChoose = [];
+            table.$('input[type="checkbox"]:checked').each(function () {
+                // If checkbox doesn't exist in DOM
+                var self = $(this);
+                console.log(self.closest("tr")[0]);
+                console.log(self.closest("tr").find('.idcourse').val());
+                var td = self.closest("tr").find('.idcourse').val();
+                lstCourseHasChoose.push(td);
+            });
+
+            $.ajax({
+                url: "/Discount/ApplyDiscountCourse",
+                type: "POST",
+                data: {
+                    lstCourseHasChoose: lstCourseHasChoose,
+                    idDiscount: id
+                },
+                success: function (res) {
+                    if (res.status) {
+                        common.showNotify("Thêm thành công", "success");
+                        loadData.innit();
+                    } else {
+                        common.showNotify("Thêm thất bại", "error");
+                        loadData.innit();
+                    }
+                }
+            });
+        })
+    });
+</script>

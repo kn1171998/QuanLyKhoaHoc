@@ -284,6 +284,34 @@
     <script src="~/js/main.js"></script>*@
     <script src="~/lib/mustache/mustache.js"></script>
     <script src="~/lib/main/main.js"></script>
+
+
+    <!-- #region NavigationCategory -->
+    <script type="text/x-jquery-tmpl" id="dropdownCategory">
+        <li class="{{Child}}">
+            <a class="dropdown-item {{test}} dropright">{{Name}}</a>
+            <ul class="dropdown-menu" id="dropdown-menu{{ID}}"></ul>
+        </li>
+    </script>
+    <script type="text/x-jquery-tmpl" id="dropdownSubCategory">
+        <li><a class="dropdown-item" tabindex="-1" href="/CourseCategory/CategoryToCourse/{{ID}}">{{Name}}</a></li>
+    </script>
+    <!-- #endregion -->
+    <script>
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("body").on("click", ".dropdown-submenu a.test", function (e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+    </script>
+    <script src="~/js/controllers/homeController.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

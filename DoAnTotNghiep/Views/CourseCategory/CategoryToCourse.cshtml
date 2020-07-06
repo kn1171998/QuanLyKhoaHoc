@@ -17,10 +17,7 @@
                 <div class="box-category   text-dark mb-3">
                     <ul class=" w-100" id="idnamecourse"></ul>
                 </div>
-                <input type="hidden" id="idcategoryhidden" value="@Model.CategoryId"/>
-
-                @*<form id="filterPrice" method="get" asp-action="Sort" asp-route-id="@Model.CategoryId">*@
-               
+                <input type="hidden" id="idcategoryhidden" value="@Model.CategoryId" />
                 <div class="box-category   text-dark p-3 mb-3">
                     <label for="exampleFormControlSelect1">Phí khóa học</label>
                     <div class="form-check">
@@ -47,51 +44,50 @@
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Sắp xếp giá tiền</label>
                         <select name="sortPrice" class="form-control" id="sortPrice">
-                            <option value="1">Không chọn</option>
-                            <option value="1">Tăng dần</option>
-                            <option value="0">Giảm dần</option>
+                            <option value="2">Không chọn</option>
+                            <option value="1">Giảm dần</option>
+                            <option value="0">Tăng dần</option>
                         </select>
                     </div>
                 </div>
-                
                 <button class="btn btn-outline-danger w-100" id="idbtnSearch"> Tìm kiếm</button>
-                @*</form>*@
             </div>
             <div class="col-9">
                 <div class="tab box-category mb-3">
                     <button class="tablinks myTadBtn active" onclick="openCity(event, 'All')">Tất cả</button>
                     <button class="tablinks myTadBtn" onclick="openCity(event, 'Business')">Mới nhất</button>
-                 
+
                 </div>
                 <div class="">
                     <div id="All" class="tabcontent  active">
                         <div id="addcate" class="row  owl-theme">
-                        </div>
-                    </div>
-                    <div id="Business" class="tabcontent  my-tabcontent ">
-                        @foreach (var item in Model.lstCourse)
-                        {
-                            <div class="col-md-4 col-sm-12  sale_content">
-                                <div class="card mycard">
-                                    <img class="card-img-top" src="@item.Image" alt="Card image cap">
-                                    <div class="card-body">
-                                        <h5 class="card-title">@item.Name</h5>
-                                        <a href="#" class="name-author"><small>@item.FullName</small> </a>
-                                        <div class="star-courses cleafix text-left">
-                                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                        </div>
-                                        <div class="price">
-                                            <span class="fake"><small> <del>  @item.PromotionPrice  </del></small></span>
-                                            <span class="real"> @item.Price </span>
+                            @foreach (var item in Model.lstCourse)
+                            {
+                                <div class="col-md-4 col-sm-12  sale_content">
+                                    <div class="card mycard">
+                                        <img class="card-img-top" src="@item.Image" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@item.Name</h5>
+                                            <a href="#" class="name-author"><small>@item.FullName</small> </a>
+                                            <div class="star-courses cleafix text-left">
+                                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                            </div>
+                                            <div class="price">
+                                                <span class="fake"><small> <del>  @item.PromotionPrice  </del></small></span>
+                                                <span class="real"> @item.Price </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        }
+                            }
+
+                        </div>
+                    </div>
+                    <div id="Business" class="tabcontent  my-tabcontent ">
 
                     </div>
                 </div>
@@ -99,19 +95,7 @@
         </div>
     </div>
 </section>
-@section Scripts{
-    <script type="text/x-jquery-tmpl" id="dropdownSubCategory">
-        <li><a class="dropdown-item" tabindex="-1" href="/CourseCategory/CategoryToCourse/{{ID}}">{{nameCourse}}</a></li>
-    </script>
-    <script>
-        $('body').on('change', '#sortPrice', function () {
-            $('#filterPrice').submit();
-        });
-        $('body').on('change', '#radiofree', function () {
-            $('#filterPrice').submit();
-        });
-    </script>
-
+@section Scripts{   
     <script id="course-item" type="x-tmpl-mustache">
         <div class="col-md-4 col-sm-12  sale_content">
             <div class="card mycard">

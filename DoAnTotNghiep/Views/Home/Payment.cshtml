@@ -23,7 +23,7 @@
                         <input class="form-check-input radio-input" type="radio" asp-for="PaymentMethod" value="momo" checked>
                         <label class="form-check-label radio-label" for="paymentmethod">
                             <span class="radio-button"></span>
-                            Thanh toán ví Momo 
+                            Thanh toán ví Momo
                         </label>
                     </div>
                     <div class="form-group w-100 mt-3">
@@ -59,7 +59,7 @@
                             }
                         }
                     </div>
-                    <input type="hidden"value="@listcourse1" id="lstcourse" />
+                    <input type="hidden" value="@listcourse1" id="lstcourse" />
                 </div>
             </div>
         </div>
@@ -73,16 +73,18 @@
                     </p>
                     <p class="Coupon-discounts clearfix">
                         <span class="Origina-text ">Mã giảm giá:</span>
-                        <input asp-for="Discount" class="form-control" />
+                        <input asp-for="Discount" class="form-group" />
+                        <button id="checkDiscount" class="btn btn-primary form-group">Kiểm tra</button>
+                        <span id="errorDiscount" class="text-danger"></span>
                     </p>
                     <p class="Coupon-discounts clearfix">
-                        <span class="Origina-text ">Giảm giá:</span>
-                        <span class="origian-number">@Model.DiscountMoney</span>
+                        <span class="Origina-text">Giảm giá:</span>
+                        <span class="origian-number" id="discountMoney">@Model.DiscountMoney</span>
                     </p>
                     <hr>
                     <p class="total">
                         <span class="Origina-text total">Tổng:</span>
-                        <span class="origian-number">@Model.SumMoney</span>
+                        <span class="origian-number" id="sumMoney">@Model.SumMoney</span>
                     </p>
                 </div>
             </div>
@@ -91,13 +93,13 @@
 </section>
 @section Scripts{
     <script>
-     
+
         $('body').on('click', '#completepayment', function () {
             var listCourse = $('#lstcourse').val();
-            var token  = $('input[name=__RequestVerificationToken]').val();
+            var token = $('input[name=__RequestVerificationToken]').val();
             $.ajax({
                 url: "/Home/PaymentComplete",
-                type: 'POST',      
+                type: 'POST',
                 data: {
                     listIdCourse: listCourse,
                     __RequestVerificationToken: token
@@ -108,6 +110,29 @@
                     }
                     else {
                         common.showNotify("Thanh toán thất bại", "error");
+                    }
+                }
+            });
+        });
+        $('body').on('click', '#checkDiscount', function () {
+            var listCourse = $('#lstcourse').val();
+            var codeDiscount = $('#Discount').val();
+            var token = $('input[name=__RequestVerificationToken]').val();
+            $.ajax({
+                url: "/Home/PaymentComplete",
+                type: 'POST',
+                data: {
+                    listCourse: listCourse,
+                    codeDiscount: codeDiscount,
+                    __RequestVerificationToken: token
+                },
+                success: function (res) {
+                    if (res.status) {
+                        $('#errorDiscount').text('');
+
+                    }
+                    else {
+                        $('#errorDiscount').text(res.message);
                     }
                 }
             });

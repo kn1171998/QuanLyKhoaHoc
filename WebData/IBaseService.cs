@@ -12,7 +12,7 @@ namespace PayCompute.Service
         T GetById(int id);
         T GetBySingle(string code);
         //IEnumerable<T> GetPaging(Expression<Func<T, bool>> filter, out int total, int page, int pageSize);
-        IEnumerable<T> GetPaging<TProperty>(Expression<Func<T, bool>> predicate, out int total, int page, int pageSize, Expression<Func<T, TProperty>> orderbyDes = null);
+        IEnumerable<T> GetPaging<TProperty>(Expression<Func<T, bool>> predicate, out int total, int page, int pageSize, Expression<Func<T, TProperty>> orderbyDes = null, string[] includes = null);
         IEnumerable<T> GetPaging(out int total, int page, int pageSize);
         int CountCondition(Expression<Func<T, bool>> where);
         IEnumerable<T> GetCondition(Expression<Func<T, bool>> predicate);

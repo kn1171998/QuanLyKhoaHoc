@@ -197,7 +197,7 @@
     <div class="container">
         <div class="row title titleToday ">
             <div class="col-12 p-0">
-                <h3 class="h3_title">Khuyễn mãi</h3>
+                <h3 class="h3_title">Khuyến mãi</h3>
             </div>
             <div class="col-12 p-0">
                 <p class="text-center">  Học tập giúp mỗi chúng ta rèn luyện bản thân hoàn thiện hơn. </p>
@@ -446,7 +446,8 @@
     <script type="text/x-jquery-tmpl" id="dropdownSubCategory">
         <li><a class="dropdown-item" tabindex="-1" href="/CourseCategory/CategoryToCourse/{{ID}}">{{Name}}</a></li>
     </script>
-    <script>$('.owl-carousel').owlCarousel({
+    <script>
+        $('.owl-carousel').owlCarousel({
             loop: true,
             margin: 10,
             autoplay: true,
@@ -474,34 +475,13 @@
                 }
             }
         })</script>
-    <script>$('#myModal').on('shown.bs.modal', function () {
+    <script>
+        $('#myModal').on('shown.bs.modal', function () {
             $('#myInput').trigger('focus')
-        })</script>
-    <script>function checkLoginState() {
-            FB.getLoginStatus(function (response) {
-                //      statusChangeCallback(response);
-                if (response.status === 'connected') {
-                    console.log("token: " + response.authResponse.accessToken);
-                    console.log("authResponse: " + response.authResponse);
-                    console.log("response: " + response);
-                    var tokenFB = response.authResponse.accessToken;
-                    var form = $('#Login');
-                    var requestVerificationToken = $('input[name="__RequestVerificationToken"]', form).val();
-                    $.ajax({
-                        url: "Home/FacebookLogin",
-                        type: "POST",
-                        data: {
-                            Token: tokenFB,
-                            __RequestVerificationToken: requestVerificationToken
-                        },
-                        success: function () {
-
-                        }
-                    })
-                }
-            });
-        }</script>
-    <script>$(document).ready(function () {
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
             $("body").on("click", ".dropdown-submenu a.test", function (e) {
                 $(this).next('ul').toggle();
                 e.stopPropagation();
@@ -538,7 +518,8 @@
     </script>
     <!-- #endregion -->
     <script src="~/js/controllers/homeController.js"></script>
-    <script>$('body').on('click', '.myTadBtn', function (e) {
+    <script>
+        $('body').on('click', '.myTadBtn', function (e) {
             var self = $(this);
             var ID = self.val();
             $.ajax({
@@ -547,6 +528,7 @@
                 data: {
                     ID: ID
                 },
+                async: true,
                 dataType: 'json',
                 success: function (res) {
                     var template = $('#topCourse').html();
@@ -556,8 +538,8 @@
                     $(namecatenew).html('');
                     if (res.status) {
                         var html = '';
-                        $.each(data, function (i, item) {
-                            html = Mustache.render(template, {
+                        $.each(data, async function (i, item) {
+                            html = await Mustache.render(template, {
                                 ID: item.id,
                                 UserId: item.userId,
                                 UserName: item.fullName,
@@ -575,5 +557,6 @@
                 }
             });
 
-        });</script>
+        });
+    </script>
 }

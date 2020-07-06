@@ -146,7 +146,7 @@ namespace DoAnTotNghiep.Controllers
         }
 
         #endregion ModelFacebook
-
+        #region Login
         [HttpPost]
 
         [ValidateAntiForgeryToken]
@@ -154,11 +154,11 @@ namespace DoAnTotNghiep.Controllers
         {
             if (string.IsNullOrEmpty(Token))
             {
-                return View();
+                return Json(new { status = false });
             }
             var httpClient = new HttpClient { BaseAddress = new Uri("https://graph.facebook.com/v2.9/") };
             var response = await httpClient.GetAsync($"me?access_token={Token}&fields=id,name,email,first_name,last_name,age_range,birthday,gender,locale,picture");
-            if (!response.IsSuccessStatusCode) return BadRequest();
+            if (!response.IsSuccessStatusCode) return Json(new { status = false });
             var result = await response.Content.ReadAsStringAsync();
             var facebookAccount = JsonConvert.DeserializeObject<FacebookAccount>(result);
             var facebookUser = _userService.GetCondition(m => m.FacebookId.ToString() == facebookAccount.id).FirstOrDefault();
@@ -185,15 +185,8 @@ namespace DoAnTotNghiep.Controllers
                                                                 new Claim(ClaimTypes.Role, user.TypeUser)
                                                             }, CookieAuthenticationDefaults.AuthenticationScheme);
                         var principal = new ClaimsPrincipal(identity);
-
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-                        //string cookie = GetCookie(getIdUs.Id.ToString());
-                        //if (string.IsNullOrEmpty(cookie))
-                        //{
-                        //    SetCookie("ID", getIdUs.Id.ToString(), DefineCommon.ExpireCookie);
-                        //    SetCookie("TypeUser", getIdUs.TypeUser.ToString(), DefineCommon.ExpireCookie);
-                        //}
-                        return RedirectToAction("Index");
+                        return Json(new { status = true });
                     }
                 }
                 catch (Exception)
@@ -212,10 +205,44 @@ namespace DoAnTotNghiep.Controllers
                 var principal = new ClaimsPrincipal(identity);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-                return RedirectToAction("Index");
+                return Json(new { status = true });
             }
-            return View();
+            return Json(new { status = false });
         }
+        [HttpPost]
+        public async Task<IActionResult> Login(string email, string password)
+        {
+            var user = _userService.GetCondition(m => m.Email == email && m.Password == password).FirstOrDefault();
+            if (user != null)
+            {
+                if (user.TypeUser == TypeUser.User)
+                {
+                    var identity = new ClaimsIdentity(new[] {
+                                                                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                                                                new Claim(ClaimTypes.Name, user.FullName),
+                                                                new Claim(ClaimTypes.Email, user.Email),
+                                                                new Claim(ClaimTypes.Role, user.TypeUser)
+                                                            }, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                    return Json(new { status = true, message = "Đăng nhập thành công", redirect = "/Home/Index" });
+                }
+                else if (user.TypeUser == TypeUser.Teacher)
+                {
+                    return Json(new { status = true, message = "Đăng nhập thành công", redirect = "/Dashboard/Index" });
+                }
+                else
+                {
+                    return Json(new { status = true, message = "Đăng nhập thành công", redirect = "/Dashboard/Index" });
+                }
+            }
+            else
+            {
+                return Json(new { status = false, message = "Sai tên tài khoản hoặc mật khẩu" });
+            }
+        }
+        #endregion
+
 
         public JsonResult CheckUserEmail(string email)
         {
@@ -648,5 +675,50 @@ namespace DoAnTotNghiep.Controllers
             }
             return Json(new { status = false, loca = "" });
         }
+        #region Discount
+        //public long ComputePaymentDiscount(string listIdCourse, string codeDiscount, IEnumerable<Discount> listDiscountCourse)
+        //{
+        //    var ls = listIdCourse.Split(';');
+        //    var joinDiscountCourse = from l in listDiscountCourse
+        //                             join dc in _courseService.GetContext().DiscountCourse
+        //                             on l.Id equals 
+        //    foreach (var item in ls)
+        //    {
+        //        listDiscountCourse
+        //    }
+        //    return ;
+        //}
+        public IEnumerable<Discount> listDiscountCourse(string codeDiscount)
+        {
+            var context = _courseService.GetContext();
+            var currentCodeDiscount = from c in context.Courses
+                                      join dc in context.DiscountCourse
+                                      on c.Id equals dc.Idcourse
+                                      join d in context.Discount
+                                      on dc.Iddiscount equals d.Id
+                                      where d.CodeDiscount == codeDiscount
+                                      select d;
+            return currentCodeDiscount;
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CheckDiscount(string listCourse, string codeDiscount)
+        {
+            var currentCodeDiscount = listDiscountCourse(codeDiscount);
+            var checkExist = currentCodeDiscount.Count();
+            if (checkExist == 0)
+            {
+                return Json(new { status = false, message = "Mã giảm giá không tồn tại hoặc không áp dụng cho khoá học hiện tại!" });
+            }
+            var nowDate = DateTime.Now;
+            var checkExpried = currentCodeDiscount.Where(m => nowDate >= m.FromDate && nowDate <= m.ToDate).Count();
+            if (checkExpried > 0)
+            {
+                return Json(new { status = false, message = "Mã giảm giá đã hết hạn!" });
+            }
+
+            return Json(new { status = true, message = "", discountmoney =""});
+        }
+        #endregion
     }
 }

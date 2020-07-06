@@ -9,10 +9,8 @@ var homeController = {
     },
     registerEvent: function () {
         $('body').on('click', '#btn-search', function () {
-      
             var search = $('#search').val();
-         
-            homeController.Search(0, 2, 2, search);
+            homeController.Search(search);
         });
     },
     loadData: function () {
@@ -81,7 +79,7 @@ var homeController = {
                                 TopCateID: "category" + item.id,
                                 Name: item.name
                             });
-                            $(categoryDivTop).insertAfter('#All');                           
+                            $(categoryDivTop).insertAfter('#All');
                         }
                     });
 
@@ -89,11 +87,8 @@ var homeController = {
             }
         });
     },
-    Search: function (idcategoryhidden, radiofree, sortPrice, search) {
+    Search: function (search) {
         window.location.href = "/CourseCategory/search_home?search=" + search;
-        
     }
-
-
 }
 

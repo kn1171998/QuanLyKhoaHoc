@@ -21,13 +21,13 @@ namespace WebData.Models
         public virtual DbSet<Courses> Courses { get; set; }
         public virtual DbSet<Chapter> Chapter { get; set; }
         public virtual DbSet<Discount> Discount { get; set; }
+        public virtual DbSet<DiscountCourse> DiscountCourse { get; set; }
         public virtual DbSet<LessonComments> LessonComments { get; set; }
         public virtual DbSet<MasterList> MasterList { get; set; }
         public virtual DbSet<OrderDetails> OrderDetails { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
-        //public virtual DbSet<Sysdiagrams> Sysdiagrams { get; set; }
+        public virtual DbSet<Sysdiagrams> Sysdiagrams { get; set; }
         public virtual DbSet<Users> Users { get; set; }
-        public virtual DbSet<WareHouse> WareHouse { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -137,18 +137,32 @@ namespace WebData.Models
 
                 entity.Property(e => e.CodeDiscount).HasMaxLength(50);
 
-                entity.Property(e => e.DiscountAmount).HasColumnType("decimal(18, 0)");
-
-                entity.Property(e => e.DiscountPercent).HasColumnType("decimal(18, 0)");
-
                 entity.Property(e => e.FromDate).HasColumnType("datetime");
 
-                entity.Property(e => e.ToDate).HasColumnType("datetime");
+                entity.Property(e => e.IdcategoryAll).HasColumnName("IDCategoryAll");
 
-                entity.HasOne(d => d.Coures)
-                    .WithMany(p => p.Discount)
-                    .HasForeignKey(d => d.CouresId)
-                    .HasConstraintName("FK_Discount_Courses");
+                entity.Property(e => e.ToDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<DiscountCourse>(entity =>
+            {
+                entity.HasKey(e => new { e.Iddiscount, e.Idcourse });
+
+                entity.Property(e => e.Iddiscount).HasColumnName("IDDiscount");
+
+                entity.Property(e => e.Idcourse).HasColumnName("IDCourse");
+
+                entity.HasOne(d => d.IdcourseNavigation)
+                    .WithMany(p => p.DiscountCourse)
+                    .HasForeignKey(d => d.Idcourse)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DiscountCourse_Courses");
+
+                entity.HasOne(d => d.IddiscountNavigation)
+                    .WithMany(p => p.DiscountCourse)
+                    .HasForeignKey(d => d.Iddiscount)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DiscountCourse_Discount");
             });
 
             modelBuilder.Entity<LessonComments>(entity =>
@@ -256,20 +270,20 @@ namespace WebData.Models
                     .HasConstraintName("FK_Orders_Users");
             });
 
-            //modelBuilder.Entity<Sysdiagrams>(entity =>
-            //{
-            //    entity.HasKey(e => e.DiagramId);
+            modelBuilder.Entity<Sysdiagrams>(entity =>
+            {
+                entity.HasKey(e => e.DiagramId);
 
-            //    entity.ToTable("sysdiagrams");
+                entity.ToTable("sysdiagrams");
 
-            //    entity.Property(e => e.DiagramId).HasColumnName("diagram_id");
+                entity.Property(e => e.DiagramId).HasColumnName("diagram_id");
 
-            //    entity.Property(e => e.Definition).HasColumnName("definition");
+                entity.Property(e => e.Definition).HasColumnName("definition");
 
-            //    entity.Property(e => e.PrincipalId).HasColumnName("principal_id");
+                entity.Property(e => e.PrincipalId).HasColumnName("principal_id");
 
-            //    entity.Property(e => e.Version).HasColumnName("version");
-            //});
+                entity.Property(e => e.Version).HasColumnName("version");
+            });
 
             modelBuilder.Entity<Users>(entity =>
             {
@@ -301,17 +315,6 @@ namespace WebData.Models
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<WareHouse>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.NameFile).HasMaxLength(2000);
-
-                entity.Property(e => e.NameFolder).HasMaxLength(2000);
-
-                entity.Property(e => e.NamePath).HasMaxLength(2000);
             });
         }
     }

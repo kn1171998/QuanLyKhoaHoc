@@ -13,9 +13,7 @@ var courselessonController = {
     },
     initTreeData: function () {
         $("#divTreeLesson").fancytree({
-            icons: false,
-            clickFolderMode: 3,
-            autoActivate: true
+            icons: false
         });
     },
     loadData: function () {
@@ -65,43 +63,6 @@ var courselessonController = {
             }
         });
     },
-    uploadWareHouse: function () {
-        var _self = $(this);
-        var _selfForm = new FormData();
-        if (document.getElementById("VideoPath").files != null) {
-            var totalFiles = document.getElementById("VideoPath").files.length;
-            if (totalFiles <= 0) {
-                alert('?nh chua du?c ch?n. Vui lòng ch?n ?nh tru?c khi luu.');
-                return false;
-            }
-        }
-        _selfForm.append("VideoPath", $('#VideoPath')[0].files[0]);
-        $.ajax({
-            url: "/CourseLesson/UploadVideo",
-            type: 'POST',
-            data: _selfForm,
-            contentType: false,
-            processData: false,
-            success: function (res) {
-                if (res.result) {
-                    bootbox.alert("Thành công");
-                    var nameDivVideo = '#video' + $('#btnAddVideo').val();
-                    var nameInputVideo = 'input:hidden[name=video' + $('#btnAddVideo').val() + ']';
-                    var span = $(nameDivVideo).find('#displayVideo');
-                    span.text(res.namevideo);
-                    $(nameInputVideo).val(res.pathvideo);
-                    console.log()
-                } else {
-                    bootbox.alert("Th?t b?i");
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log('AJAX call failed.');
-                console.log(textStatus + ': ' + errorThrown);
-            }
-        });
-        return false;
-    },
     deleteData: function () {
         var _self = $(this);
         var _ID = $(this).attr('data-id');
@@ -145,12 +106,12 @@ var courselessonController = {
         var _ID = $('#frmCreateCourseLesson > input[name=Id]').val();
         var _self = $(this);
         var _selfForm = new FormData();
+        var validDocument = true;
         if (document.getElementById("Video").files != null) {
             var totalFiles = document.getElementById("Video").files.length;
-            if (totalFiles <= 0 && _ID == 0) {
-                alert('Video chưa được chọn. Vui lòng chọn video khi lưu.');
-                return false;
-            }
+            if (totalFiles <= 0 && _ID == 0) {              
+                validDocument = false;             
+            }            
             for (var i = 0; i < totalFiles; i++) {
                 var file = document.getElementById("Video").files[i];
                 _selfForm.append("Video", file);
@@ -158,12 +119,18 @@ var courselessonController = {
         }
         if (document.getElementById("Slide").files != null) {
             var totalFiles = document.getElementById("Slide").files.length;
+            if (totalFiles <= 0 && _ID == 0) {
+                validDocument = false;
+            }      
             for (var i = 0; i < totalFiles; i++) {
                 var file = document.getElementById("Slide").files[i];
                 _selfForm.append("Slide", file);
             }
         }
-
+        if (!validDocument) {
+            alert('Vui lòng chọn tài liệu khi lưu.');
+            return false;
+        }
         var arr = _self.serializeArray();
         $.each(arr, function (i, field) {
             _selfForm.append(field.name, field.value);
