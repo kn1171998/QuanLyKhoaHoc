@@ -550,8 +550,8 @@
                             });
                             var namecate = '#category' + item.parentId + ' #' + item.parentId;
                             var namecate1 = 'category' + item.parentId;
-                            $(namecate).append(html);
-                            openCity(e, namecate1);
+                            await $(namecate).append(html);
+                            await openCity(e, namecate1);
                         });
                     }
                 }
