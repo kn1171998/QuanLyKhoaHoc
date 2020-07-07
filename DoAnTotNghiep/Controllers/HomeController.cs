@@ -681,24 +681,24 @@ namespace DoAnTotNghiep.Controllers
             return Json(new { status = false, loca = "" });
         }
         #region Discount
-        public long ComputePaymentDiscount(string listIdCourse, string codeDiscount, IEnumerable<Discount> listDiscount)
-        {
-            var context = _courseService.GetContext();
-            var ls = listIdCourse.Split(';');
-            //long totalDiscountMoney =
-            foreach (var item in ls)
-            {
-                var a = from ld in listDiscount
-                        join dc in context.DiscountCourse
-                        on ld.Id equals dc.Iddiscount
-                        join c in context.Courses
-                        on dc.Idcourse equals c.Id
-                        where item == c.Id.ToString()
-                        select ld;
+        //public long ComputePaymentDiscount(string listIdCourse, string codeDiscount, IEnumerable<Discount> listDiscount)
+        //{
+        //    var context = _courseService.GetContext();
+        //    var ls = listIdCourse.Split(';');
+        //    //long totalDiscountMoney =
+        //    foreach (var item in ls)
+        //    {
+        //        var a = from ld in listDiscount
+        //                join dc in context.DiscountCourse
+        //                on ld.Id equals dc.Iddiscount
+        //                join c in context.Courses
+        //                on dc.Idcourse equals c.Id
+        //                where item == c.Id.ToString()
+        //                select ld;
                 
-            }
-            return;
-        }
+        //    }
+        //    return;
+        //}
         public IEnumerable<Discount> listDiscountCourse(string codeDiscount)
         {
             var context = _courseService.GetContext();
@@ -724,7 +724,7 @@ namespace DoAnTotNghiep.Controllers
                 return Json(new { status = false, message = "Mã giảm giá đã hết hạn!" });
             }
 
-            return Json(new { status = true, message = "Mã giảm giá đã được áp dụng", discountmoney = currentCodeDiscount. });
+            return Json(new { status = true, message = "Mã giảm giá đã được áp dụng", discountmoney = ""});
         }
         #endregion
     }
