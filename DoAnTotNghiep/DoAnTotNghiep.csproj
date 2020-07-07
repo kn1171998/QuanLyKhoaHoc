@@ -28,7 +28,7 @@
     <Content Update="Views\Chapter\Create.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Report\ReportRevenue.cshtml">
+    <Content Update="Views\Dashboard\ReportRevenue.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Dashboard\Index.cshtml">
@@ -91,6 +91,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Report\" />
     <Folder Include="wwwroot\lib\ckeditor\ckfinder\bin\Debug\" />
     <Folder Include="wwwroot\lib\ckeditor\ckfinder\bin\Release\" />
     <Folder Include="wwwroot\lib\ckeditor\ckfinder\plugins\fileeditor\bin\Debug\" />

@@ -81,7 +81,7 @@
             },
             success: function (res) {
                 if (res.status) {
-                    window.location.href = res.redirect;
+                    location.replace(res.redirect);
                     common.showNotify(res.message, "success");
                 } else {
                     $('#errorLogin').text(res.message);

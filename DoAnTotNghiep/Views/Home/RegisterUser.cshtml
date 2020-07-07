@@ -5,11 +5,15 @@
         <form class="form-content" method="post" id="RegisterUser" name="RegisterUser" asp-action="RegisterUser">
             @*<div asp-validation-summary="ModelOnly">*@
             <div class="form-group">
-                <input asp-for="Email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+                <input asp-for="FullName" class="form-control" aria-describedby="emailHelp" placeholder="Nhập họ và tên">
+                <span asp-validation-for="FullName"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Email" class="form-control" aria-describedby="emailHelp" placeholder="Nhập email">
                 <span asp-validation-for="Email"></span>
             </div>
             <div class="form-group">
-                <input type="password" asp-for="Password" class="form-control" placeholder="Mật khẩu">
+                <input type="password" asp-for="Password" class="form-control" placeholder="Nhập mật khẩu">
                 <span asp-validation-for="Password"></span>
             </div>
             <div class="form-group">
@@ -28,6 +32,10 @@
 <script>
     $('#RegisterUser').validate({
         rules: {
+            FullName: {
+                required: true,
+                maxlength: 70
+            },
             Email: {
                 remote: {
                     url: "/Home/CheckUserEmail",
@@ -50,6 +58,10 @@
             }
         },
         messages: {
+            FullName: {
+                required: "Vui lòng không để trống",
+                maxlength: "Không được dài quá 70 kí tự",
+            },
             Email: {
                 remote: "Email đã tồn tại trong hệ thống!",
                 required: "Vui lòng không để trống",

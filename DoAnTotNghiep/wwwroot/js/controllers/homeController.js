@@ -19,7 +19,7 @@ var homeController = {
             url: "/Home/ListCategory",
             type: 'GET',
             dataType: 'json',
-            success: function (res) {
+            success: async function (res) {
                 var data = res;
                 var parentCategory = data.parentCategory;
                 var childCategory = data.listChild;
@@ -27,12 +27,12 @@ var homeController = {
                 var templateSub = $('#dropdownSubCategory').html();
                 var templateButtonTopCategory = $('#buttonTopCourse').html();
                 var templateDivTopCategory = $('#divTopCourse').html();
-                Mustache.parse(template);
-                Mustache.parse(templateSub);
-                Mustache.parse(templateButtonTopCategory);
-                Mustache.parse(templateDivTopCategory);
+                await Mustache.parse(template);
+                await Mustache.parse(templateSub);
+                await Mustache.parse(templateButtonTopCategory);
+                await Mustache.parse(templateDivTopCategory);
                 if (res.status) {
-                    $.each(parentCategory, function (i, item) {
+                    $.each(parentCategory, async function (i, item) {
                         var html = '';
                         var lengthChild = childCategory[item.id].length;
                         if (lengthChild > 0) {
@@ -51,35 +51,35 @@ var homeController = {
                                 test: ""
                             });
                         }
-                        $('#menuCategory').append(html);
+                        await $('#menuCategory').append(html);
                         var listChild = childCategory[item.id];
                         if (lengthChild > 0) {
-                            $.each(listChild, function (i, item1) {
+                            await $.each(listChild, function (i, item1) {
                                 var htmlChild = Mustache.render(templateSub, {
                                     ID: item1.id,
                                     Name: item1.name
                                 });
                                 var nameParent = '#dropdown-menu' + item.id;
-                                $(nameParent).append(htmlChild);
+                                await $(nameParent).append(htmlChild);
                             });
                         }
                     });
                     var categoryTop = '<button class="tablinks myTadBtn active" onclick="openCity(event, \'All\')">All</button>';
-                    $('#allCourse').append(categoryTop);
-                    $.each(parentCategory, function (i, item) {
+                    await $('#allCourse').append(categoryTop);
+                    $.each(parentCategory, async function (i, item) {
                         if (i < 5) {
                             categoryTop = Mustache.render(templateButtonTopCategory, {
                                 ID: item.id,
                                 TopCateID: "category" + item.id,
                                 Name: item.name
                             });
-                            $('#allCourse').append(categoryTop);
+                            await $('#allCourse').append(categoryTop);
                             categoryDivTop = Mustache.render(templateDivTopCategory, {
                                 ID: item.id,
                                 TopCateID: "category" + item.id,
                                 Name: item.name
                             });
-                            $(categoryDivTop).insertAfter('#All');
+                            await $(categoryDivTop).insertAfter('#All');
                         }
                     });
 

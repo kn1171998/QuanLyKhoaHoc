@@ -20,41 +20,42 @@
         </div>
     </div>
 </div>
-<script src="~/lib/bootstrap-daterangepicker/moment.min.js"></script>
-<script src="~/lib/bootstrap-daterangepicker/daterangepicker.min.js"></script>
-
-<script type="text/javascript">
-    var startDate;
-    var endDate;
-    $(function () {
-
-        var start = moment().subtract(29, 'days');
-        var end = moment();
-
-        function cb(start, end) {
-            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-            startDate = start;
-            endDate = end;
-        }
-
-        $('#reportrange').daterangepicker({
-            startDate: start,
-            endDate: end,
-            ranges: {
-                'Hôm nay': [moment(), moment()],
-                'Hôm qua': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                '7 Ngày trước': [moment().subtract(6, 'days'), moment()],
-                '30 Ngày trước': [moment().subtract(29, 'days'), moment()],
-                'Tháng này': [moment().startOf('month'), moment().endOf('month')],
-                'Tháng trước': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            }
-        }, cb);
-
-        cb(start, end);
-
-    });
-</script>
 @section Scripts{
+    <script src="~/lib/bootstrap-daterangepicker/moment.min.js"></script>
+    <script src="~/lib/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+
+    <script>
+        var startDate = moment().subtract(29, 'days');
+        var endDate = moment();
+        $(function () {
+
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+            function cb(start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                startDate = start;
+                endDate = end;
+            }
+
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Hôm nay': [moment(), moment()],
+                    'Hôm qua': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    '7 Ngày trước': [moment().subtract(6, 'days'), moment()],
+                    '30 Ngày trước': [moment().subtract(29, 'days'), moment()],
+                    'Tháng này': [moment().startOf('month'), moment().endOf('month')],
+                    'Tháng trước': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
+
+            cb(start, end);
+
+        });
+    </script>
+
     <script id="resultReport" type="x-tmpl-mustache">
         <div class="revenue-detail">
             @*<div class="revenue-detail__item">
@@ -85,7 +86,7 @@
                 </div>
                 <div class="content-revenue">
                     <div class="content-revenue__text">
-                        Tổng Khách hàng
+                        Tổng số Khách hàng
                     </div>
                     <div class="content-revenue__number">{{totalCustomer}}</div>
                 </div>
@@ -96,7 +97,7 @@
                 </div>
                 <div class="content-revenue">
                     <div class="content-revenue__text">
-                        Tổng khóa học
+                        Tổng số khóa học được mua
                     </div>
                     <div class="content-revenue__number">{{totalCourse}}</div>
                 </div>
@@ -115,23 +116,29 @@
         </div>
     </script>
     <script>
-        $('body').on('change', '#methodReport', function () {
+        $('body').on('DOMSubtreeModified', '#reportrange span', function () {
             if (startDate != "" || endDate != "") {
                 $.ajax({
                     url: "/Dashboard/Report",
                     type: "POST",
                     dataType: "JSON",
                     data: {
-                        startdate: startDate,
-                        enddate: endDate
+                        startdate: startDate.toISOString(),
+                        enddate: endDate.toISOString()
                     },
                     success: function (res) {
                         var template = $('#resultReport').html();
                         var html = '';
+                        var formatter = new Intl.NumberFormat('en', {
+                            notation: 'standard',
+                            //style: 'standard',
+                            //currency: 'VND',
+                            //maximumFractionDigits:0
+                        });
                         html = Mustache.render(template, {
-                            totalRevenue: res.revenue,
-                            totalCustomer: res.totalcustomer,
-                            totalCourse: res.totalcourse
+                            totalRevenue: formatter.format(res.revenue),
+                            totalCustomer: formatter.format(res.totalcustomer),
+                            totalCourse: formatter.format(res.totalcourse)
                         });
                         $('#report').html(html);
                     }

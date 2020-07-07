@@ -113,6 +113,14 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
+                            @if (User.IsInRole(TypeUser.Admin) || User.IsInRole(TypeUser.Teacher))
+                            {
+                                <li>
+                                    <a class="nav-link" href="/Dashboard/Index">
+                                        Trang quản trị
+                                    </a>
+                                </li>
+                            }
                             <li class="nav-item mr-3">
                                 <a class="nav-link" href="/Home/Logout">
                                     Đăng xuất

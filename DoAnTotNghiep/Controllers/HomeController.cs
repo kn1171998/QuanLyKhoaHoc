@@ -172,10 +172,11 @@ namespace DoAnTotNghiep.Controllers
                         TypeUser = TypeUser.User,
                         FullName = facebookAccount.name,
                         Email = facebookAccount.email,
-                        FacebookId = idfb
+                        FacebookId = idfb,
+                        Status = true
                     };
                     await _userService.CreateAsync(user);
-                    var getIdUs = _userService.GetCondition(m => m.FacebookId == idfb).FirstOrDefault();
+                    var getIdUs = _userService.GetCondition(m => m.FacebookId == idfb && m.Status == true).FirstOrDefault();
                     if (getIdUs != null)
                     {
                         var identity = new ClaimsIdentity(new[] {
@@ -215,16 +216,20 @@ namespace DoAnTotNghiep.Controllers
             var user = _userService.GetCondition(m => m.Email == email && m.Password == password).FirstOrDefault();
             if (user != null)
             {
-                if (user.TypeUser == TypeUser.User)
+                if (user.Status == false)
                 {
-                    var identity = new ClaimsIdentity(new[] {
+                    return Json(new { status = false, message = "Tài khoản đã bị khoá" });
+                }
+                var identity = new ClaimsIdentity(new[] {
                                                                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                                                                 new Claim(ClaimTypes.Name, user.FullName),
                                                                 new Claim(ClaimTypes.Email, user.Email),
                                                                 new Claim(ClaimTypes.Role, user.TypeUser)
                                                             }, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var principal = new ClaimsPrincipal(identity);
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                var principal = new ClaimsPrincipal(identity);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                if (user.TypeUser == TypeUser.User)
+                {
                     return Json(new { status = true, message = "Đăng nhập thành công", redirect = "/Home/Index" });
                 }
                 else if (user.TypeUser == TypeUser.Teacher)
@@ -717,7 +722,7 @@ namespace DoAnTotNghiep.Controllers
                 return Json(new { status = false, message = "Mã giảm giá đã hết hạn!" });
             }
 
-            return Json(new { status = true, message = "", discountmoney =""});
+            return Json(new { status = true, message = "", discountmoney = "" });
         }
         #endregion
     }

@@ -23,11 +23,18 @@
         <link href="~/lib/jqueryui/jquery-ui.css" rel="stylesheet" />
         <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
         <!-- Custom CSS -->
+        <link href="~/css/main.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
             body {
                 padding: 0px;
+            }
+        </style>
+        <style>
+
+            label.error {
+                color: red;
             }
         </style>
     </environment>
@@ -46,7 +53,7 @@
             </div>
             <ul class="list-unstyled components mb-5">
                 <li class="active">
-                    <a href="#"><span class="fa fa-home mr-3"></span> Home</a>
+                    <a asp-action="Index" asp-controller="Dashboard"><span class="fa fa-home mr-3"></span>Tổng quan</a>
                 </li>
                 <li>
                     <a href="#"><span class="fa fa-trophy mr-3"></span> Thông tin doanh thu</a>
@@ -65,22 +72,19 @@
                 <li>
                     <a href="#"><span class="fa fa-gift mr-3"></span>Quản lý người dùng</a>
                     <ul>
-                        <li><a asp-action="Index" asp-controller="User">Danh mục người dùng</a></li>
+                        <li><a asp-action="Index" asp-controller="UserCategory">Danh mục người dùng</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
-                </li>
-                <li>
-                    <a href="#"><span class="fa fa-support mr-3"></span> Support</a>
-                </li>
-                <li>
-                    <a href="#"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+                <li class="nav-item mr-3">
+                    <a class="nav-link" href="/Home/Logout">
+                        Đăng xuất
+                    </a>
                 </li>
             </ul>
         </nav>
         <!-- Page Content  -->
         <div id="content" class="p-4 p-md-5 pt-5">
+            <div class="row"><button class="btn btn-success" asp-action="Index" asp-controller="Home">Trở về trang học tập</button></div>
             @RenderBody()
             <hr />
             <footer>

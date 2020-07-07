@@ -28,7 +28,7 @@ namespace DoAnTotNghiep.Models
         public string TypeUser { get; set; }
         public string FullName { get; set; }
         public bool? Sex { get; set; }
-        public DateTime? Birthday { get; set; }
+        public DateTime Birthday { get; set; }
         public string Email { get; set; }
       
         public string Password { get; set; }
@@ -41,7 +41,7 @@ namespace DoAnTotNghiep.Models
         public long? GoogleId { get; set; }
         public int? ImageUrl { get; set; }
         public bool? Status { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string SearchName { get; set; }
         public UserVM()
         {

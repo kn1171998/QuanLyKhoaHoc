@@ -49,6 +49,12 @@
                                 @Html.ValidationMessageFor(m => m.CategoryId)
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div><span>Miễn phí</span></div>
+                                <input type="checkbox" asp-for="IsFree" class="text-left mb-3 form-control" asp-is-invariant="true" placeholder="Miễn phí" />
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="fileupload fileupload-new" data-provides="fileupload">

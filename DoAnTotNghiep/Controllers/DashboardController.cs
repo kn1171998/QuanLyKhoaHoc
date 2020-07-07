@@ -31,9 +31,10 @@ namespace DoAnTotNghiep.Controllers
         }
         public IActionResult ReportRevenue()
         {
-            return View();
+            DashboardVM vm = new DashboardVM();
+            return View("ReportRevenue", vm);
         }
-        [Authorize(Roles ="Admin,User")]
+        [Authorize(Roles = "Admin,Teacher")]
         public IActionResult Index()
         {
             DashboardVM dashboard = new DashboardVM();

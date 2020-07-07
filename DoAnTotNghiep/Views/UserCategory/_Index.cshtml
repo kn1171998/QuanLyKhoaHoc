@@ -4,12 +4,12 @@
             <table class="table table-bordered table-striped table-hover table-responsive">
                 <thead class="thead-light text-center">
                     <tr>
-                        <th>Tên người dùng</th>
-                        <th>Ngày sinh</th>
-                        <th>Giơi tinh</th>
-                        <th>Giơi thiệu   </th>
-                        <th>Trạng thái</th>
-                        <th><span class="fa fa-cog"></span></th>
+                        <th style="width: 25%">Tên người dùng</th>
+                        <th style="width: 10%">Ngày sinh</th>
+                        <th style="width: 10%">Giơi tinh</th>
+                        <th style="width: 30%">Giơi thiệu   </th>
+                        <th style="width: 10%">Trạng thái</th>
+                        <th style="width: 16.66%"><span class="fa fa-cog"></span></th>
                     </tr>
                 </thead>
                 <tbody id="tblCategories"></tbody>
@@ -23,11 +23,11 @@
 
 <script id="data-template" type="x-tmpl-mustache">
     <tr class="text-center">
-        <td class="col-md-2">{{FullName}}</td>
-        <td class="col-md-3">{{Birthday}}</td>
-        <td class="col-md-1">{{Sex}}</td>
-        <td class="col-md-1">{{Introduction}}</td>
-        <td class="col-md-1">{{Status}}</td>
+        <td>{{FullName}}</td>
+        <td>{{Birthday}}</td>
+        <td>{{Sex}}</td>
+        <td>{{Introduction}}</td>
+        <td>{{Status}}</td>
         <td class="text-center col-md-2">
             <a href="javascript:void(0);"
                data-href="dsoft-popup-modal"

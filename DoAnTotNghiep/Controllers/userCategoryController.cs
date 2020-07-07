@@ -40,27 +40,27 @@ namespace DoAnTotNghiep.Controllers
             if (string.IsNullOrEmpty(searchName))
             {
                 model = _iUserService.GetPaging(null, out totalRow, page, pageSize, x => x.Id).
-                 Select(m => new
+                 Select(m => new UserVM
                  {
-                     m.Id,
-                     m.FullName,
-                     m.Birthday,
-                     m.Sex,
-                     m.Introduction,
-                     m.Status
+                     Id = m.Id,
+                     FullName = m.FullName,
+                     Birthday = m.Birthday ?? DateTime.Now,
+                     Sex = m.Sex,
+                     Introduction = m.Introduction,
+                     Status= m.Status
                  }).ToList();
             }
             else
             {
                 model = _iUserService.GetPaging(m => m.FullName.Contains(searchName), out totalRow, page, pageSize, x => x.Id).
-                  Select(m => new
+                  Select(m => new UserVM
                   {
-                      m.Id,
-                      m.FullName,
-                      m.Birthday,
-                      m.Sex,
-                      m.Introduction,
-                      m.Status
+                      Id = m.Id,
+                      FullName = m.FullName,
+                      Birthday = m.Birthday ?? DateTime.Now,
+                      Sex = m.Sex,
+                      Introduction = m.Introduction,
+                      Status = m.Status
                   }).ToList();
             }
             return Json(new
@@ -140,6 +140,6 @@ namespace DoAnTotNghiep.Controllers
                 return Json(result);
             }
         }
-    
+
     }
 }

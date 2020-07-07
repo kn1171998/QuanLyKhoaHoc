@@ -39,10 +39,10 @@ var usecategoryController = {
                         html += Mustache.render(template, {
                             ID: item.id,
                             FullName: item.fullName,
-                            Birthday: item.birthday,
-                            Sex: item.sex,
+                            Birthday: convertDate(item.birthday),
+                            Sex: item.sex ? "Nam" : "Nữ",
                             Introduction: item.introduction,
-                            Status: item.status == true ? "Hiển thị" : "Ẩn"
+                            Status: item.status == true ? "Đang mở" : "Đã khoá"
                         });
                     });
                     $('#tblCategories').html(html);
@@ -52,7 +52,7 @@ var usecategoryController = {
                 }
             },
             error: function (xhr, status, error) {
-                var err =  xhr;
+                var err = xhr;
                 console.log(xhr.responseText);
             }
         });
