@@ -1,0 +1,83 @@
+﻿@model UserVM
+<section class="bg-SignIn js-section-SignIn" id="register">
+    <div class="SignIn container">
+        <h3 class="h3_title   h3_title-sigin"> Trở thành thành viên</h3>
+        <form class="form-content" method="post" id="RegisterUser" name="RegisterUser" asp-action="RegisterUser">
+            @*<div asp-validation-summary="ModelOnly">*@
+            <div class="form-group">
+                <input asp-for="FullName" class="form-control" aria-describedby="emailHelp" placeholder="Nhập họ và tên">
+                <span asp-validation-for="FullName"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Email" class="form-control" aria-describedby="emailHelp" placeholder="Nhập email">
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="form-group">
+                <input type="password" asp-for="Password" class="form-control" placeholder="Nhập mật khẩu">
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="form-group">
+                <input type="password" asp-for="RePassword" class="form-control" placeholder="Nhập lại mật khẩu">
+                @*<label class="error"></label>*@
+                <span asp-validation-for="RePassword"></span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-signin w-100">Đăng kí</button>
+            @*</div>*@
+        </form>
+    </div>
+</section>
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+    $('#RegisterUser').validate({
+        rules: {
+            FullName: {
+                required: true,
+                maxlength: 70
+            },
+            Email: {
+                remote: {
+                    url: "/Home/CheckUserEmail",
+                    data: { email: $('#Email').val() },
+                    type: "GET"
+                },
+                required: true,
+                email: true
+            },
+            Password: {
+                required: true,
+                minlength: 5,
+                maxlength: 18
+            },
+            RePassword: {
+                required: true,
+                minlength: 5,
+                maxlength: 18,
+                equalTo: "#Password"
+            }
+        },
+        messages: {
+            FullName: {
+                required: "Vui lòng không để trống",
+                maxlength: "Không được dài quá 70 kí tự",
+            },
+            Email: {
+                remote: "Email đã tồn tại trong hệ thống!",
+                required: "Vui lòng không để trống",
+                email: "Email sai định dạng"
+            },
+            Password: {
+                required: "Vui lòng không để trống",
+                minlength: "Mật khẩu độ dài từ 5-18 kí tự",
+                maxlength: "Mật khẩu độ dài từ 5-18 kí tự"
+            },
+            RePassword: {
+                required: "Vui lòng không để trống",
+                minlength: "Mật khẩu độ dài từ 5-18 kí tự",
+                maxlength: "Mật khẩu độ dài từ 5-18 kí tự",
+                equalTo: "Mật khẩu chưa khớp"
+            }
+        }
+    });
+</script>

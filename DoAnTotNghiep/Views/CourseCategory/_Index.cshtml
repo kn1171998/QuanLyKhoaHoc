@@ -1,0 +1,46 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive " style="grid-auto-columns:auto">
+            <table class="table table-bordered table-striped table-hover table-responsive">
+                <thead class="thead-light text-center">
+                    <tr>
+                        <th>Tên danh mục</th>
+
+                        <th>Vị trí </th>
+                        <th>Trạng thái</th>
+                        <th><span class="fa fa-cog"></span></th>
+                    </tr>
+                </thead>
+                <tbody id="tblCategories"></tbody>
+            </table>
+        </div>
+        <div id="pagination" class="pagination">
+        </div>
+    </div>
+</div>
+
+<script id="data-template" type="x-tmpl-mustache">
+    <tr class="text-center">
+        <td>{{Name}}</td>
+        <td>{{SortOrder}}</td>
+        <td>{{Status}}</td>
+        <td>
+            <a href="javascript:void(0);"
+               data-href="dsoft-popup-modal"
+               data-event="popup-modal"
+               data-url="/CourseCategory/Create/{{ID}}"
+               data-width="1000"
+               data-height="600"
+               class="btn btn-sm btn-radius-left btn-warning dsoft-btn-show-popup mb-2">
+                <span class="fa fa-edit"></span>
+            </a>
+            <a href="javascript:void(0);"
+               data-message-confirm="Bạn có muốn xoá không?"
+               action="/CourseCategory/Delete"
+               data-id="{{ID}}"
+               class="btn btn-sm btn-danger btn-radius-right btn-delete btnDelete mb-2">
+                <span class="fa fa-remove"></span>
+            </a>
+        </td>
+    </tr>
+</script>

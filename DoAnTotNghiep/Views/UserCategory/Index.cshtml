@@ -1,0 +1,63 @@
+﻿@model UserVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header id="topbar">
+    <div class="topbar-left">
+
+    </div>
+
+    <div class="row">
+        <div class="col-3 topbar-right" data-tour-init="1" data-tour-key="createButton">
+            <a href="javascript:void(0);"
+               data-href="dsoft-popup-modal"
+               data-event="popup-modal"
+               data-url="/UserCategory/Create"
+               data-title="Thêm mới"
+               data-width="1000"
+               data-height="600"
+               class="btn btn-info dsoft-btn-show-popup">
+                <span class="fa fa-plus-square"></span> Thêm mới
+            </a>
+        </div>
+        <div class="col-9 text-right  p12 admin-form theme-primary">
+            <div class="form-search input-group mb-3">
+                <input type="hidden" name="p" />
+                <input asp-for="SearchName" placeholder="Nhập tên người dùng" class="form-control " />
+                <i class="arrow"></i>
+                <div class="input-group-append">
+                    <button type="submit" id="btnSearch" class="btn btn-hover btn-info"><i class="fa fa-search" aria-hidden="true"></i>Tìm kiếm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</header>
+<div class="m10">
+    <div class="tray tray-center pt20 va-t posr">
+        <div class="panel">
+            <div id="divListCourseCategory" class="panel-body pn">
+                @await Html.PartialAsync("_Index")
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/lib/bootstrap-daterangepicker/moment.min.js"></script>
+    <script>
+        function convertDate(inputFormat) {
+            function pad(s) { return (s < 10) ? '0' + s : s; }
+            var d = new Date(inputFormat)
+            return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join('/')
+        }
+    </script>
+    <script src="~/js/controllers/useCategoryController.js"></script>
+}

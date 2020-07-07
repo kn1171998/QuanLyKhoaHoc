@@ -1,0 +1,84 @@
+﻿@model UserVM
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_LayoutDetail.cshtml";
+}
+
+<div class="container">
+    <section class="  teacher mb-5 bg-teacher mt-4">
+        <div class="container">
+            <div class="teacher-info">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="row active   teacher-carousel myteacher">
+                            <div class="col-md-12 title titleToday p-0">
+                                <h3 class="h3_title pb-2">Giảng Viên</h3>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 mb-md-3">
+                                <div class="border p-2 pt-3 m-1 box-teacher">
+                                    <div class="teacher-img">
+                                        <img src="~/img/c2.jpg" class="d-block  cangiua" alt="First slide">
+                                    </div>
+                                    <div class="teacher-caption mt-2 p-3">
+                                        <p class=" m-1">
+                                            <i>"Ráng vài năm nữa về hưu"</i> <br>
+                                            <b class="name-teacher" asp-for="FullName">@Model.FullName</b>
+                                        </p>
+                                        <p asp-for="Birthday"> @Model.Birthday</p>
+                                        <div class="footer-icon text-center m-4 mt-4 ">
+                                            <a href="#"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+                                            <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                                            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                                            <a href="#"><i class="fa fa-google" aria-hidden="true"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 bg-dark p-0 ">
+                                <div class="  p-4  text-white">
+                                    <h3 class=" pb-2">Thông Tin</h3>
+                                    <p class="text-left">
+                                        - Đinh Nguyễn trọng Nguyễn, tốt nghiệp Đại học Bách khoa, khoa công nghệ thông tin. <br />
+                                        - Với 30 năm kinh nghiệm giảng dạy, anh có hàng nghìn học viên đã tốt nghiệp và làm việc trong lĩnh vực thiết kế, đặc biệt là thiết kế website chuyên nghiệp.<br />
+                                        - Ngoài ra anh còn tham gia rất nhiều dự án dạy các shortcourse cho người đi làm và các dự án freelance khác về thiết kế website dựa trên ngôn ngữ lập trình mã nguồn mở.
+                                    </p>
+                                </div>
+
+                            </div>
+                            <div class="col-12">
+                                <section class="potential clearfix m-5">
+                                    <div class="container">
+                                        <div class="row title titleToday">
+                                            <div class="col-md-12 col-sm-6 p-0">
+                                                <h3 class="h3_title">Discover your potential</h3>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 col-12 potential_Content ">
+                                                <i class="fa fa-film big_icon today_icon" aria-hidden="true"></i>
+                                                <h5>Khóa học</h5>
+                                                <p>Lamet consectetur adipisicing.</p>
+                                            </div>
+                                            <div class="col-md-4 col-12 potential_Content ">
+                                                <i class="fa fa-users big_icon today_icon" aria-hidden="true"></i>
+                                                <h5>Học sinh</h5>
+                                                <p>Lorem ipsum dolor sit, </p>
+                                            </div>
+                                            <div class="col-md-4 col-12 potential_Content ">
+                                                <i class="fa fa-comments big_icon today_icon" aria-hidden="true"></i>
+                                                <h5>Đánh giá</h5>
+                                                <p>Lorem ipsum dolor sit, amet.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

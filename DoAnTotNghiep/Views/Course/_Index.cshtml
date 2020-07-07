@@ -1,0 +1,53 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive " style="grid-auto-columns:auto">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th style="width: 25%">Tên khoá học</th>
+                        <th style="width: 30%">Mô tả</th>
+                        <th style="width: 20%">Ảnh</th>
+                        <th style="width: 10%">Giá</th>
+                        <th style="width: 16.66%"><span class="fa fa-cog"></span></th>
+                    </tr>
+                </thead>
+                <tbody id="tblCourse">
+
+                </tbody>
+            </table>
+        </div>
+        <div id="pagination" class="pagination">
+           
+        </div>
+    </div>
+</div>
+<script id="data-template" type="x-tmpl-mustache">
+    <tr>
+        <td>{{Name}}</td>
+        <td>{{Description}}</td>
+        <td><div style="width:100px;height:62px;" ><img src="{{Image}}" style="width:100px;height:62px;" /></div></td>
+        <td>{{Price}}</td>
+        <td class="text-center col-md-2">
+            <a href="/CourseLesson/Index/{{ID}}"                         
+               class="btn btn-sm btn-radius-left btn-radius-right btn-success mb-2" id="detail{{ID}}">
+                <span class="fa fa-plus"></span>
+            </a>
+            <a href="javascript:void(0);"
+               data-href="dsoft-popup-modal"
+               data-event="popup-modal"
+               data-url="/Course/Create/{{ID}}"               
+               data-width="1000"
+               data-height="600"
+               class="btn btn-sm btn-radius-left btn-warning dsoft-btn-show-popup mb-2">
+                <span class="fa fa-edit"></span> 
+            </a>
+            <a href="javascript:void(0);"
+               data-message-confirm="Bạn có muốn xoá không?"
+               action="/Course/Delete"
+               data-id="{{ID}}"
+               class="btn btn-sm btn-danger btn-radius-right btn-delete btnDelete">
+                <span class="fa fa-remove"></span>
+            </a>
+        </td>
+    </tr>
+</script>

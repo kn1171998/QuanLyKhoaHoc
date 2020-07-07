@@ -1,0 +1,47 @@
+﻿@model CourseCategoryVM
+@{
+    ViewData["Title"] = "View";
+    Layout = null;
+}
+@using (Html.BeginForm("Create", "CourseCategory", FormMethod.Post, new { id = "frmCreateCourse"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+<div class="panel-body p-4 bg-light">
+    <h3 class="h3_title-sigin text-center">Danh mục khóa học</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12 pb-3">
+                    <div class="pb-3">Tên danh mục (<span style="color:red">*</span>)</div>
+                    <textarea cols="20" class="form-control" rows="2" asp-for="Name" placeholder="Tên danh mục"></textarea>
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+                <div class="col-md-6 pb-3">
+                    <div class="pb-3">Vị trí hiển thị (<span style="color:red">*</span>)</div>
+                    <input asp-for="SortOrder" class="form-control" />
+                    @Html.ValidationMessageFor(m => m.SortOrder)
+                </div>
+                <div class="col-md-6 pb-3">
+                    <div class="pb-3">Danh mục hiển thị (<span style="color:red">*</span>)</div>
+                    <select asp-for="ParentId" class="form-control" asp-items="@(new SelectList(Model.listCourseCategory,"Id", "Name"))">
+                        <option>Chọn danh mục</option>
+                        <option value="0">Danh mục cha</option>
+                    </select>
+                    @Html.ValidationMessageFor(m => m.ParentId)
+                </div>
+                <div class="col-md-12 pb-3">
+                    <div class="pb-3">Hiển thị</div>
+                    <input type="checkbox" asp-for="Status" class="form-control text-left mb-3" />
+                    @Html.ValidationMessageFor(m => m.Status)
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="clearfix text-center">
+        <button type="submit" id="btnSubmit" class="btn btn-success"><span class='fa fa-save'></span>Lưu</button>
+        <button type="button" class="button btn-danger btn-popup-cancel btnCloseBanner" data-dismiss="modal"><span class='fa fa-close'></span>Huỷ</button>
+    </div>
+</div>
+}

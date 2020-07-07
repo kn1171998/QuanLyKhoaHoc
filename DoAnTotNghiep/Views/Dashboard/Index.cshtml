@@ -1,0 +1,76 @@
+﻿@model DashboardVM
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/lib/Chart.js/Chart.min.css" rel="stylesheet" />
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-5 mb-3">
+            <h3 class="h3_title">
+                Báo cáo doanh thu
+            </h3>
+        </div>
+        <div class="col-4 revenue-box ">
+            <div class="icon-revenue">
+                <ion-icon name="newspaper-outline"></ion-icon>
+            </div>
+            <div class="content-revenue">
+                <div class="content-revenue__text">
+                    Tổng khoá học được mua hôm nay
+                </div>
+                <div class="content-revenue__number">@Model.TotalCourseDayNow</div>
+            </div>
+        </div>
+        <div class="col-4 revenue-box">
+            <div class="icon-revenue">
+                <ion-icon name="cash-outline"></ion-icon>
+            </div>
+            <div class="content-revenue">
+                <div class="content-revenue__text">Doanh thu hôm nay</div>
+                <div class="content-revenue__number" id="revenuetoday">@Model.RevenueToDay</div>
+            </div>
+        </div>
+        <div class="col-4 revenue-box">
+            <div class="icon-revenue">
+                <ion-icon name="person-outline"></ion-icon>
+            </div>
+            <div class="content-revenue">
+                <div class="content-revenue__text">Khách hàng hôm nay</div>
+                <div class="content-revenue__number">@Model.TotalCustomerDayNow</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">       
+        @*<div class="col-6">
+                <div class="form-group p-2">
+                    <select class="form-control" id="methodReport">
+                        <option>Chọn hình thức báo cáo</option>
+                        <option value="d">Báo cáo ngày</option>
+                        <option value="w">Báo cáo tuần</option>
+                        <option value="m">Báo cáo tháng</option>
+                        <option value="y">Báo cáo năm</option>
+                    </select>
+                </div>
+
+            </div>*@
+        <div class="col-12">
+            <h1 class="text-center">Chart</h1>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/lib/Chart.js/Chart.min.js"></script>
+    <script>
+        $(function () {
+            var formatter = new Intl.NumberFormat('en', {
+                notation: 'standard',
+                //style: 'standard',
+                //currency: 'VND',
+                //maximumFractionDigits:0
+            });
+            var revenue = formatter.format($('#revenuetoday').text());
+            $('#revenuetoday').text(revenue);
+        })
+    </script>
+}

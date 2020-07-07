@@ -1,0 +1,113 @@
+﻿@model CourseVM
+@{
+    ViewData["Title"] = "View";
+}
+
+<header id="topbar">
+    <div class="topbar-left">
+
+    </div>
+    <div class="topbar-right" data-tour-init="1" data-tour-key="createButton">
+        <a href="javascript:void(0);"
+           data-href="dsoft-popup-modal"
+           data-event="popup-modal"
+           data-url="/Chapter/Create?ID=0&CourseId=@Model.Id"
+           data-width="1000"
+           data-height="600"
+           class="btn btn-info dsoft-btn-show-popup" id="addChapter">
+            <span class="fa fa-plus pr-1"></span> Thêm mới chương
+        </a>
+    </div>
+    <input type="hidden" asp-for="Id" />
+</header>
+<h2>Nội dung học</h2>
+<div class="container " id="containerTree">
+    <div id="divTreeLesson " class="bg-dark">
+
+    </div>
+</div>
+
+<div id="progress">
+
+</div>
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <link href="~/lib/fancytree/skin-win8/ui.fancytree.css" rel="stylesheet" />
+    <script src="~/lib/fancytree/jquery.fancytree-all.js"></script>
+    <script src="~/lib/fancytree/extensions/jquery.fancytree.childcounter.js"></script>
+    <script src="~/lib/fancytree/extensions/jquery.fancytree.columnview.js"></script>
+    <script src="~/lib/fancytree/extensions/jquery.fancytree.filter.js"></script>
+    <script src="~/lib/fancytree/extensions/jquery.fancytree.dnd.js"></script>
+    <script src="~/lib/fancytree/extensions/jquery.fancytree.edit.js"></script>
+    <script src="~/lib/jquery.form/jquery.form.js"></script>
+    <script id="ChapterLesson" type="x-tmpl-mustache">
+        <li class="w-100">
+            <div class="row">
+                <div class="col-8">
+                    Chương: {{OrderChapter}} {{Name}}
+                </div>
+                <div class="col-4">
+                    <a href="javascript:void(0);"
+                       data-message-confirm="Bạn có muốn xoá không?"
+                       action="/Chapter/Delete"
+                       data-id="{{ID}}"
+                       class="btn btn-sm btn-danger btn-radius-right btn-delete btnDelete">
+                        <span class="fa fa-window-close"></span>
+                    </a>
+                    <a href="javascript:void(0);"
+                       data-href="dsoft-popup-modal"
+                       data-event="popup-modal"
+                       data-url="/Chapter/Create?ID={{ID}}&CourseId={{CourseId}}"
+                       data-course-id="{{CourseId}}"
+                       data-chapter-id="{{ID}}"
+                       class="btn btn-sm btn-radius-right btn-warning dsoft-btn-show-popup">
+                        <span class="fa fa-edit"></span>
+                    </a>
+                    <a href="javascript:void(0);"
+                       data-href="dsoft-popup-modal"
+                       data-event="popup-modal"
+                       data-url="/CourseLesson/Create?ID=0&ChapterId={{ID}}"
+                       class="btn btn-sm btn-radius-right btn-success dsoft-btn-show-popup" id="chapter{{ID}}">
+                        <span class="fa fa-plus"></span>
+                    </a>
+                </div>
+       
+              
+            </div>
+            <ul id="{{ID}}"></ul>
+        </li>
+
+    </script>
+    <script id="CourseLesson" type="x-tmpl-mustache">
+
+        <li class="mt5">
+            <div>
+                Bài: {{SortOrder}} {{Name}}
+                <a href="javascript:void(0);"
+                   data-message-confirm="Bạn có muốn xoá không?"
+                   action="/CourseLesson/Delete"
+                   data-id="{{ID}}"
+                   class="btn btn-sm btn-danger btn-radius-right btn-delete btnDelete">
+                    <span class="fa fa-window-close"></span>
+                </a>
+                <a href="javascript:void(0);"
+                   data-href="dsoft-popup-modal"
+                   data-event="popup-modal"
+                   data-url="/CourseLesson/Create?ID={{ID}}&ChapterId={{ChapterId}}"
+                   class="btn btn-sm btn-radius-right btn-warning dsoft-btn-show-popup">
+                    <span class="fa fa-edit"></span>
+                </a>
+            </div>
+        </li>
+
+    </script>
+    <script id="progressLesson" type="text/x-jquery-tmpl">      
+            <div class="progress" id="progressParent{{ID}}">
+                <div class="progress-bar" id="progress{{ID}}">0%</div>
+            </div>        
+    </script>
+    <script src="~/js/controllers/courselessonController.js"></script>
+
+}

@@ -1,0 +1,101 @@
+﻿@model CourseVM
+@{
+    ViewData["Title"] = "View";
+    Layout = null;
+}
+@using (Html.BeginForm("Create", "Course", FormMethod.Post, new { id = "frmCreateCourse", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <input type="hidden" asp-for="DateCreated" />
+    <div class="panel-body p-4">
+        <h3 class="h3_title-sigin text-center">Khóa học</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div><span style="color:red">*</span></div>
+                        <textarea cols="20" class="form-control" rows="4" asp-for="Name" placeholder="Tên khoá học"></textarea>
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="col-md-12 p-0">
+                            <div><span class="text-danger">*</span></div>
+                            <input asp-for="Price" class="form-control" asp-is-invariant="true" placeholder="Giá khóa học" />
+                            <span id="priceFormat"></span>
+                            @Html.ValidationMessageFor(m => m.Price)
+                        </div>
+                        <div class="col-md-12 p-0">
+                            <div><span class="text-danger">*</span></div>
+                            <input asp-for="PromotionPrice" asp-is-invariant="true" class="form-control" placeholder="Giá hiển thị" />
+                            <span id="promotionPriceFormat"></span>
+                            @Html.ValidationMessageFor(m => m.PromotionPrice)
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div><span class="text-danger">*</span></div>
+                                <select name="CategoryParent" id="CategoryParent" class="form-control" asp-items="@Model.lstCategories">
+                                    <option>Danh mục cha</option>
+                                </select>
+                                @*@Html.ValidationMessageFor(m => m.CategoryParent)*@
+                            </div>
+                            <div class="col-md-6">
+                                <div><span class="text-danger">*</span></div>
+                                <select asp-for="CategoryId" class="form-control" asp-items="@Model.lstChildCategories">
+                                    <option>Danh mục con</option>
+                                </select>
+                                @Html.ValidationMessageFor(m => m.CategoryId)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div><span>Miễn phí</span></div>
+                                <input type="checkbox" asp-for="IsFree" class="text-left mb-3 form-control" asp-is-invariant="true" placeholder="Miễn phí" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                            <div class="row">
+                                <div class="col-md-12 fileupload-name">
+                                    <div class="fileupload-new control-label">Ảnh</div>
+                                    <div class="fileupload-exists control-label">Ảnh</div>
+                                </div>
+                                <div class="col-md-12 fileupload-img">
+                                    <span class="button btn-system btn-file btn-block ">
+                                        <label class="btn btn-default btn-file chooseFile p-2">Chọn ảnh</label>
+                                        <input type="file" name="LImage" />
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="fileupload-preview thumbnail mb15" id="thumbnailpost">
+                                <img style="margin-bottom:14px;" src="@Url.Content(Model.Image)" />
+                                <input asp-for="Image" type="hidden" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="p-3 text-center">Nội dung khoá học<span style="color:red">*</span></div>
+                        <textarea asp-for="Content" style="display:none;height:0px;" placeholder="Nội dung khoá học"></textarea>
+                        @Html.ValidationMessageFor(m => m.Content)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix text-center mt-4">
+            <button type="submit" id="btnSubmit" class="btn btn-success"><span class='fa fa-save'></span>Lưu</button>
+            <button type="button" class="btn btn-danger btn-popup-cancel btnCloseBanner" data-dismiss="modal"><span class='fa fa-close'></span>Huỷ</button>
+        </div>
+    </div>
+}
+<script id="combobox" type="x-tmpl-mustache">
+    <option value="{{ID}}">{{Name}}</option>
+</script>
+<script src="~/lib/ckeditor/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace("Content");
+</script>

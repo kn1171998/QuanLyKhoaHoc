@@ -1,0 +1,75 @@
+﻿@model CourseVM
+@{
+    ViewData["Title"] = "Home Page";
+}
+<header id="topbar">
+    <div class="topbar-left">
+
+    </div>
+    <div class="row">
+        <div class="col-3 topbar-right" data-tour-init="1" data-tour-key="createButton">
+            <a href="javascript:void(0);"
+               data-href="dsoft-popup-modal"
+               data-event="popup-modal"
+               data-url="/Course/Create"
+               data-width="1000"
+               data-height="600"
+               class="btn  btn-info dsoft-btn-show-popup  ">
+                <span class="fa fa-plus-square pr-1"></span> Thêm mới
+            </a>
+        </div>
+
+        <div class="col-9 text-right  p12 admin-form theme-primary">
+            <div class="form-search input-group mb-3">
+                <input type="hidden" name="p" />               
+                       
+                            <input class="form-control" asp-for="SearchCourse" placeholder="Nhập tên khoá học" />
+                            <i class="arrow"></i>
+                      
+                        <div class="input-group-append">
+                            <button type="button" id="btnSearch" class="btn btn-info"><i class="fa fa-search pr-1" aria-hidden="true"></i>Tìm kiếm</button>
+                        </div>
+                                    
+            </div>
+        </div>
+    </div>
+
+   
+</header>
+<div class="m10">
+    <div class="tray tray-center pt20 va-t posr">
+        <div class="panel">
+            
+            <div id="divListCourse" class="panel-body pn">
+                @if (ViewBag.IsSuccess != null && ViewBag.IsSuccess == true)
+                {
+                    <div class="alert alert-success alert-dismissible bg-success text-white border-0 show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <strong>Thành công - </strong> Thêm mới thành công!
+                    </div>
+                }
+                @if (ViewBag.IsSuccess != null && ViewBag.IsSuccess == false)
+                {
+                    <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show"
+                         role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <strong>Thất bại - </strong> Xoá thất bại!
+                    </div>
+                }
+                @await Html.PartialAsync("_Index")
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/js/controllers/courseController.js"></script>
+}

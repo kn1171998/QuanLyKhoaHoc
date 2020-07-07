@@ -1,0 +1,141 @@
+﻿
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/images/favicon.png">
+    <!-- Custom CSS -->
+    <environment include="Development">
+
+        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link href="~/css/font-awesome/css/fontawesome-all.css" rel="stylesheet" />*@
+        <link href="~/css/startuppost.css" rel="stylesheet" />
+        <link href="~/css/style.css" rel="stylesheet" />
+        <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/lib/pnotify/pnotify.css" rel="stylesheet" />
+        <link href="~/lib/upload/fileupload.css" rel="stylesheet" />
+        <link href="~/lib/jqueryui/jquery-ui.css" rel="stylesheet" />
+        <!-- Custom CSS -->
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            body {
+                padding: 0px;
+            }
+        </style>
+    </environment>
+</head>
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="custom-menu">
+                @*<button type="button" id="sidebarCollapse" class="btn btn-primary"></button>*@
+            </div>
+            <div class="img bg-wrap text-center py-4" style="background-image: url(../images/bg_1.jpg);">
+                <div class="user-logo">
+                    <div class="img" style="background-image: url(../images/logo.jpg);"></div>
+                    <h3>Catriona Henderson</h3>
+                </div>
+            </div>
+            <ul class="list-unstyled components mb-5">
+                <li class="active">
+                    <a href="#"><span class="fa fa-home mr-3"></span> Home</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-download mr-3 notif"><small class="d-flex align-items-center justify-content-center">5</small></span>Cập Nhật thông tin</a>
+                    <ul>
+                        <li><a asp-action="Index" asp-controller="CourseCategory">Danh mục khoá học</a></li>
+                        <li><a asp-action="Index" asp-controller="Course">Các khoá học</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-gift mr-3"></span>Quản lý người dùng</a>
+                    <ul>
+                        <li><a asp-action="Index" asp-controller="User">Danh mục người dùng</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-trophy mr-3"></span> Khóa học của tôi</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-support mr-3"></span> Support</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- Page Content  -->
+        <div id="content" class="p-4 p-md-5 pt-5">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; 2020 - DoAnTotNghiep</p>
+            </footer>
+            <!-- POPUP MODAL-->
+            <div class="modal dsoft-popup-modal admin-form" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content panel">
+                        <div class="modal-header panel-heading">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title panel-title"></h4>
+                        </div>
+                        <div class="modal-body panel-content">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- POPUP MODAL-->
+            <div class="modal fade dsoft-popup-modal-2 admin-form" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content panel">
+                        <div class="modal-header panel-heading">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title panel-title"></h4>
+                        </div>
+                        <div class="modal-body panel-content">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    <environment include="Development">
+
+        <!-- All Jquery -->
+        <!-- ============================================================== -->
+
+        <script src="~/css/popper.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jqueryui/jquery-ui.js"></script>
+        <script src="~/css/bootstrap.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+
+        <!-- apps -->
+        <!--This page JavaScript -->
+        <script src="~/lib/mustache/mustache.js"></script>
+        <script src="~/lib/twbs-pagination/jquery.twbsPagination.js"></script>
+        <script src="~/lib/pnotify/pnotify.js"></script>
+        <script src="~/lib/bootbox.js/bootbox.js"></script>
+        <script src="~/lib/upload/fileupload.js"></script>
+        <!--Custom JavaScript -->
+        @*<script src="~/js/custom.js"></script>*@
+        <script src="~/js/main.js"></script>
+        <script src="~/js/common/commonfile.js"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
