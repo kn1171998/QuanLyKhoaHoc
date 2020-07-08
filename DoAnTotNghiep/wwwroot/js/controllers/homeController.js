@@ -54,7 +54,7 @@ var homeController = {
                         await $('#menuCategory').append(html);
                         var listChild = childCategory[item.id];
                         if (lengthChild > 0) {
-                            await $.each(listChild, function (i, item1) {
+                            await $.each(listChild, async function (i, item1) {
                                 var htmlChild = Mustache.render(templateSub, {
                                     ID: item1.id,
                                     Name: item1.name

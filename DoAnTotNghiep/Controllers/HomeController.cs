@@ -681,26 +681,28 @@ namespace DoAnTotNghiep.Controllers
             return Json(new { status = false, loca = "" });
         }
         #region Discount
-        //public long ComputePaymentDiscount(string listIdCourse, string codeDiscount, IEnumerable<Discount> listDiscountCourse)
+        //public long ComputePaymentDiscount(string listIdCourse, string codeDiscount, IEnumerable<Discount> listDiscount)
         //{
+        //    var context = _courseService.GetContext();
         //    var ls = listIdCourse.Split(';');
-        //    var joinDiscountCourse = from l in listDiscountCourse
-        //                             join dc in _courseService.GetContext().DiscountCourse
-        //                             on l.Id equals 
+        //    //long totalDiscountMoney =
         //    foreach (var item in ls)
         //    {
-        //        listDiscountCourse
+        //        var a = from ld in listDiscount
+        //                join dc in context.DiscountCourse
+        //                on ld.Id equals dc.Iddiscount
+        //                join c in context.Courses
+        //                on dc.Idcourse equals c.Id
+        //                where item == c.Id.ToString()
+        //                select ld;
+                
         //    }
-        //    return ;
+        //    return;
         //}
         public IEnumerable<Discount> listDiscountCourse(string codeDiscount)
         {
             var context = _courseService.GetContext();
-            var currentCodeDiscount = from c in context.Courses
-                                      join dc in context.DiscountCourse
-                                      on c.Id equals dc.Idcourse
-                                      join d in context.Discount
-                                      on dc.Iddiscount equals d.Id
+            var currentCodeDiscount = from d in context.Discount
                                       where d.CodeDiscount == codeDiscount
                                       select d;
             return currentCodeDiscount;
@@ -713,7 +715,7 @@ namespace DoAnTotNghiep.Controllers
             var checkExist = currentCodeDiscount.Count();
             if (checkExist == 0)
             {
-                return Json(new { status = false, message = "Mã giảm giá không tồn tại hoặc không áp dụng cho khoá học hiện tại!" });
+                return Json(new { status = false, message = "Mã giảm giá không tồn tại!" });
             }
             var nowDate = DateTime.Now;
             var checkExpried = currentCodeDiscount.Where(m => nowDate >= m.FromDate && nowDate <= m.ToDate).Count();
@@ -722,7 +724,7 @@ namespace DoAnTotNghiep.Controllers
                 return Json(new { status = false, message = "Mã giảm giá đã hết hạn!" });
             }
 
-            return Json(new { status = true, message = "", discountmoney = "" });
+            return Json(new { status = true, message = "Mã giảm giá đã được áp dụng", discountmoney = ""});
         }
         #endregion
     }
