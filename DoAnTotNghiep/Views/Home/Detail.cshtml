@@ -79,31 +79,31 @@
                                     <ul class="nav navbar-nav w-100" id="menu-course">
                                         @foreach (var item in Model.lstChapter)
                                         {
-                                        <li class="w-100">
-                                            <a href="#" class=" w-100 title-course " data-toggle="dropdown">
-                                                <span class="course-title ">
-                                                    <ion-icon name="chevron-down-outline"></ion-icon>
-                                                    @item.NameChapter
-                                                </span>
-                                                <span class="time-course ">03:00</span>
-                                                <b class="caret"></b>
-                                            </a>
-                                            <ul class="dropdown-menu ">
-                                                @foreach (var child in Model.lstCourseLesson.Where(m=>m.ChapterId ==item.Id))
+                                            <li class="w-100">
+                                                <a href="#" class=" w-100 title-course " data-toggle="dropdown">
+                                                    <span class="course-title ">
+                                                        <ion-icon name="chevron-down-outline"></ion-icon>
+                                                        @item.NameChapter
+                                                    </span>
+                                                    <span class="time-course ">03:00</span>
+                                                    <b class="caret"></b>
+                                                </a>
+                                                <ul class="dropdown-menu ">
+                                                    @foreach (var child in Model.lstCourseLesson.Where(m => m.ChapterId == item.Id))
                                                     {
-                                                <li class="my-dropdown-menu">
-                                                    <a href="#" class="title-course">
-                                                        <span class="course-title">
-                                                            <ion-icon name="play-circle-outline"></ion-icon>
-                                                            @child.Name
-                                                        </span>
-                                                        <span class="time-course">03:00</span>
-                                                        <b class="caret"></b>
-                                                    </a>
-                                                </li>
+                                                        <li class="my-dropdown-menu">
+                                                            <a href="#" class="title-course">
+                                                                <span class="course-title">
+                                                                    <ion-icon name="play-circle-outline"></ion-icon>
+                                                                    @child.Name
+                                                                </span>
+                                                                <span class="time-course">03:00</span>
+                                                                <b class="caret"></b>
+                                                            </a>
+                                                        </li>
                                                     }
-                                            </ul>
-                                        </li>
+                                                </ul>
+                                            </li>
                                         }
                                     </ul>
                                 </div>
@@ -152,11 +152,11 @@
                         @if (!Model.HasBuy)
                         {
                             <button class="btn btn-danger w-100 mb-2">Add to cart</button>
-                            <a asp-action="BuyNow" asp-controller="Home" asp-route-listIdCourse="@Model.IdCourse.ToString()"  id="buynow" class="btn btn-outline-danger w-100 ">Buy now</a>
+                            <a asp-action="BuyNow" asp-controller="Home" asp-route-listIdCourse="@Model.IdCourse.ToString()" id="buynow" class="btn btn-outline-danger w-100 ">Buy now</a>
                         }
                         else
                         {
-                            <button asp-action="View" asp-controller="Home" class="btn btn-outline-danger w-100 ">Enroll</button>
+                            <a asp-action="View" asp-controller="Home" asp-route-id="@Model.IdCourse" class="btn btn-outline-danger w-100 ">Enroll</a>
                         }
                     </div>
                 }

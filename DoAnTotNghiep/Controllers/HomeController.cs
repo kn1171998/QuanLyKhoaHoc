@@ -454,9 +454,18 @@ namespace DoAnTotNghiep.Controllers
                             Description = c.Description
                         };
             vm = model.FirstOrDefault();
+            var lst = context.LessonComments.Where(m => m.LessonId == vm.lstCourseLesson[0].Id).Select(m=>m).ToList();
+            vm.lstComment = (from cm in lst
+                             join u in context.Users
+                             on cm.UserId equals u.Id
+                             select new LessonCommentVM
+                             {
+                                 FullName = u.FullName,
+                                 Content = cm.Content,
+                                 ImageUrl = u.ImageUrl                               
+                             }).ToList();
             return View(vm);
-        }
-
+        }        
         [Authorize(Roles = "User")]
         public ActionResult GetMedia(string path)
         {
@@ -695,7 +704,7 @@ namespace DoAnTotNghiep.Controllers
         //                on dc.Idcourse equals c.Id
         //                where item == c.Id.ToString()
         //                select ld;
-                
+
         //    }
         //    return;
         //}
@@ -724,7 +733,7 @@ namespace DoAnTotNghiep.Controllers
                 return Json(new { status = false, message = "Mã giảm giá đã hết hạn!" });
             }
 
-            return Json(new { status = true, message = "Mã giảm giá đã được áp dụng", discountmoney = ""});
+            return Json(new { status = true, message = "Mã giảm giá đã được áp dụng", discountmoney = "" });
         }
         #endregion
     }

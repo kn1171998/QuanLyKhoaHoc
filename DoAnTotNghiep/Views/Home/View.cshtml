@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <div class="row bg-dark  mb-3 p-3 text-white">
             <div class="col-2 text-white">
-                <a asp-action="Index" asp-controller="Home" text-white> &crarr; Back Home</a>
+                <a asp-action="Index" asp-controller="Home" text-white> &crarr; Trở về trang chủ</a>
             </div>
             <div class="col-8 text-white">
                 @Model.Name
@@ -23,19 +23,31 @@
                             <source src="@Url.Action("GetMedia","Home",new {path= Model.lstCourseLesson[0].VideoPath })" type="video/mp4">
                         </video>
                     </div>
-                    <div class="row info-courses mr-0 ml-1 mb-3">
-                        <h3 class="col-12 p-2">What you'll learn</h3>
-                        <div class="container comment">
-                            <img src="~/img/c1.jpg" alt="Avatar" style="width:90px">
-                            <p><span>Chris Fox.</span> CEO at Mighty Schools.</p>
-                            <p>John Doe saved us from a web disaster.</p>
-                        </div>
+                    <h3 class="col-12 p-2">Đặt câu hỏi</h3>
+                    <div class="row info-courses mr-0 ml-1 mb-3" id="tblcomment">
 
-                        <div class="container comment">
-                            <img src="~/img/c1.jpg" alt="Avatar" style="width:90px">
-                            <p><span>Rebecca Flex.</span> CEO at Company.</p>
-                            <p>No one is better than John Doe.</p>
-                        </div>
+                        <input type="hidden" id="idlesson" value="@Model.lstCourseLesson[0].Id" />
+                        @if (Model.lstComment.Count > 0)
+                        {
+                            @foreach (var item in Model.lstComment)
+                            {
+                                <div class="container comment">
+                                    <img src="@item.ImageUrl" alt="Avatar" style="width:90px">
+                                    <p><span>@item.FullName</span> CEO at Mighty Schools.</p>
+                                    <p>@item.Content</p>
+                                </div>
+                            }
+                        }
+                        @*<div class="container comment">
+                                <img src="~/img/c1.jpg" alt="Avatar" style="width:90px">
+                                <p><span>Rebecca Flex.</span> CEO at Company.</p>
+                                <p>No one is better than John Doe.</p>
+                            </div>*@
+
+                    </div>
+                    <div class="container comment">
+                        <textarea class="form-control" style="display:none;height:0px;" id="comment"></textarea>
+                        <button class="btn btn-default" id="sendComment">Gửi</button>
                     </div>
                 </div>
                 <div class="col-lg-3 col-12 col-md-12 pr-0 pl-0">
@@ -61,7 +73,7 @@
                                                 @foreach (var child in Model.lstCourseLesson.Where(m => m.ChapterId == item.Id))
                                                 {
                                                     <li class="my-dropdown-menu">
-                                                        <a href="#" class="title-course" id="lesson" data-src-lesson="@child.VideoPath">
+                                                        <a href="#" class="title-course" id="lesson" data-id-lesson="@child.Id" data-src-lesson="@child.VideoPath">
                                                             <span class="course-title">
                                                                 <ion-icon name="play-circle-outline"></ion-icon>
                                                                 @child.Name
@@ -84,14 +96,78 @@
 
     </div>
 </section>
+<script src="~/lib/ckeditor/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace("comment");
+</script>
 @section Scripts{
+    <script id="listcomment" type="text/x-jquery-tmpl">
+        <input type="hidden" id="idlesson" value="{{IdLesson}}" />
+        <div class="container comment">
+            <img src="{{ImageUrl}}" alt="Avatar" style="width:90px">
+            <p><span>{{FullName}}</span> CEO at Mighty Schools.</p>
+            <p>{{Content}}</p>
+        </div>
+    </script>
     <script>
         $(function () {
+            function loadComment(idlesson) {
+                $.ajax({
+                    url: "/Comment/LoadComment",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: {
+                        idlesson: idlesson
+                    },
+                    async: true,
+                    success: function (res) {
+                        var data = res.data;
+                        var html = '';
+                        var template = $('#listcomment').html();
+                        if (res.status) {
+                            var data = res.data;
+                            $.each(data, function (i, item) {
+                                html += Mustache.render(template, {
+                                    IdLesson: item.lessonId,
+                                    FullName: item.fullName,
+                                    ImageUrl: item.imageUrl,
+                                    Content: item.payMethod,
+                                });
+                            });
+                            $('#tblcomment').html(html);
+                        }
+                    }
+                });
+            }
             $('body').on('click', '#lesson', function () {
                 var _self = $(this);
                 var srcVideo = "/Home/GetMedia?path=" + _self.attr('data-src-lesson');
                 var videoNode = document.querySelector('video');
                 videoNode.src = srcVideo;
+                var idlesson = _self.attr('data-id-lesson');
+                loadComment(idlesson);
+            });
+            $('body').on('click', '#sendComment', function () {
+                var content = $('#comment').val();
+                var idlesson = $('#idlesson').val();
+                $.ajax({
+                    url: "/Comment/Create",
+                    type: "POST",
+                    dataType: "JSON",
+                    async: true,
+                    data: {
+                        content: content,
+                        idlesson: idlesson
+                    },
+                    success: function (res) {
+                        if (res.status) {
+                            common.showNotify("Đặt câu hỏi thành công", "success");
+                            loadComment(res.idlesson);
+                        } else {
+                            common.showNotify("Xảy ra lỗi", "error");
+                        }
+                    }
+                })
             });
         });
     </script>

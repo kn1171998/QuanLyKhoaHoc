@@ -24,7 +24,7 @@ var usecategoryController = {
             url: "/UserCategory/_Index",
             type: 'GET',
             data: {
-                searchName: "",
+                searchName: searchName,
                 page: common.pageIndex,
                 pageSize: common.pageSize
             },
