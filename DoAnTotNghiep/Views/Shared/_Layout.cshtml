@@ -14,7 +14,7 @@
     <environment include="Development">
 
         @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-            <link href="~/css/font-awesome/css/fontawesome-all.css" rel="stylesheet" />*@
+        <link href="~/css/font-awesome/css/fontawesome-all.css" rel="stylesheet" />*@
         <link href="~/css/startuppost.css" rel="stylesheet" />
         <link href="~/css/style.css" rel="stylesheet" />
         <link href="~/css/bootstrap.min.css" rel="stylesheet" />
@@ -26,6 +26,7 @@
         <link href="~/css/main.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
         <style>
             body {
                 padding: 0px;
@@ -84,7 +85,7 @@
         </nav>
         <!-- Page Content  -->
         <div id="content" class="p-4 p-md-5 pt-5">
-            <div class="row"><button class="btn btn-success" asp-action="Index" asp-controller="Home">Trở về trang học tập</button></div>
+            <div class="row mb-4 ml-1"><a class="btn btn-outline-danger" asp-action="Index" asp-controller="Home"> &larr;  trang học tập</a></div>
             @RenderBody()
             <hr />
             <footer>
