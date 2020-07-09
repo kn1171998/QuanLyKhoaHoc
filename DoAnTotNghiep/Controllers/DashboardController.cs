@@ -39,7 +39,7 @@ namespace DoAnTotNghiep.Controllers
         {
             DashboardVM dashboard = new DashboardVM();
             DateTime daynow = DateTime.Now;
-            var orderDay = _orderService.GetCondition(m => m.OrderDate.Date == daynow.Date);
+            var orderDay = _orderService.GetCondition(m => m.OrderDate.Date == daynow.Date && m.Status == OrderStatus.Paid);
             dashboard.TotalCustomerDayNow = orderDay.Select(m => m.UserId).Distinct().Count();
             dashboard.RevenueToDay = orderDay.Sum(m => m.TotalAmount);
             dashboard.TotalCourseDayNow = (from o in _context.Orders
@@ -48,7 +48,8 @@ namespace DoAnTotNghiep.Controllers
                                            join c in _context.Courses
                                            on od.CourseId equals c.Id
                                            where o.OrderDate.Date == daynow.Date
-                                           select c.Id).Distinct().Count();
+                                                && o.Status == OrderStatus.Paid
+                                           select od).Count();
             return View(dashboard);
         }
         [HttpPost]
@@ -61,9 +62,11 @@ namespace DoAnTotNghiep.Controllers
                                         on od.CourseId equals c.Id
                                         where o.OrderDate.Date >= startdate.Date
                                               && o.OrderDate.Date <= enddate.Date
-                                        select c.Id).Distinct().Count();
+                                              && o.Status == OrderStatus.Paid
+                                        select od).Count();
             var orderRange = _orderService.GetCondition(m => m.OrderDate.Date >= startdate.Date
-                                                             && m.OrderDate.Date <= enddate.Date);
+                                                             && m.OrderDate.Date <= enddate.Date
+                                                              && m.Status == OrderStatus.Paid);
             var TotalCustomerDateRange = orderRange.Select(m => m.UserId).Distinct().Count();
             var RevenueDateRange = orderRange.Sum(m => m.TotalAmount);
             return Json(new { totalcourse = TotalCourseDateRange, totalcustomer = TotalCustomerDateRange, revenue = RevenueDateRange });

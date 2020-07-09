@@ -12,13 +12,52 @@ var homeController = {
             var search = $('#search').val();
             homeController.Search(search);
         });
+        $('body').on('click', '.myTadBtn', function (e) {
+            var self = $(this);
+            var ID = self.val();
+            $.ajax({
+                url: "/Home/ListAllCourseTop",
+                type: "GET",
+                data: {
+                    ID: ID
+                },
+                async: true,
+                dataType: 'json',
+                success: function (res) {
+                    var template = $('#topCourse').html();
+                    Mustache.parse(template);
+                    data = res.topCourse;
+                    var namecatenew = '#' + ID;
+                    $(namecatenew).html('');
+                    if (res.status) {
+                        var html = '';
+                        $.each(data, async function (i, item) {
+                            html = await Mustache.render(template, {
+                                ID: item.id,
+                                UserId: item.userId,
+                                UserName: item.fullName,
+                                Name: item.name,
+                                PromotionPrice: item.promotionPrice,
+                                Price: item.price,
+                                Image: item.image
+                            });
+                            var namecate = '#category' + item.parentId + ' #' + item.parentId;
+                            var namecate1 = 'category' + item.parentId;
+                            await $(namecate).append(html);
+                            await openCity(e, namecate1);
+                        });
+                    }
+                }
+            });
+
+        });
     },
-    loadData: function () {
-        var listCate = [];
+    loadData: async function () {
         $.ajax({
             url: "/Home/ListCategory",
             type: 'GET',
             dataType: 'json',
+            async: true,
             success: async function (res) {
                 var data = res;
                 var parentCategory = data.parentCategory;
@@ -27,16 +66,12 @@ var homeController = {
                 var templateSub = $('#dropdownSubCategory').html();
                 var templateButtonTopCategory = $('#buttonTopCourse').html();
                 var templateDivTopCategory = $('#divTopCourse').html();
-                await Mustache.parse(template);
-                await Mustache.parse(templateSub);
-                await Mustache.parse(templateButtonTopCategory);
-                await Mustache.parse(templateDivTopCategory);
                 if (res.status) {
                     $.each(parentCategory, async function (i, item) {
                         var html = '';
                         var lengthChild = childCategory[item.id].length;
                         if (lengthChild > 0) {
-                            html = Mustache.render(template, {
+                            html = await Mustache.render(template, {
                                 ID: item.id,
                                 Name: item.name,
                                 Child: "dropdown-submenu",
@@ -44,7 +79,7 @@ var homeController = {
                             });
                         }
                         else {
-                            html = Mustache.render(template, {
+                            html = await Mustache.render(template, {
                                 ID: item.id,
                                 Name: item.name,
                                 Child: "",
@@ -55,7 +90,7 @@ var homeController = {
                         var listChild = childCategory[item.id];
                         if (lengthChild > 0) {
                             await $.each(listChild, async function (i, item1) {
-                                var htmlChild = Mustache.render(templateSub, {
+                                var htmlChild = await Mustache.render(templateSub, {
                                     ID: item1.id,
                                     Name: item1.name
                                 });
@@ -64,25 +99,29 @@ var homeController = {
                             });
                         }
                     });
-                    var categoryTop = '<button class="tablinks myTadBtn active" onclick="openCity(event, \'All\')">All</button>';
-                    await $('#allCourse').append(categoryTop);
+                    //var categoryTop = '<button class="tablinks myTadBtn active" onclick="openCity(event, \'All\')">All</button>';
+                    //await $('#allCourse').append(categoryTop);
+                    var categoryTop = '';
                     $.each(parentCategory, async function (i, item) {
                         if (i < 5) {
-                            categoryTop = Mustache.render(templateButtonTopCategory, {
+                            categoryTop = await Mustache.render(templateButtonTopCategory, {
                                 ID: item.id,
                                 TopCateID: "category" + item.id,
-                                Name: item.name
+                                Name: item.name,
+                                Active: i == 0 ? 'active' : ''
                             });
                             await $('#allCourse').append(categoryTop);
-                            categoryDivTop = Mustache.render(templateDivTopCategory, {
+                            categoryDivTop = await Mustache.render(templateDivTopCategory, {
                                 ID: item.id,
                                 TopCateID: "category" + item.id,
                                 Name: item.name
                             });
                             await $(categoryDivTop).insertAfter('#All');
+                            if (i == 1) {
+                                await $('.active').trigger('click');
+                            }
                         }
                     });
-
                 }
             }
         });

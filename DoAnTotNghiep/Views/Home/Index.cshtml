@@ -1,5 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    var lst = (List<CourseVM>)ViewBag.listPromotion;
 }
 <section class="myCarousel mb-5">
     <div id="carouselId" class="carousel slide carousel-fade" data-ride="carousel">
@@ -15,7 +16,7 @@
                 <div class="carousel-caption myCaption d-none d-md-block text-white ">
                     <h3 class="heading-main"> Luyện mãi thành tài, miệt mài tất giỏi.</h3>
                     <p class="heading-sub">Ngủ dậy muộn thì phí mất cả ngày, ở tuổi thanh niên mà không học tập thì phí mất cả cuộc đời .</p>
-                    <a class="btn btn-pink btn-animate" href="#">Read More</a>
+                    <a class="btn btn-pink btn-animate" href="#">Học ngay</a>
                 </div>
             </div>
             <div class="carousel-item">
@@ -24,7 +25,7 @@
                 <div class="carousel-caption myCaption d-none d-md-block text-white js--wp-4">
                     <h3> Luyện mãi thành tài, miệt mài tất giỏi.</h3>
                     <p>Ngủ dậy muộn thì phí mất cả ngày, ở tuổi thanh niên mà không học tập thì phí mất cả cuộc đời .</p>
-                    <a class="btn btn-pink" href="#">Read More</a>
+                    <a class="btn btn-pink" href="#">Học ngay</a>
                 </div>
             </div>
             <div class="carousel-item">
@@ -33,7 +34,7 @@
                 <div class="carousel-caption myCaption d-none d-md-block text-white js--wp-4">
                     <h3> Luyện mãi thành tài, miệt mài tất giỏi.</h3>
                     <p>Ngủ dậy muộn thì phí mất cả ngày, ở tuổi thanh niên mà không học tập thì phí mất cả cuộc đời .</p>
-                    <a class="btn btn-pink" href="#">Read More</a>
+                    <a class="btn btn-pink" href="#">Học ngay</a>
                 </div>
             </div>
         </div>
@@ -119,7 +120,7 @@
                     <div class="today_icon">
                         <i class="fa fa-laptop"></i>
                     </div>
-                    <h5>Development</h5>
+                    <h5>Học mọi nơi</h5>
                     <p>Lorem ipsum dolor sit, amet consectetur </p>
                 </div>
             </div>
@@ -128,7 +129,7 @@
                     <div class="today_icon">
                         <i class="fa fa-car" aria-hidden="true"></i>
                     </div>
-                    <h5>Development</h5>
+                    <h5>Giao hàng miễn phí</h5>
                     <p>Lorem ipsum dolor sit, amet consectetur </p>
                 </div>
             </div>
@@ -137,7 +138,7 @@
                     <div class="today_icon">
                         <i class="fa fa-money" aria-hidden="true"></i>
                     </div>
-                    <h5>Development</h5>
+                    <h5>Hoàn tiền</h5>
                     <p>Lorem ipsum dolor sit, amet consectetur </p>
                 </div>
             </div>
@@ -146,7 +147,7 @@
                     <div class="today_icon">
                         <i class="fa fa-credit-card" aria-hidden="true"></i>
                     </div>
-                    <h5>Development</h5>
+                    <h5>Thanh toán tiện lợi</h5>
                     <p>Lorem ipsum dolor sit, amet consectetur </p>
                 </div>
             </div>
@@ -203,127 +204,33 @@
                 <p class="text-center">  Học tập giúp mỗi chúng ta rèn luyện bản thân hoàn thiện hơn. </p>
             </div>
         </div>
-        <div class="row owl-carousel owl-theme m-auto js--wp-5">
-            <div class="col ">
-                <div class="card mycard">
-                    <img class="card-img-top" src="~/img/p2.jpg" alt="Card image cap">
-                    <div class="card-body mycard-body">
-                        <h5 class="card-title">Development</h5>
-                        <a href="#" class="name-author"><small>Nguyen Lanh</small> </a>
-                        <div class="star-courses cleafix text-left">
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        </div>
-                        <div class="price">
-                            <span class="fake"><small> <del> 200$   </del></small></span>
-                            <span class="real"> 180$ </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mycard">
-                    <img class="card-img-top " src="~/img/p1.jpg" alt="Card image cap">
-                    <div class="card-body mycard-body ">
-                        <h5 class="card-title">Creative Art</h5>
-                        <a href="#" class="name-author"><small>Nguyen Lanh</small> </a>
-                        <div class="star-courses cleafix text-left">
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        </div>
-                        <div class="price">
-                            <span class="fake "><small> <del> 200$   </del></small></span>
-                            <span class="real "> 180$ </span>
+        <div class="row owl-carousel owl-theme m-auto js--wp-5" id="">
+            @if (lst.Count > 0)
+            {
+                foreach (CourseVM item in lst)
+                {
+                    <div class="col ">
+                        <div class="card mycard">
+                            <img class="card-img-top" src="@item.Image" alt="Card image cap">
+                            <div class="card-body mycard-body">
+                                <h5 class="card-title">@item.Name</h5>
+                                <a href="#" class="name-author"><small>@item.FullName</small> </a>
+                                <div class="star-courses cleafix text-left">
+                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                </div>
+                                <div class="price">
+                                    <span class="fake"><small> <del> @item.PromotionPrice </del></small></span>
+                                    <span class="real">@item.Price </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mycard">
-                    <img class="card-img-top " src="~/img/p1.jpg" alt="Card image cap">
-                    <div class="card-body mycard-body ">
-                        <h5 class="card-title">Creative Art</h5>
-                        <a href="#" class="name-author"><small>Nguyen Lanh</small> </a>
-                        <div class="star-courses cleafix text-left">
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        </div>
-                        <div class="price">
-                            <span class="fake "><small> <del> 200$   </del></small></span>
-                            <span class="real "> 180$ </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mycard">
-                    <img class="card-img-top " src="~/img/p1.jpg" alt="Card image cap">
-                    <div class="card-body mycard-body ">
-                        <h5 class="card-title">Creative Art</h5>
-                        <a href="#" class="name-author"><small>Nguyen Lanh</small> </a>
-                        <div class="star-courses cleafix text-left">
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        </div>
-                        <div class="price">
-                            <span class="fake "><small> <del> 200$   </del></small></span>
-                            <span class="real "> 180$ </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mycard">
-                    <img class="card-img-top " src="~/img/p3.jpg" alt="Card image cap">
-                    <div class="card-body mycard-body">
-                        <h5 class="card-title">Tech and Coding</h5>
-                        <a href="#" class="name-author"><small>Nguyen Lanh</small> </a>
-                        <div class="star-courses cleafix text-left">
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        </div>
-                        <div class="price">
-                            <span class="fake "><small> <del> 200$   </del></small></span>
-                            <span class="real "> 180$ </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mycard">
-                    <img class="card-img-top " src="~/img/p4.jpg" alt="Card image cap">
-                    <div class="card-body mycard-body">
-                        <h5 class="card-title">Business</h5>
-                        <a href="#" class="name-author"><small>Nguyen Lanh</small> </a>
-                        <div class="star-courses cleafix text-left">
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        </div>
-                        <div class="price">
-                            <span class="fake "><small> <del> 200$   </del></small></span>
-                            <span class=" real"> 180$ </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                }
+            }
         </div>
     </div>
 </section>
@@ -435,17 +342,19 @@
 @{await Html.RenderPartialAsync("RegisterUser", Model);}
 
 @section Scripts{
+
+    <!-- #region NavigationCategory -->
     <script type="text/x-jquery-tmpl" id="dropdownCategory">
         <li class="{{Child}}">
             <a class="dropdown-item {{test}} dropright">{{Name}}</a>
             <ul class="dropdown-menu" id="dropdown-menu{{ID}}"></ul>
         </li>
     </script>
-    <!-- #region NavigationCategory -->
-    <!-- #endregion -->
     <script type="text/x-jquery-tmpl" id="dropdownSubCategory">
         <li><a class="dropdown-item" tabindex="-1" href="/CourseCategory/CategoryToCourse/{{ID}}">{{Name}}</a></li>
     </script>
+    <!-- #endregion -->
+
     <script>
         $('.owl-carousel').owlCarousel({
             loop: true,
@@ -490,7 +399,7 @@
         });</script>
     <!-- #region button topcourse -->
     <script id="buttonTopCourse" type="text/x-jquery-tmpl">
-        <button class="tablinks myTadBtn" value="{{ID}}" onclick="openCity(event, '{{TopCateID}})'">{{Name}}</button>
+        <button class="tablinks myTadBtn {{Active}}" value="{{ID}}" onclick="openCity(event, '{{TopCateID}})'">{{Name}}</button>
     </script>
     <script id="divTopCourse" type="text/x-jquery-tmpl">
         <div id="{{TopCateID}}" class="tabcontent  my-tabcontent ">
@@ -506,7 +415,7 @@
                 <div class="card mycard">
                     <img class="card-img-top" src="{{Image}}" alt="Card image cap">
                     <div class="card-body">
-                        <a href="/Home/Detail/{{UserId}}">{{UserName}}</a>
+                        <a href="/User/Teacher/{{UserId}}">{{UserName}}</a>
                         <h5 class="card-title">{{Name}}</h5>
                         <span class="mr-1"><i class="fa fa-user m-1" aria-hidden="true"></i>12</span>
                         <span class="mr-1"><i class="fa fa-thumbs-up m-1"></i>{{PromotionPrice}}</span>
@@ -517,46 +426,9 @@
         </a>
     </script>
     <!-- #endregion -->
+   
     <script src="~/js/controllers/homeController.js"></script>
     <script>
-        $('body').on('click', '.myTadBtn', function (e) {
-            var self = $(this);
-            var ID = self.val();
-            $.ajax({
-                url: "/Home/ListAllCourseTop",
-                type: "GET",
-                data: {
-                    ID: ID
-                },
-                async: true,
-                dataType: 'json',
-                success: function (res) {
-                    var template = $('#topCourse').html();
-                    Mustache.parse(template);
-                    data = res.topCourse;
-                    var namecatenew = '#' + ID;
-                    $(namecatenew).html('');
-                    if (res.status) {
-                        var html = '';
-                        $.each(data, async function (i, item) {
-                            html = await Mustache.render(template, {
-                                ID: item.id,
-                                UserId: item.userId,
-                                UserName: item.fullName,
-                                Name: item.name,
-                                PromotionPrice: item.promotionPrice,
-                                Price: item.price,
-                                Image: item.image
-                            });
-                            var namecate = '#category' + item.parentId + ' #' + item.parentId;
-                            var namecate1 = 'category' + item.parentId;
-                            await $(namecate).append(html);
-                            await openCity(e, namecate1);
-                        });
-                    }
-                }
-            });
-
-        });
+     
     </script>
 }

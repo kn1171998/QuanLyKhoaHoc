@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -81,8 +82,22 @@ namespace DoAnTotNghiep.Controllers
 
         #endregion Cookie
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var context = _courseService.GetContext();
+            ViewBag.listPromotion = await (from c in context.Courses
+                                           join u in context.Users
+                                           on c.UserId equals u.Id
+                                           orderby (c.PromotionPrice - c.Price) descending
+                                           select new CourseVM
+                                           {
+                                               Id = c.Id,
+                                               Name = c.Name,
+                                               Image = c.Image,
+                                               FullName = u.FullName,
+                                               PromotionPrice = c.PromotionPrice,
+                                               Price = c.Price
+                                           }).Take(6).ToListAsync();
             return View();
         }
 
@@ -146,9 +161,10 @@ namespace DoAnTotNghiep.Controllers
         }
 
         #endregion ModelFacebook
-        #region Login
-        [HttpPost]
 
+        #region Login
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> FacebookLogin(string Token)
         {
@@ -210,6 +226,7 @@ namespace DoAnTotNghiep.Controllers
             }
             return Json(new { status = false });
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
@@ -246,8 +263,8 @@ namespace DoAnTotNghiep.Controllers
                 return Json(new { status = false, message = "Sai tên tài khoản hoặc mật khẩu" });
             }
         }
-        #endregion
 
+        #endregion Login
 
         public JsonResult CheckUserEmail(string email)
         {
@@ -318,14 +335,14 @@ namespace DoAnTotNghiep.Controllers
             return Json(new { status = status, parentCategory = category, listChild = listCategoryChild });
         }
 
-        public IActionResult ListAllCourseTop(int ID)
+        public async Task<IActionResult> ListAllCourseTop(int ID)
         {
             var categoryChild = _courseCategoryService.GetCondition(m => m.ParentId == ID && m.Status == true).Select(m => new
             {
                 m.Id,
                 m.Name,
                 m.SortOrder
-            }).OrderBy(m => m.SortOrder).ToList();
+            }).ToList();
             List<object> course = new List<object>();
             foreach (var item in categoryChild)
             {
@@ -339,11 +356,11 @@ namespace DoAnTotNghiep.Controllers
                         m.PromotionPrice,
                         m.Price,
                         parentId = ID
-                    }).ToList();
+                    }).ToList().Take(5);
                 if (listCourse.Count() > 0)
                     course.AddRange(listCourse);
             }
-            return Json(new { status = true, topCourse = course });
+            return Json(new { status = true, topCourse = course.Take(5) });
         }
 
         public IActionResult Detail(int ID)
@@ -454,6 +471,16 @@ namespace DoAnTotNghiep.Controllers
                             Description = c.Description
                         };
             vm = model.FirstOrDefault();
+            var lst = context.LessonComments.Where(m => m.LessonId == vm.lstCourseLesson[0].Id).Select(m => m).ToList();
+            vm.lstComment = (from cm in lst
+                             join u in context.Users
+                             on cm.UserId equals u.Id
+                             select new LessonCommentVM
+                             {
+                                 FullName = u.FullName,
+                                 Content = cm.Content,
+                                 ImageUrl = u.ImageUrl
+                             }).ToList();
             return View(vm);
         }
 
@@ -680,7 +707,9 @@ namespace DoAnTotNghiep.Controllers
             }
             return Json(new { status = false, loca = "" });
         }
+
         #region Discount
+
         //public long ComputePaymentDiscount(string listIdCourse, string codeDiscount, IEnumerable<Discount> listDiscount)
         //{
         //    var context = _courseService.GetContext();
@@ -695,7 +724,7 @@ namespace DoAnTotNghiep.Controllers
         //                on dc.Idcourse equals c.Id
         //                where item == c.Id.ToString()
         //                select ld;
-                
+
         //    }
         //    return;
         //}
@@ -707,6 +736,7 @@ namespace DoAnTotNghiep.Controllers
                                       select d;
             return currentCodeDiscount;
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CheckDiscount(string listCourse, string codeDiscount)
@@ -724,8 +754,9 @@ namespace DoAnTotNghiep.Controllers
                 return Json(new { status = false, message = "Mã giảm giá đã hết hạn!" });
             }
 
-            return Json(new { status = true, message = "Mã giảm giá đã được áp dụng", discountmoney = ""});
+            return Json(new { status = true, message = "Mã giảm giá đã được áp dụng", discountmoney = "" });
         }
-        #endregion
+
+        #endregion Discount
     }
 }

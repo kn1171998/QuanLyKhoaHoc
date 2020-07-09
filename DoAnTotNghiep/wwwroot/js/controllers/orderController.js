@@ -1,27 +1,27 @@
 ﻿$(function () {
-    usecategoryController.init();
+    orderController.init();
 });
 
-var usecategoryController = {
+var orderController = {
     init: function () {
-        usecategoryController.loadData();
-        usecategoryController.registerEvent();
+        orderController.loadData();
+        orderController.registerEvent();
     },
     registerEvent: function () {
-        $('body').on('click', '.btnDelete', usecategoryController.deleteData);
+        $('body').on('click', '.btnDelete', orderController.deleteData);
         $('body').on('click', '#btnSearch', function () {
-            usecategoryController.loadData(true);
+            orderController.loadData(true);
         });
         $('body').on('keypress', '#SearchName', function (e) {
             if (e.which == 13) {
-                usecategoryController.loadData(true);
+                orderController.loadData(true);
             }
         });
     },
     loadData: function (changePageSize) {
         var searchName = $('#SearchName').val();
         $.ajax({
-            url: "/UserCategory/_Index",
+            url: "/Order/_Index",
             type: 'GET',
             data: {
                 searchName: searchName,
@@ -39,15 +39,15 @@ var usecategoryController = {
                         html += Mustache.render(template, {
                             ID: item.id,
                             FullName: item.fullName,
-                            Birthday: convertDate(item.birthday),
-                            Sex: item.sex ? "Nam" : "Nữ",
-                            Introduction: item.introduction,
-                            Status: item.status == true ? "Đang mở" : "Đã khoá"
+                            OrderDate: convertDateTime(item.orderDate),
+                            PayMethod: item.payMethod,
+                            TotalAmount: item.totalAmount,
+                            Status: item.status == "Paid" ? "Đã thanh toán" : "Chưa thanh toán"
                         });
                     });
                     $('#tblCategories').html(html);
                     common.paging(res.total, function () {
-                        usecategoryController.loadData();
+                        orderController.loadData();
                     }, changePageSize);
                 }
             },
@@ -60,15 +60,15 @@ var usecategoryController = {
     deleteData: function () {
         var _self = $(this);
         var _ID = $(this).attr('data-id');
-        bootbox.confirm("Bạn có chắc muốn xoá không", function (result) {
+        bootbox.confirm("Bạn có muốn thay đổi trạng thái đơn hàng không?", function (result) {
             if (result) {
                 $.ajax({
                     url: _self.attr('action'),
                     data: { ID: _ID },
                     type: 'POST',
                     success: function (res) {
-                        common.showNotify("Xoá thành công", res ? "success" : "error");
-                        usecategoryController.loadData();
+                        common.showNotify("Thay đổi thành công", res ? "success" : "error");
+                        orderController.loadData();
                     }
                 });
             }

@@ -11,9 +11,9 @@ var CategoryToCourseController = {
         var idcategoryhidden = $('#idcategoryhidden').val() != 'undefined' ? $('#idcategoryhidden').val() : 3;
         $('body').on('click', '#idbtnSearch', function () {
 
-            var search = $('#search').val() != 'undefined' ? $('#search').val() : "";
-            var radiofree = $('input[id=idsearch]:checked').val() != 'undefined' ? $('input[id=idsearch]:checked').val() : 2;
-            var sortPrice = $('#sortPrice').val() != 'undefined' ? $('#sortPrice').val() : 2;
+            var search = $('#search').val() != undefined ? $('#search').val() : "";
+            var radiofree = $('input[id=radiofree]:checked').val() != undefined ? $('input[id=radiofree]:checked').val() : 2;
+            var sortPrice = $('#sortPrice').val() != undefined ? $('#sortPrice').val() : 2;
             CategoryToCourseController.loadData(idcategoryhidden, radiofree, sortPrice, search);
         });
         $('body').on('click', '#btn-search', function () {

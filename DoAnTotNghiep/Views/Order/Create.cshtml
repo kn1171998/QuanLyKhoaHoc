@@ -1,0 +1,140 @@
+﻿@model UserVM
+@{
+    ViewData["Title"] = "View";
+    Layout = null;
+}
+@using (Html.BeginForm("Create", "UserCategory", FormMethod.Post, new { id = "frmCreateUser" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <input type="hidden" asp-for="Id" />
+    <div class="panel-body p-4 bg-light">
+        <h3 class="h3_title-sigin text-center">Danh sach người dùng</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    @if (Model.Id == 0)
+                    {
+                        <div class="col-md-12 pb-3">
+                            <div class="pb-3">Loại người dùng (<span style="color:red">*</span>)</div>
+                            <select asp-for="TypeUser" class="form-control">
+                                <option value="@TypeUser.User" selected>Học viên</option>
+                                <option value="@TypeUser.Teacher">Giáo viên</option>
+                            </select>
+                            @Html.ValidationMessageFor(m => m.TypeUser)
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-12 pb-3">
+                            <div class="pb-3">Loại người dùng: @Model.TypeUser</div>
+                        </div>
+                        <input type="hidden" value="@Model.TypeUser" asp-for="TypeUser" />
+                    }
+                    <div class="col-md-12 pb-3">
+                        <div class="pb-3">Tên người dùng (<span style="color:red">*</span>)</div>
+                        <input class="form-control" asp-for="FullName" placeholder="Tên người dùng">
+                        @Html.ValidationMessageFor(m => m.FullName)
+                    </div>
+                    <div class="col-md-12 pb-3">
+                        <div class="pb-3">Email(<span style="color:red">*</span>)</div>
+                        <input class="form-control" asp-for="Email" placeholder="Email">
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+                    @if (Model.Id == 0)
+                    {
+                        <div class="col-md-12 pb-3">
+                            <div class="pb-3">Mật khẩu mặc định</div>
+                            <input readonly class="form-control" asp-for="Password" placeholder="Mật khẩu" value="123123">
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </div>
+                    }
+                    <div class="col-md-12 pb-3">
+                        <div class="pb-3">Ngày sinh (<span style="color:red">*</span>)</div>
+                        <input class="form-control" type="date" asp-for="Birthday" placeholder="Ngày sinh">
+                        @Html.ValidationMessageFor(m => m.Birthday)
+                    </div>
+                    <div class="col-md-12 pb-3">
+                        <div class="pb-3">Chọn giới tính (<span style="color:red">*</span>)</div>
+                        <select class="form-control" asp-for="Sex">
+                            <option value="true" selected>Nam</option>
+                            <option value="false">Nữ</option>
+                        </select>
+                        @Html.ValidationMessageFor(m => m.Sex)
+                    </div>
+                    <input asp-for="Status" type="hidden" />
+                    <div class="col-md-12 pb-3">
+                        <div class="pb-3">Giới thiệu (<span style="color:red">*</span>)</div>
+                        <textarea class="form-control" style="display:none;height:0px;" asp-for="Introduction" placeholder="Giới thiệu"></textarea>
+                        @Html.ValidationMessageFor(m => m.Introduction)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix text-center">
+            <button type="submit" id="btnSubmit" class="btn btn-success"><span class='fa fa-save'></span>Lưu</button>
+            <button type="button" class="button btn-danger btn-popup-cancel btnCloseBanner" data-dismiss="modal"><span class='fa fa-close'></span>Huỷ</button>
+        </div>
+    </div>
+}
+<script src="~/lib/ckeditor/ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace("Introduction");
+</script>
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $.validator.addMethod("minAge", function (value, element, min) {
+            var today = new Date();
+            var birthDate = new Date(value);
+            var age = today.getFullYear() - birthDate.getFullYear();
+
+            if (age > min + 1) { return true; }
+
+            var m = today.getMonth() - birthDate.getMonth();
+
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { age--; }
+
+            return age >= min;
+        }, "Bạn không đủ tuổi!");
+        $('#frmCreateUser').validate({
+            rules: {
+                FullName: {
+                    required: true,
+                    maxlength: 70
+                },
+                Email: {
+                    remote: {
+                        url: "/Home/CheckUserEmail",
+                        data: { email: $('#Email').val() },
+                        type: "GET"
+                    },
+                    required: true,
+                    email: true
+                },
+                Birthday: {
+                    date: true,
+                    minAge: 5
+                }
+            },
+            messages: {
+                FullName: {
+                    required: "Vui lòng không để trống",
+                    maxlength: "Không được dài quá 70 kí tự",
+                },
+                Email: {
+                    remote: "Email đã tồn tại trong hệ thống!",
+                    required: "Vui lòng không để trống",
+                    email: "Email sai định dạng"
+                },
+                Birthday: {
+                    date: "Không đúng định dạng",
+                    minAge: "Bạn phải trên 5 tuổi"
+                }
+            }
+        });
+    </script>
+}
+

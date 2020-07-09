@@ -13,9 +13,11 @@ namespace DoAnTotNghiep.Models
         {
             lstCourseLesson = new List<CourseLessons>();
             lstChapter = new List<Chapter>();
+            lstComment = new List<LessonCommentVM>();
         }
         public List<CourseLessons> lstCourseLesson { get; set; }
         public List<Chapter> lstChapter { get; set; }
+        public List<LessonCommentVM> lstComment { get; set; }
         public SelectList lstCategories { get; set; }
         public SelectList lstChildCategories { get; set; }
         public int IdCourse { get; set; }

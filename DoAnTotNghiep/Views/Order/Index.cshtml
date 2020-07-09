@@ -1,4 +1,4 @@
-﻿@model UserVM
+﻿@model OrderVM
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,7 +14,7 @@
             <a href="javascript:void(0);"
                data-href="dsoft-popup-modal"
                data-event="popup-modal"
-               data-url="/UserCategory/Create"
+               data-url="/Order/Create"
                data-title="Thêm mới"
                data-width="1000"
                data-height="600"
@@ -52,11 +52,18 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-        function convertDate(inputFormat) {
-            function pad(s) { return (s < 10) ? '0' + s : s; }
-            var d = new Date(inputFormat)
-            return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join('/')
+        function convertDateTime(dateTime) {
+            var date = new Date(dateTime);
+            var Str =
+                ("00" + (date.getMonth() + 1)).slice(-2)
+                + "/" + ("00" + date.getDate()).slice(-2)
+                + "/" + date.getFullYear() + " "
+                + ("00" + date.getHours()).slice(-2) + ":"
+                + ("00" + date.getMinutes()).slice(-2)
+                + ":" + ("00" + date.getSeconds()).slice(-2);
+
+            return Str;
         }
     </script>
-    <script src="~/js/controllers/useCategoryController.js"></script>
+    <script src="~/js/controllers/orderController.js"></script>
 }

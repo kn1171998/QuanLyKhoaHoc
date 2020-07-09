@@ -47,7 +47,7 @@ namespace DoAnTotNghiep.Controllers
                      Birthday = m.Birthday ?? DateTime.Now,
                      Sex = m.Sex,
                      Introduction = m.Introduction,
-                     Status= m.Status
+                     Status = m.Status
                  }).ToList();
             }
             else
@@ -100,6 +100,7 @@ namespace DoAnTotNghiep.Controllers
             {
                 try
                 {
+                    vm.Status = true;
                     //Create
                     if (vm.Id == 0)
                     {
