@@ -43,9 +43,11 @@
 <body>
     <div class="wrapper d-flex align-items-stretch">
         <nav id="sidebar">
-            <div class="custom-menu">
-                @*<button type="button" id="sidebarCollapse" class="btn btn-primary"></button>*@
+            <div class="custom-menu ml-1">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary ml-1"></button>
+
             </div>
+
             <div class="img bg-wrap text-center py-4" style="background-image: url(../images/bg_1.jpg);">
                 <div class="user-logo">
                     <div class="img" style="background-image: url(../images/logo.jpg);"></div>
@@ -85,7 +87,7 @@
         </nav>
         <!-- Page Content  -->
         <div id="content" class="p-4 p-md-5 pt-5">
-            <div class="row mb-4 ml-1"><a class="btn btn-outline-danger" asp-action="Index" asp-controller="Home"> &larr;  trang học tập</a></div>
+            <div class="row mb-4 ml-1"><a class="btn btn-outline-danger" asp-action="Index" asp-controller="Home"> &larr;  trang chủ</a></div>
             @RenderBody()
             <hr />
             <footer>

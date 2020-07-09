@@ -116,7 +116,7 @@ ul li {
     justify-content: center;
     align-items: center;
     padding: 0;
-    width:100%;
+    
 }
 
 .myMenu .nav-item {
@@ -1608,12 +1608,23 @@ a {
 /* =======================REVENUE================ */
 .revenue-box {
     display: flex;
-    padding: 3%;
+    padding: 4%;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     /* justify-content: space-between; */
     box-sizing: border-box;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    border-bottom: 3px solid rgb(217,4,95);
+    cursor:pointer;
+    transform: scale(1);
+    transition: all .3s;
+    backface-visibility:hidden;
+    border-radius: 5%;
 }
-
+.revenue-box:hover{
+    transform:scale(1.1);
+}
 .icon-revenue {
     font-size: 44px;
     margin-right: 5%;
@@ -1635,17 +1646,28 @@ a {
 .revenue-detail {
     padding: 3%;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-    margin: 3%;
+   
+    width:100%;
 }
 
 .revenue-detail__item {
     display: flex;
     border-bottom: 3px dotted rgba(0, 0, 0, 0.1);
+    padding: 1%;
+   align-content:center;
+   cursor:pointer;
 }
+.revenue-detail__item:hover .content-revenue__text{
+     color: rgb(217,4,95);
 
-    .revenue-detail__item:last-child {
+}
+.revenue-detail__item:last-child {
         border-bottom: none;
     }
+/* ----------Admin----------- */
+.content {
+    background-color: #F9FAFB;
+}
 /* ----------REPONSIVE----------- */
 @media only screen and (min-width:1119px) {
     .myCaption {
@@ -1796,13 +1818,16 @@ a {
         height: 29%;
     }
 
-        .today_overlay h4 {
+     .today_overlay h4 {
             color: #00d1cd;
             font-size: 20px;
             font-weight: 700;
             line-height: 1;
             margin-bottom: 0;
         }
+    .whyContent h5{
+        font-size: 15px;
+    }
 }
 
 @media only screen and (max-width:911px) {
