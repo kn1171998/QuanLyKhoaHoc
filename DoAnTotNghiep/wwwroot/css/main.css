@@ -571,6 +571,8 @@ ul li {
     padding: 20% 10%;
     transform: translateY(0);
     transition: all .3s;
+    height:100%;
+    width: 100%;
 }
 
     .whyContent:hover {
@@ -1947,6 +1949,7 @@ a {
 
     .sale_content {
         margin: 2%;
+        height: 100%;
     }
 
     .sticky {
