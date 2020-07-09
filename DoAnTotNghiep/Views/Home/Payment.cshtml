@@ -50,8 +50,8 @@
                                     </div>
                                     <div class="box-right">
                                         <p>
-                                            <span>@item.Price</span><br>
-                                            <span><del>@item.PromotionPrice</del></span>
+                                            <span>@item.Price.ToString("#,##0")</span><br>
+                                            <span><del>@String.Format("{0:n0}", item.PromotionPrice)</del></span>
                                         </p>
                                     </div>
                                 </div>
@@ -69,22 +69,22 @@
                 <div class="detail-courses p-1 ">
                     <p class="Origina-price ">
                         <span class="Origina-text">Giá:</span>
-                        <span class="origian-number">@Model.TotalMoney</span>
-                    </p>
-                    <p class="Coupon-discounts clearfix">
-                        <span class="Origina-text ">Mã giảm giá:</span>
-                        <input asp-for="Discount" class="form-group" />
-                        <button id="checkDiscount" class="btn btn-primary form-group">Kiểm tra</button>
-                        <span id="errorDiscount" class="text-danger"></span>
+                        <span class="origian-number">@String.Format("{0:n0}", Model.TotalMoney)</span>
                     </p>
                     <p class="Coupon-discounts clearfix">
                         <span class="Origina-text">Giảm giá:</span>
-                        <span class="origian-number" id="discountMoney">@Model.DiscountMoney</span>
+                        <span class="origian-number" id="discountMoney">@String.Format("{0:n0}", Model.DiscountMoney)</span>
                     </p>
+                    <div class="col-md-12 pb-3"> 
+                        <div class="pb-3"><span class="Origina-text">Mã giảm giá:</span></div>
+                        <input asp-for="Discount" class="form-group" />
+                        <div class="pb-3"><button id="checkDiscount" class="btn btn-primary form-group">Kiểm tra</button></div>
+                        <div class="pb-3"><span id="errorDiscount" class="text-danger"></span></div>
+                    </div>
                     <hr>
                     <p class="total">
                         <span class="Origina-text total">Tổng:</span>
-                        <span class="origian-number" id="sumMoney">@Model.SumMoney</span>
+                        <span class="origian-number" id="sumMoney">@String.Format("{0:n0}", Model.SumMoney)</span>
                     </p>
                 </div>
             </div>
@@ -129,7 +129,7 @@
                 success: function (res) {
                     if (res.status) {
                         $('#errorDiscount').text('');
-                        
+
                     }
                     else {
                         $('#errorDiscount').text(res.message);

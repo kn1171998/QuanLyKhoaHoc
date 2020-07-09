@@ -27,18 +27,32 @@
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
-        <style>
-            body {
-                padding: 0px;
-            }
-        </style>
-        <style>
-
-            label.error {
-                color: red;
-            }
-        </style>
     </environment>
+    <environment include="Staging,Production">
+
+        <link href="~/css/startuppost.css" rel="stylesheet" />
+        <link href="~/css/style.css" rel="stylesheet" />
+        <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/lib/pnotify/pnotify.css" rel="stylesheet" />
+        <link href="~/lib/upload/fileupload.css" rel="stylesheet" />
+        <link href="~/lib/jqueryui/jquery-ui.min.css" rel="stylesheet" />
+        <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+        <!-- Custom CSS -->
+        <link href="~/css/main.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+    </environment>
+    <style>
+        body {
+            padding: 0px;
+        }
+    </style>
+    <style>
+        label.error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
     <div class="wrapper d-flex align-items-stretch">
@@ -145,6 +159,30 @@
         <script src="~/lib/twbs-pagination/jquery.twbsPagination.js"></script>
         <script src="~/lib/pnotify/pnotify.js"></script>
         <script src="~/lib/bootbox.js/bootbox.js"></script>
+        <script src="~/lib/upload/fileupload.js"></script>
+        <script src="~/lib/select2/js/select2.min.js"></script>
+        <!--Custom JavaScript -->
+        @*<script src="~/js/custom.js"></script>*@
+        <script src="~/js/main.js"></script>
+        <script src="~/js/common/commonfile.js"></script>
+    </environment>
+    <environment include="Staging,Production">
+        <!-- All Jquery -->
+        <!-- ============================================================== -->
+
+        <script src="~/css/popper.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+        <script src="~/css/bootstrap.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+
+        <!-- apps -->
+        <!--This page JavaScript -->
+        <script src="~/lib/mustache/mustache.js"></script>
+        <script src="~/lib/twbs-pagination/jquery.twbsPagination.min.js"></script>
+        <script src="~/lib/pnotify/pnotify.js"></script>
+        <script src="~/lib/bootbox.js/bootbox.min.js"></script>
         <script src="~/lib/upload/fileupload.js"></script>
         <script src="~/lib/select2/js/select2.min.js"></script>
         <!--Custom JavaScript -->
