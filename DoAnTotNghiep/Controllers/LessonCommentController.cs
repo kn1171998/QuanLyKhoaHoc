@@ -67,7 +67,7 @@ namespace DoAnTotNghiep.Controllers
                         lessonComments.LessonId = idlesson;
                         lessonComments.Content = content;
                         await _lessonCommentService.CreateAsync(lessonComments);
-                        return Json(new { status = false, idlesson = idlesson });
+                        return Json(new { status = true, idlesson = idlesson });
                     }
                 }
             }

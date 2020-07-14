@@ -289,6 +289,7 @@ namespace DoAnTotNghiep.Controllers
                     vm.TypeUser = TypeUser.User;
                     vm.CreatedDate = DateTime.Now;
                     var model = _mapper.Map<Users>(vm);
+                    model.Status = true;
                     await _userService.CreateAsync(model);
                     return Redirect("Index");
                 }
@@ -638,22 +639,25 @@ namespace DoAnTotNghiep.Controllers
                             try
                             {
                                 string orderId = Guid.NewGuid().ToString();
+                                int i = 0;
                                 foreach (var item in vm.lstCourse)
                                 {
                                     var course = _courseService.GetById(item.Id);
                                     if (course != null)
                                     {
-                                        totalamount += course.Price;
+                                        totalamount += course.Price - (listOrderDetail[i].Quantity ?? 0);
                                         OrderDetails orderDetails = new OrderDetails();
                                         orderDetails.OrderId = orderId;
                                         orderDetails.CourseId = course.Id;
-                                        orderDetails.Amount = course.Price;
+                                        orderDetails.DiscountId = listOrderDetail[i].DiscountId;
+                                        orderDetails.Quantity = listOrderDetail[i].Quantity;
+                                        orderDetails.Amount = course.Price - (listOrderDetail[i].Quantity ?? 0);
                                         await _orderDetailService.CreateAsync(orderDetails);
                                     }
                                     else
                                     {
                                         transaction.Rollback();
-                                        return Json(new { status = false, loca = "" });
+                                        return Json(new { status = false, message = "Xảy ra lỗi trong quá trình thanh toán" });
                                     }
                                 }
                                 string convertTotal = totalamount.ToString();
@@ -688,46 +692,66 @@ namespace DoAnTotNghiep.Controllers
                                     else
                                     {
                                         transaction.Rollback();
-                                        return Json(new { status = false, loca = "" });
+                                        return Json(new { status = false, message = "Xảy ra lỗi trong quá trình thanh toán" });
                                     }
                                 }
                             }
                             catch
                             {
                                 transaction.Rollback();
-                                return Json(new { status = false, loca = "" });
+                                return Json(new { status = false, message = "Xảy ra lỗi trong quá trình thanh toán" });
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        return Json(new { status = false, loca = "" });
+                        return Json(new { status = false, message = "Vui lòng đăng nhập để thanh toán" });
                     }
                 }
             }
-            return Json(new { status = false, loca = "" });
+            return Json(new { status = false, message = "Vui lòng đăng nhập để thanh toán" });
         }
 
         #region Discount
 
-        //public long ComputePaymentDiscount(string listIdCourse, string codeDiscount, IEnumerable<Discount> listDiscount)
-        //{
-        //    var context = _courseService.GetContext();
-        //    var ls = listIdCourse.Split(';');
-        //    //long totalDiscountMoney =
-        //    foreach (var item in ls)
-        //    {
-        //        var a = from ld in listDiscount
-        //                join dc in context.DiscountCourse
-        //                on ld.Id equals dc.Iddiscount
-        //                join c in context.Courses
-        //                on dc.Idcourse equals c.Id
-        //                where item == c.Id.ToString()
-        //                select ld;
+        public static List<OrderDetails> listOrderDetail { set; get; } = new List<OrderDetails>();
 
-        //    }
-        //    return;
-        //}
+        public long ComputePaymentDiscount(string listIdCourse, string codeDiscount, IEnumerable<Discount> listDiscount)
+        {
+            var context = _courseService.GetContext();
+            var ls = listIdCourse.Split(';');
+            long totalAmount = 0;
+            foreach (var item in ls)
+            {
+                if (!string.IsNullOrEmpty(item))
+                {
+                    OrderDetails orderDetails = new OrderDetails();
+                    var discountIdCourse = (from ld in listDiscount
+                                            join dc in context.DiscountCourse
+                                            on ld.Id equals dc.Iddiscount
+                                            join c in context.Courses
+                                            on dc.Idcourse equals c.Id
+                                            where item == c.Id.ToString()
+                                            select ld).FirstOrDefault();
+                    if (discountIdCourse.DiscountAmount != null && discountIdCourse.DiscountPercent != 0)
+                    {
+                        totalAmount += discountIdCourse.DiscountAmount ?? 0;
+                    }
+                    if (discountIdCourse.DiscountPercent != null && discountIdCourse.DiscountPercent != 0)
+                    {
+                        int idcourse = int.Parse(item);
+                        var course = _courseService.GetById(idcourse);
+                        long temp = (course.Price * discountIdCourse.DiscountPercent ?? 0) / 100;
+                        totalAmount += temp;
+                    }
+                    orderDetails.Quantity = totalAmount;
+                    orderDetails.DiscountId = discountIdCourse.Id;
+                    listOrderDetail.Add(orderDetails);
+                }
+            }
+            return totalAmount;
+        }
+
         public IEnumerable<Discount> listDiscountCourse(string codeDiscount)
         {
             var context = _courseService.GetContext();
@@ -741,6 +765,10 @@ namespace DoAnTotNghiep.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CheckDiscount(string listCourse, string codeDiscount)
         {
+            if (listOrderDetail != null || listOrderDetail.Count > 0)
+            {
+                listOrderDetail.Clear();
+            }
             var currentCodeDiscount = listDiscountCourse(codeDiscount);
             var checkExist = currentCodeDiscount.Count();
             if (checkExist == 0)
@@ -753,8 +781,8 @@ namespace DoAnTotNghiep.Controllers
             {
                 return Json(new { status = false, message = "Mã giảm giá đã hết hạn!" });
             }
-
-            return Json(new { status = true, message = "Mã giảm giá đã được áp dụng", discountmoney = "" });
+            long discountmoney = ComputePaymentDiscount(listCourse, codeDiscount, currentCodeDiscount);
+            return Json(new { status = true, message = "Mã giảm giá đã được áp dụng", discountmoney = discountmoney });
         }
 
         #endregion Discount

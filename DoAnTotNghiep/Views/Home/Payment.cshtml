@@ -75,7 +75,7 @@
                         <span class="Origina-text">Giảm giá:</span>
                         <span class="origian-number" id="discountMoney">@String.Format("{0:n0}", Model.DiscountMoney)</span>
                     </p>
-                    <div class="col-md-12 pb-3"> 
+                    <div class="col-md-12 pb-3">
                         <div class="pb-3"><span class="Origina-text">Mã giảm giá:</span></div>
                         <input asp-for="Discount" class="form-group" />
                         <div class="pb-3"><button id="checkDiscount" class="btn btn-primary form-group">Kiểm tra</button></div>
@@ -85,6 +85,7 @@
                     <p class="total">
                         <span class="Origina-text total">Tổng:</span>
                         <span class="origian-number" id="sumMoney">@String.Format("{0:n0}", Model.SumMoney)</span>
+                        <input type="hidden" id="sumMoneyInput" value="@Model.SumMoney" />
                     </p>
                 </div>
             </div>
@@ -93,7 +94,12 @@
 </section>
 @section Scripts{
     <script>
-
+        var formatter = new Intl.NumberFormat('en', {
+            notation: 'standard',
+            //style: 'standard',
+            //currency: 'VND',
+            //maximumFractionDigits:0
+        });
         $('body').on('click', '#completepayment', function () {
             var listCourse = $('#lstcourse').val();
             var token = $('input[name=__RequestVerificationToken]').val();
@@ -109,7 +115,8 @@
                         window.location.href = res.loca;
                     }
                     else {
-                        common.showNotify("Thanh toán thất bại", "error");
+                        common.showNotify(res.message, "error");
+                        //bootbox.alert(res.message);
                     }
                 }
             });
@@ -119,7 +126,7 @@
             var codeDiscount = $('#Discount').val();
             var token = $('input[name=__RequestVerificationToken]').val();
             $.ajax({
-                url: "/Home/PaymentComplete",
+                url: "/Home/CheckDiscount",
                 type: 'POST',
                 data: {
                     listCourse: listCourse,
@@ -128,8 +135,11 @@
                 },
                 success: function (res) {
                     if (res.status) {
-                        $('#errorDiscount').text('');
+                        $('#errorDiscount').text(res.message);
 
+                        $('#discountMoney').text(formatter.format(res.discountmoney));
+                        var sum = $('#sumMoneyInput').val() - res.discountmoney;
+                        $('#sumMoney').text(formatter.format(sum));
                     }
                     else {
                         $('#errorDiscount').text(res.message);

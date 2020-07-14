@@ -45,8 +45,9 @@
                             </div>*@
 
                     </div>
-                    <div class="container comment">
-                        <textarea class="form-control" style="display:none;height:0px;" id="comment"></textarea>
+                    <div class="container ">
+                        <textarea class="form-control" cols="20" rows="5" id="comment"></textarea>
+                        @*<textarea class="form-control" style="display:none;height:0px;" id="comment"></textarea>*@
                         <button class="btn btn-default" id="sendComment">Gửi</button>
                     </div>
                 </div>
@@ -96,10 +97,10 @@
 
     </div>
 </section>
-<script src="~/lib/ckeditor/ckeditor/ckeditor.js"></script>
+@*<script src="~/lib/ckeditor/ckeditor/ckeditor.js"></script>
 <script>
     CKEDITOR.replace("comment");
-</script>
+</script>*@
 @section Scripts{
     <script id="listcomment" type="text/x-jquery-tmpl">
         <input type="hidden" id="idlesson" value="{{IdLesson}}" />
@@ -113,7 +114,7 @@
         $(function () {
             function loadComment(idlesson) {
                 $.ajax({
-                    url: "/Comment/LoadComment",
+                    url: "/LessonComment/LoadComment",
                     type: "GET",
                     dataType: "JSON",
                     data: {
@@ -131,7 +132,7 @@
                                     IdLesson: item.lessonId,
                                     FullName: item.fullName,
                                     ImageUrl: item.imageUrl,
-                                    Content: item.payMethod,
+                                    Content: item.content,
                                 });
                             });
                             $('#tblcomment').html(html);
@@ -151,7 +152,7 @@
                 var content = $('#comment').val();
                 var idlesson = $('#idlesson').val();
                 $.ajax({
-                    url: "/Comment/Create",
+                    url: "/LessonComment/Create",
                     type: "POST",
                     dataType: "JSON",
                     async: true,
@@ -161,8 +162,8 @@
                     },
                     success: function (res) {
                         if (res.status) {
-                            common.showNotify("Đặt câu hỏi thành công", "success");
                             loadComment(res.idlesson);
+                            common.showNotify("Đặt câu hỏi thành công", "success");                         
                         } else {
                             common.showNotify("Xảy ra lỗi", "error");
                         }

@@ -24,6 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\BackupRecovery\ConfigBackup.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Chapter\Create.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -99,7 +102,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Report\" />
     <Folder Include="wwwroot\lib\ckeditor\ckfinder\bin\Debug\" />
     <Folder Include="wwwroot\lib\ckeditor\ckfinder\bin\Release\" />
     <Folder Include="wwwroot\lib\ckeditor\ckfinder\plugins\fileeditor\bin\Debug\" />

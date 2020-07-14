@@ -19,7 +19,7 @@ namespace DoAnTotNghiep
         public static string AccessKey { get; set; } = "U19Ag9RXqcgJ4omi";
         public static string SecretKey { get; set; } = "cvchKms1DLnNRIrFVILQ15VaPktksY1o";
         public static string NotifyUrl { get; set; } = "https://courselesson.somee.com/api/payment";
-        public static string ReturnUrl { get; set; } = "https://courselesson.somee.com/api/values";
+        public static string ReturnUrl { get; set; } = "https://learning.somee.com/";
         public static string Signature { get; set; } = "";
         public static PayMomo PaymentMomo { get; set; }
     }

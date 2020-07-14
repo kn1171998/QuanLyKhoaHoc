@@ -35,7 +35,7 @@ var courselessonController = {
                     Mustache.parse(templateCourseLesson);
                     var lessonVMs = data.lessonVMs;
                     $('#containerTree').html('');
-                    $('#containerTree').append('<div id="divTreeLesson"><ul></ul></div>');                    
+                    $('#containerTree').append('<div id="divTreeLesson"><ul></ul></div>');
                     $.each(lstChapter, function (i, item) {
                         var htmlChapter = Mustache.render(template, {
                             ID: item.id,
@@ -106,12 +106,12 @@ var courselessonController = {
         var _ID = $('#frmCreateCourseLesson > input[name=Id]').val();
         var _self = $(this);
         var _selfForm = new FormData();
-        var validDocument = true;
+        var validDocument = 0;
         if (document.getElementById("Video").files != null) {
             var totalFiles = document.getElementById("Video").files.length;
-            if (totalFiles <= 0 && _ID == 0) {              
-                validDocument = false;             
-            }            
+            if (totalFiles > 0 && _ID === "0") {
+                validDocument += 1;
+            }
             for (var i = 0; i < totalFiles; i++) {
                 var file = document.getElementById("Video").files[i];
                 _selfForm.append("Video", file);
@@ -119,15 +119,15 @@ var courselessonController = {
         }
         if (document.getElementById("Slide").files != null) {
             var totalFiles = document.getElementById("Slide").files.length;
-            if (totalFiles <= 0 && _ID == 0) {
-                validDocument = false;
-            }      
+            if (totalFiles > 0 && _ID === "0") {
+                validDocument += 1;
+            }
             for (var i = 0; i < totalFiles; i++) {
                 var file = document.getElementById("Slide").files[i];
                 _selfForm.append("Slide", file);
             }
         }
-        if (!validDocument) {
+        if (validDocument == 0 && _ID === "0") {
             alert('Vui lòng chọn tài liệu khi lưu.');
             return false;
         }
@@ -170,9 +170,9 @@ var courselessonController = {
             var nameParentProgess = '#progressParent' + IDProgress;
             $(nameParentProgess).remove();
             if (data.status)
-                common.showNotify("thành công", "success");
+                common.showNotify("Thành công", "success");
             else
-                common.showNotify("thất bại", "error");
+                common.showNotify("Thất bại", "error");
             courselessonController.loadData();
         });
         return false;
