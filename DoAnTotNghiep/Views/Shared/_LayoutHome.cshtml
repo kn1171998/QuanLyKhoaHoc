@@ -16,7 +16,7 @@
     @*<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />*@
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap" rel="stylesheet">
     @*<link rel="stylesheet" href="~/css/owl.carousel.min.css">*@
-    <link href="~/lib/owl-carousel/owl.carousel.css" rel="stylesheet" />
+    <link href="~/lib/owl-carousel/owl.carousel.min.css" rel="stylesheet" />
     @*<link rel="stylesheet" href="~/css/main.css">*@
     <link href="~/lib/main/main.css" rel="stylesheet" />
     <link href="~/lib/pnotify/pnotify.css" rel="stylesheet" />
@@ -112,6 +112,24 @@
                                 <ul id="menuCategory"></ul>
                             </div>
                         </li>
+
+                        @*<li class="nav-item dropdown mr-3">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                User Test
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="nav-link" href="/Home/Logout">
+                                        Khóa học của tôi
+                                    </a>
+                                    <a class="nav-link" href="/Home/Logout">
+                                        Đăng xuất
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>*@
+
                         @if (User.Identity.IsAuthenticated)
                         {
                             @if (User.IsInRole(TypeUser.Admin) || User.IsInRole(TypeUser.Teacher))
@@ -188,7 +206,7 @@
                 <div class="col-md-3 col-sm-6 footer_cooperation">
                     <h3 class="footer-text-title mt-3 mb-4">Liên kết hoạt động</h3>
                     <p>
-                        <a href="#">
+                        <a href="#" data-toggle="modal" data-target="#exampleModal">
                             đăng nhập
                         </a>
                     </p>
@@ -240,7 +258,7 @@
             crossorigin="anonymous"></script>
     <script src="~/lib/popper.js/dist/umd/popper.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    @*<script src="~/js/owl.carousel.min.js"></script>*@
+
     <script src="~/lib/owl-carousel/owl.carousel.min.js"></script>
     @*<script src="~/js/jquery.waypoints.min.js"></script>*@
     <script src="~/lib/waypoints/jquery.waypoints.min.js"></script>
@@ -249,6 +267,34 @@
     <script src="~/js/common/commonfile.js"></script>
     <script src="~/lib/mustache/mustache.js"></script>
     <script src="~/lib/main/main.js"></script>
+
+    <script>
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            autoplay: true,
+            autoplayTimeout: 2000,
+            autoplayHoverPause: true,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1,
+                    nav: true
+                },
+                600: {
+                    items: 3,
+                    nav: false
+                },
+                1000: {
+                    items: 4,
+                    nav: true,
+                    loop: true
+                }
+            }
+        })
+    </script>
+
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>

@@ -78,7 +78,7 @@
 
 
                 <li class="dropdown">
-                    <a class="  dropdown-toggle"  data-toggle="dropdown">
+                    <a class="  dropdown-toggle" data-toggle="dropdown">
                         <span class="fa fa-chevron-down mr-3 notif"></span>Thông tin doanh thu
                         <span class="caret"></span>
                     </a>
@@ -87,17 +87,8 @@
                     </ul>
                 </li>
 
-
-                @*<li>
-                    <a href="#"><span class="fa fa-trophy mr-3"></span> Thông tin doanh thu</a>
-                    <ul>
-                        <li><a asp-action="ReportRevenue" asp-controller="Dashboard"> <i class="fa fa-file mr-3"></i> Báo cáo doanh thu</a></li>
-                    </ul>
-                </li>*@
-
-
                 <li class="dropdown ">
-                    <a class="  dropdown-toggle"  data-toggle="dropdown">
+                    <a class="  dropdown-toggle" data-toggle="dropdown">
                         <span class="fa fa-chevron-down mr-3 notif"></span>Quản lý khoá học
                         <span class="caret pr-2"></span>
                     </a>
@@ -109,20 +100,21 @@
                 </li>
 
 
-                @*<li>
-            <a href="#"><span class="fa fa-download mr-3 notif"><small class="d-flex align-items-center justify-content-center">5</small></span>Quản lý khoá học</a>
-            <ul>
-                <li><a asp-action="Index" asp-controller="CourseCategory"><span class="fa fa-chevron-down mr-3"></span>Danh mục khoá học</a></li>
-                <li><a asp-action="Index" asp-controller="Course"><span class="fa fa-camera mr-3"></span>Các khoá học</a></li>
-                <li><a asp-action="Index" asp-controller="Discount"><span class="fa fa-gift mr-3"></span> Khuyến mãi khoá học</a></li>
+                <li class="dropdown ">
+            <a class="  dropdown-toggle" data-toggle="dropdown">
+                <span class="fa fa-chevron-down mr-3 notif"></span>Quản lý người dùng
+
+            </a>
+            <ul class="dropdown-menu bg-primary">
+              <li><a asp-action="Index" asp-controller="UserCategory"><span class="fa fa-chevron-down mr-3"></span>Danh mục người dùng</a></li>
             </ul>
-        </li>*@
-                <li>
+        </li>
+                @*<li>
                     <a href="#"><span class="fa fa-user mr-3"></span>Quản lý người dùng</a>
                     <ul>
                         <li><a asp-action="Index" asp-controller="UserCategory"><span class="fa fa-chevron-down mr-3"></span>Danh mục người dùng</a></li>
                     </ul>
-                </li>
+                </li>*@
                 <li class="nav-item mr-3">
                     <a class="nav-link" href="/Home/Logout">
                         <span class="ffa fa-sign-out-alt mr-3"></span>   Đăng xuất

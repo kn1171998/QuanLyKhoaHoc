@@ -209,29 +209,33 @@
             {
                 foreach (CourseVM item in lst)
                 {
-                    <div class="col ">
-                        <div class="card mycard">
-                            <img class="card-img-top" src="@item.Image" alt="Card image cap">
-                            <div class="card-body mycard-body">
-                                <h5 class="card-title">@item.Name</h5>
-                                <a href="#" class="name-author"><small>@item.FullName</small> </a>
-                                <div class="star-courses cleafix text-left">
-                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                </div>
-                                <div class="price">
-                                    <span class="fake"><small> <del> @item.PromotionPrice </del></small></span>
-                                    <span class="real">@item.Price </span>
+                
+                        <div class="col ">
+
+                            <div class="card mycard">
+                                <img class="card-img-top" src="@item.Image" alt="Card image cap">
+                                <div class="card-body mycard-body">
+                                    <h5 class="card-title">@item.Name</h5>
+                                    <a href="#" class="name-author"><small>@item.FullName</small> </a>
+                                    <div class="star-courses cleafix text-left">
+                                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    </div>
+                                    <div class="price">
+                                        <span class="fake"><small> <del> @item.PromotionPrice </del></small></span>
+                                        <span class="real">@item.Price </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
-            }
-        </div>
+                   
+                        }
+                        }
+
+                </div>
     </div>
 </section>
 <section class="intructor m-0 ">
@@ -268,10 +272,10 @@
                             <img src="~/img/c1.jpg" class="d-block  cangiua" alt="First slide">
                         </div>
                         <div class="teacher-caption mt-2">
-                            <p class="teacher-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima eius, consequuntur dolores suscipit incidunt maiores voluptatibus cum esse ipsam, autem sunt doloribus modi cupiditate tenetur. Ex iusto nisi quibusdam? Dolorum?</p>
+                            <p class="teacher-content">Giảng viên rất nhiệt tình hỗ trợ học viên, giảng dễ hiểu, tôi rất hạnh phúc khi tham gia các khóa học trên trang web LEARN</p>
                             <b>Paula Wilson</b>
                             <br>
-                            <a href="#" class="gmail_teacher p-0">lanhnguyen@gmail.com  </a>
+                            <p href="#" class="gmail_teacher p-0">lanhnguyen@gmail.com  </p>
                             <ul class="star m-0 p-0">
                                 <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                 <li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -286,10 +290,10 @@
                             <img src="~/img/c2.jpg" class="d-block  cangiua" alt="First slide">
                         </div>
                         <div class="teacher-caption mt-2">
-                            <p class="teacher-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima eius, consequuntur dolores suscipit incidunt maiores voluptatibus cum esse ipsam, autem sunt doloribus modi cupiditate tenetur. Ex iusto nisi quibusdam? Dolorum?</p>
+                            <p class="teacher-content">Tôi cảm thấy rất may mắn khi tham gia kháo học tại đây, Giảng viên rất nhiệt tình, tôi đã có được 1 công việc sau khi tham gia khóa học.</p>
                             <b>Paula Wilson</b>
                             <br>
-                            <a href="#" class="gmail_teacher p-0">lanhnguyen@gmail.com  </a>
+                            <p href="#" class="gmail_teacher p-0">lanhnguyen@gmail.com  </p>
                             <ul class="star m-0 p-0">
                                 <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                 <li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -304,10 +308,10 @@
                             <img src="~/img/c3.jpg" class="d-block  cangiua" alt="First slide">
                         </div>
                         <div class="teacher-caption mt-2">
-                            <p class="teacher-content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima eius, consequuntur dolores suscipit incidunt maiores voluptatibus cum esse ipsam, autem sunt doloribus modi cupiditate tenetur. Ex iusto nisi quibusdam? Dolorum?</p>
+                            <p class="teacher-content">Mọi người nên tham gia khóa học. Tôi đã học và học hỏi được rất nhiều điều bổ ích.</p>
                             <b>Paula Wilson</b>
                             <br>
-                            <a href="#" class="gmail_teacher p-0">lanhnguyen@gmail.com  </a>
+                            <p href="#" class="gmail_teacher p-0">lanhnguyen@gmail.com  </p>
                             <ul class="star m-0 p-0">
                                 <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                 <li><i class="fa fa-star" aria-hidden="true"></i></li>
@@ -354,7 +358,6 @@
         <li><a class="dropdown-item" tabindex="-1" href="/CourseCategory/CategoryToCourse/{{ID}}">{{Name}}</a></li>
     </script>
     <!-- #endregion -->
-
     <script>
         $('.owl-carousel').owlCarousel({
             loop: true,
@@ -372,18 +375,14 @@
                     items: 3,
                     nav: false
                 },
-                2024: {
-                    items: 4,
-                    nav: true,
-                    loop: true
-                },
-                2000: {
+                1000: {
                     items: 4,
                     nav: true,
                     loop: true
                 }
             }
-        })</script>
+        })
+    </script>
     <script>
         $('#myModal').on('shown.bs.modal', function () {
             $('#myInput').trigger('focus')

@@ -41,7 +41,7 @@
                             {
                                 <div class="orderDetail-box w-100 p-3 mb-5">
                                     <div class="box-left">
-                                        <div style="width:100px;height:62px;">
+                                        <div >
                                             <img src="@item.Image" style="width:100px;height:62px;" class="img-detail mr-3" alt="photo-course">
                                         </div>
                                         <p class="box-left-text total pl-5">
@@ -75,14 +75,26 @@
                         <span class="Origina-text">Giảm giá:</span>
                         <span class="origian-number" id="discountMoney">@String.Format("{0:n0}", Model.DiscountMoney)</span>
                     </p>
-                    <div class="col-md-12 pb-3">
-                        <div class="pb-3"><span class="Origina-text">Mã giảm giá:</span></div>
-                        <input asp-for="Discount" class="form-group" />
-                        <div class="pb-3"><button id="checkDiscount" class="btn btn-primary form-group">Kiểm tra</button></div>
-                        <div class="pb-3"><span id="errorDiscount" class="text-danger"></span></div>
+                    <hr />
+                    <div class="col-md-12 p-2">
+                        <span class="Origina-text  d-block">Mã giảm giá:</span>
+
+                        @*<input asp-for="Discount" class="form-group" />
+                        <div class="pb-3"><button id="checkDiscount" class="btn btn-outline-info ">Áp dụng</button></div>*@
+
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" asp-for="Discount">
+                            <div class="input-group-append">
+                                <button class="btn btn-signin" type="button" id="checkDiscount">Áp dụng</button>
+                            </div>
+                            <div class="pb-3"><span id="errorDiscount" class="text-danger"></span></div>
+                        </div>
+
+
+                       
                     </div>
                     <hr>
-                    <p class="total">
+                    <p class="total ">
                         <span class="Origina-text total">Tổng:</span>
                         <span class="origian-number" id="sumMoney">@String.Format("{0:n0}", Model.SumMoney)</span>
                         <input type="hidden" id="sumMoneyInput" value="@Model.SumMoney" />
