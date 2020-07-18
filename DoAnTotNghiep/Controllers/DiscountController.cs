@@ -151,6 +151,11 @@ namespace DoAnTotNghiep.Controllers
         public IActionResult Create(int ID)
         {
             var vm = new DiscountVM();
+            if (ID != 0)
+            {
+                var model = _discountService.GetById(ID);
+                vm = _mapper.Map<DiscountVM>(model);
+            }
             return View(vm);
         }
 
@@ -214,6 +219,33 @@ namespace DoAnTotNghiep.Controllers
                 result = false;
                 return Json(result);
             }
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteDetail(List<int> lstCourseHasChoose, int idDiscount)
+        {
+            quanlykhoahocContext context = _courseService.GetContext();
+            bool status = false;
+            using (IDbContextTransaction transaction = context.Database.BeginTransaction())
+            {
+                foreach (var item in lstCourseHasChoose)
+                {
+                    try
+                    {
+                        DiscountCourse discountCourse = new DiscountCourse();
+                        discountCourse.Idcourse = item;
+                        discountCourse.Iddiscount = idDiscount;
+                        await _discountCourseService.Delete(discountCourse);
+                    }
+                    catch
+                    {
+                        status = false;
+                        transaction.Rollback();
+                    }
+                }
+                status = true;
+                transaction.Commit();
+            }
+            return Json(new { status = status });
         }
     }
 }

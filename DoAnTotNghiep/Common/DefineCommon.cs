@@ -7,6 +7,7 @@ namespace DoAnTotNghiep
         public static string User { get; set; } = "User";
         public static string Admin { get; set; } = "Admin";
         public static string Teacher { get; set; } = "Teacher";
+        public static string AvatarDefault { get; set; } = @"/img/avatardefault.jpg";
     }
     public static class DefineCommon
     {

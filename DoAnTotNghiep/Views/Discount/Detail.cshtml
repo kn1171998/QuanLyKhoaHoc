@@ -12,30 +12,28 @@
         cursor: pointer;
     }
 </style>
-@*<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <link href="~/lib/datatables/css/dataTables.material.min.css" rel="stylesheet" />*@
 @Html.AntiForgeryToken()
 <input asp-for="ID" type="hidden" />
-<div class="row">
-    <div class="col-md-3">
-        <select name="CategoryParent" id="CategoryParent" class="form-control" asp-items="@Model.lstCategories">
-            <option value="-1">Danh mục cha</option>
-        </select>
-    </div>
-    <div class="col-md-3">
-        <select asp-for="CategoryId" class="form-control" asp-items="@Model.lstChildCategories">
-            <option value="-1">Danh mục con</option>
-        </select>
-        @Html.ValidationMessageFor(m => m.CategoryId)
-    </div>
-    <div class="col-md-3">
-        <select class="form-control" id="courseSelected">
-            <option value="-1">Tất cả</option>
-            <option value="1">Đã chọn</option>
-            <option value="0">Chưa chọn</option>
-        </select>
-    </div>
-</div>
+@*<div class="row">
+        <div class="col-md-3">
+            <select name="CategoryParent" id="CategoryParent" class="form-control" asp-items="@Model.lstCategories">
+                <option value="-1">Danh mục cha</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select asp-for="CategoryId" class="form-control" asp-items="@Model.lstChildCategories">
+                <option value="-1">Danh mục con</option>
+            </select>
+            @Html.ValidationMessageFor(m => m.CategoryId)
+        </div>
+        <div class="col-md-3">
+            <select class="form-control" id="courseSelected">
+                <option value="-1">Tất cả</option>
+                <option value="1">Đã chọn</option>
+                <option value="0">Chưa chọn</option>
+            </select>
+        </div>
+    </div>*@
 
 <button id="applyDiscount" class="btn btn-primary">Áp dụng</button>
 
@@ -47,7 +45,7 @@
                 <th><input name="select_all" value="1" type="checkbox"></th>
                 <th>Tên khoá học</th>
                 <th>Ảnh</th>
-                @*<th><span class="fa fa-cog"></span></th>*@
+
             </tr>
         </thead>
         <tbody id="tblDiscountHasNotDiscount"></tbody>
@@ -58,34 +56,29 @@
                 <th>Ảnh</th>
             </tr>
         </tfoot>
-
     </table>
 </div>
 <hr />
-<div>
+<div class="container">
     <div>Khoá học đã được chọn</div>
     <div class="table-responsive " style="grid-auto-columns:auto">
-        <table class="table table-bordered table-striped table-hover">
+        <table class="table table-bordered table-striped table-hover" id="discountHasChoose">
             <thead class="thead-light text-center">
 
                 <tr>
-                    <th><span class="fa fa-cog"></span></th>
+                    <th><input name="select_all1" value="1" type="checkbox"></th>
                     <th>Tên khoá học</th>
-                    <th>Ảnh</th>
-
+                    <th>Ảnh</th>                    
                 </tr>
             </thead>
             <tbody id="tblDiscountHasDiscount"></tbody>
         </table>
     </div>
+    <button class="btn btn-danger" id="deleteDetail">Xoá</button>
 </div>
 
-
-@*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
 <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
 <script src="~/lib/datatables/js/dataTables.bootstrap.min.js"></script>
-@*<script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
-    <script src="~/lib/datatables/js/dataTables.material.min.js"></script>*@
 <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
 
 <script id="CourseHasDiscount" type="x-tmpl-mustache">
@@ -95,11 +88,18 @@
         <td><div style="width:100px;height:62px;"><img src="{{Image}}" style="width:100px;height:62px;" /></div></td>
     </tr>
 </script>
+<script id="CourseHasNotDiscount" type="x-tmpl-mustache">
+    <tr>
+        <td></td>
+        <td><input type="hidden" class="idcourse" value="{{ID}}" id="{{ID}}" name="{{ID}}" />{{Name}}</td>
+        <td><div style="width:100px;height:62px;"><img src="{{Image}}" style="width:100px;height:62px;" /></div></td>
+    </tr>
+</script>
 <script>
     $(function () {
         var id = $('input[name="ID"]').val();
-        console.log(id);
         var table = null;
+        var tableHasDiscount = null;
         var loadData = {
             innit: function () {
                 $.ajax({
@@ -111,6 +111,7 @@
                     async: true,
                     success: async function (res) {
                         var template = $('#CourseHasDiscount').html();
+                        var templatenot = $('#CourseHasNotDiscount').html();
                         var html = '';
                         var data = res.data;
                         console.log(data);
@@ -119,14 +120,34 @@
                                 html += Mustache.render(template, {
                                     ID: item.idCourse,
                                     Name: item.nameCourse,
-                                    Image: item.image
+                                    Image: item.image,
+                                    IDDiscount: id
                                 });
                             });
                             await $('#tblDiscountHasDiscount').html(html);
+                            tableHasDiscount = await $('#discountHasChoose').DataTable({
+                                "language": {
+                                    "url": "/lib/datatables/Vietnamese.json"
+                                },
+                                "lengthMenu": [3, 5, 10, 20],
+                                "processing": true,
+                                'columnDefs': [
+                                    {
+                                        'className': 'dt-body-center',
+                                        'targets': 0,
+                                        'checkboxes': {
+                                            'selectRow': true
+                                        }
+                                    }
+                                ],
+                                'select': {
+                                    'style': 'multi'
+                                }
+                            })
                         }
                         html = '';
                         await $.each(data.lstCourse, function (i, item) {
-                            html += Mustache.render(template, {
+                            html += Mustache.render(templatenot, {
                                 ID: item.id,
                                 Name: item.name,
                                 Image: item.image
@@ -169,7 +190,10 @@
                 var td = self.closest("tr").find('.idcourse').val();
                 lstCourseHasChoose.push(td);
             });
-
+            if (table == null || lstCourseHasChoose.length <= 0) {
+                bootbox.alert("Vui lòng chọn khoá học cần thêm vào mã khuyến mãi");
+                return false;
+            }
             $.ajax({
                 url: "/Discount/ApplyDiscountCourse",
                 type: "POST",
@@ -179,14 +203,46 @@
                 },
                 success: function (res) {
                     if (res.status) {
-                        common.showNotify("Thêm thành công", "success");
+                        common.showNotify("Các khoá học đã áp dụng thành công", "success");
                         loadData.innit();
                     } else {
-                        common.showNotify("Thêm thất bại", "error");
+                        common.showNotify("Xảy ra lỗi", "error");
                         loadData.innit();
                     }
                 }
             });
-        })
+        });
+        $('body').on('click', '#deleteDetail', function () {
+            var lstCourseHasChoose = [];
+            tableHasDiscount.$('input[type="checkbox"]:checked').each(function () {
+                // If checkbox doesn't exist in DOM
+                var self = $(this);
+                console.log(self.closest("tr")[0]);
+                console.log(self.closest("tr").find('.idcourse').val());
+                var td = self.closest("tr").find('.idcourse').val();
+                lstCourseHasChoose.push(td);
+            });
+            if (tableHasDiscount == null || lstCourseHasChoose.length <= 0) {
+                bootbox.alert("Vui lòng chọn khoá học cần xoá");
+                return false;
+            }
+            $.ajax({
+                url: "/Discount/DeleteDetail",
+                type: "POST",
+                data: {
+                    lstCourseHasChoose: lstCourseHasChoose,
+                    idDiscount: id
+                },
+                success: function (res) {
+                    if (res.status) {
+                        common.showNotify("Các khoá học xoá thành công", "success");
+                        loadData.innit();
+                    } else {
+                        common.showNotify("Xảy ra lỗi", "error");
+                        loadData.innit();
+                    }
+                }
+            });
+        });
     });
 </script>

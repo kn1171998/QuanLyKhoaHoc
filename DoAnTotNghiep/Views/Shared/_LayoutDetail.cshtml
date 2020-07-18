@@ -107,11 +107,38 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item mr-3">
-                                <a class="nav-link" href="/Home/Logout">
-                                    Đăng xuất
-                                </a>
-                            </li>
+                            @if (User.IsInRole(TypeUser.Admin) || User.IsInRole(TypeUser.Teacher))
+                            {
+                                <li>
+                                    <a class="nav-link" href="/Dashboard/Index">
+                                        Trang quản trị
+                                    </a>
+                                </li>
+                                <li class="nav-item mr-3">
+                                    <a class="nav-link" href="/Home/Logout">
+                                        Đăng xuất
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item dropdown mr-3">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        User Test
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a class="nav-link" href="/User/MyCourse">
+                                                Khóa học của tôi
+                                            </a>
+                                            <a class="nav-link" href="/Home/Logout">
+                                                Đăng xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
                         }
                         else
                         {
@@ -121,12 +148,12 @@
                                 </a>
                             </li>
                             <li class="nav-item mr-2">
-                                <a class="nav-link  js-scroll-to-regisster" href="#register">Đăng kí</a>
+                                <a class="nav-link  js-scroll-to-regisster" href="/Home/Index/#register">Đăng kí</a>
                             </li>
                         }
-                        <li class="nav-item mr-3">
-                            <a class="nav-link" href="#"><ion-icon class="icon-cart" name="cart-outline"></ion-icon></a>
-                        </li>
+                        @*<li class="nav-item mr-3">
+            <a class="nav-link" href="#"><ion-icon class="icon-cart" name="cart-outline"></ion-icon></a>
+        </li>*@
                     </ul>
                     <form class="form-inline my-2 my-lg-0 " id="mySearch">
                         <input class="form-control bg-line mr-ssale_contenttext-white" id="search" type="search" placeholder="Tìm kiếm..." aria-label="Search">

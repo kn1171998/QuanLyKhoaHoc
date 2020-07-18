@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WebData.Implementation;
 using WebData.Models;
@@ -112,7 +113,7 @@ namespace DoAnTotNghiep.Controllers
         }
 
 
-        
+
 
         public IActionResult GetChildCategories(int? parentId)
         {
@@ -151,11 +152,14 @@ namespace DoAnTotNghiep.Controllers
                         }
                         vm.Image = saveDBPath;
                     }
-                    vm.UserId = 1;
+                    ClaimsPrincipal currentUser = this.User;
+                    var currentUserId = int.Parse(currentUser.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    vm.UserId = currentUserId;
                     if (vm.Id == 0)
                     {
                         vm.DateCreated = DateTime.Now;
                         var model = _mapper.Map<Courses>(vm);
+                        model.Status = false;
                         await _courseService.CreateAsync(model);
                         TempData["IsSuccess"] = true;
                         return RedirectToAction(nameof(Index));
@@ -245,7 +249,7 @@ namespace DoAnTotNghiep.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {                    
+                {
                     if (vm.Video != null)
                     {
 
@@ -284,7 +288,7 @@ namespace DoAnTotNghiep.Controllers
                         vm.Status = false;
                         var model = _mapper.Map<CourseLessons>(vm);
                         await _courseLessonService.CreateAsync(model);
-                        return RedirectToAction("Detail",new { ID= idCourse });
+                        return RedirectToAction("Detail", new { ID = idCourse });
                     }
                     else
                     {
@@ -301,6 +305,35 @@ namespace DoAnTotNghiep.Controllers
             }
 
             return RedirectToAction("Detail", new { ID = idCourse });
+        }
+        [HttpPost]
+        public async Task<IActionResult> Export(int id)
+        {
+            try
+            {
+                var context = _courseService.GetContext();
+                var countLessonCourse = (from c in context.Courses
+                                         join cp in context.Chapter
+                                         on c.Id equals cp.CourseId
+                                         join l in context.CourseLessons
+                                         on cp.Id equals l.ChapterId
+                                         select l.Id).Distinct().Count();
+                if (countLessonCourse > 0)
+                {
+                    var model = _courseService.GetById(id);
+                    model.Status = true;
+                    await _courseService.UpdateAsync(id);
+                    return Json(new { result = 1 });
+                }
+                else
+                {
+                    return Json(new { result = 0, message = "Khoá học của bạn không có bài học nào" });
+                }
+            }
+            catch (Exception)
+            {
+                return Json(new { result = -1, message = "Xảy ra lỗi" });
+            }
         }
     }
 }

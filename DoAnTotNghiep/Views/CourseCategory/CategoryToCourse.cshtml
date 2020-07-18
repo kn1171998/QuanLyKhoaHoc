@@ -63,26 +63,28 @@
                         <div id="addcate" class="row  owl-theme">
                             @foreach (var item in Model.lstCourse)
                             {
-                                <div class="col-md-4 col-sm-12  sale_content">
-                                    <div class="card mycard">
-                                        <img class="card-img-top" src="@item.Image" alt="Card image cap">
-                                        <div class="card-body">
-                                            <h5 class="card-title">@item.Name</h5>
-                                            <a href="#" class="name-author"><small>@item.FullName</small> </a>
-                                            <div class="star-courses cleafix text-left">
-                                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                            </div>
-                                            <div class="price">
-                                                <span class="fake"><small> <del>  @item.PromotionPrice  </del></small></span>
-                                                <span class="real"> @item.Price </span>
+                                <a href="/Home/Detail/@item.Id">
+                                    <div class="col-md-4 col-sm-12  sale_content">
+                                        <div class="card mycard">
+                                            <img class="card-img-top" src="@item.Image" alt="Card image cap">
+                                            <div class="card-body">
+                                                <h5 class="card-title">@item.Name</h5>
+                                                <a href="#" class="name-author"><small>@item.FullName</small> </a>
+                                                <div class="star-courses cleafix text-left">
+                                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                                </div>
+                                                <div class="price">
+                                                    <span class="fake"><small> <del>  @item.PromotionPrice  </del></small></span>
+                                                    <span class="real"> @item.Price </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             }
 
                         </div>
@@ -95,28 +97,30 @@
         </div>
     </div>
 </section>
-@section Scripts{   
+@section Scripts{
     <script id="course-item" type="x-tmpl-mustache">
-        <div class="col-md-4 col-sm-12  sale_content">
-            <div class="card mycard">
-                <img class="card-img-top" src="{{image}}" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">{{nameCourse}}</h5>
-                    <a href="#" class="name-author"><small>{{nameAuthor}}</small> </a>
-                    <div class="star-courses cleafix text-left">
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                    </div>
-                    <div class="price">
-                        <span class="fake"><small> <del>  {{PromotionPrice}}  </del></small></span>
-                        <span class="real"> {{Price}} </span>
+        <a href="/Home/Detail/{{ID}}">
+            <div class="col-md-4 col-sm-12  sale_content">
+                <div class="card mycard">
+                    <img class="card-img-top" src="{{image}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{nameCourse}}</h5>
+                        <a href="#" class="name-author"><small>{{nameAuthor}}</small> </a>
+                        <div class="star-courses cleafix text-left">
+                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                            <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="price">
+                            <span class="fake"><small> <del>  {{PromotionPrice}}  </del></small></span>
+                            <span class="real"> {{Price}} </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     </script>
     <script src="~/js/controllers/CategotyToCourseController.js"></script>
 }

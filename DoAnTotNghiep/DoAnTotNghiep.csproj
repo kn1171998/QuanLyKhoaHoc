@@ -75,6 +75,9 @@
     <Content Update="Views\Home\Error404.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Home\ChangePassword.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Home\RegisterUser.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

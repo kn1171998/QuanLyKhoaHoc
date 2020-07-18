@@ -7,16 +7,7 @@ var DiscountController = {
         DiscountController.registerEvent();
     },
     registerEvent: function () {
-        //    $('body').on('change', '#CategoryParent', DiscountController.loadCategoryChild);
         $('body').on('change', 'input[name=CheckTypeDiscount]', DiscountController.inputRadioDiscount);
-        //$('body').on('input', '#Price', DiscountController.formatPrice)
-        //    .on('keypress', '#Price', function (e) {
-        //        if (!$.isNumeric(String.fromCharCode(e.which))) e.preventDefault();
-        //    })
-        //    .on('paste', '#Price', function (e) {
-        //        var cb = e.originalEvent.clipboardData || window.clipboardData;
-        //        if (!$.isNumeric(cb.getData('text'))) e.preventDefault();
-        //    });
         $('body').on('input', '#DiscountAmount', DiscountController.formatPrice)
             .on('keypress', '#DiscountAmount', function (e) {
                 if (!$.isNumeric(String.fromCharCode(e.which))) e.preventDefault();
@@ -40,8 +31,8 @@ var DiscountController = {
         var valueRadio = $('input[name=CheckTypeDiscount]:checked').val();
         var idInput = {
             ID: "DiscountPercent",
-            Min: "0",
-            Max: "100"
+            Min: "1000",
+            Max: ""
         }
         if (valueRadio == 0)//phan tram chiet khau
         {
@@ -52,7 +43,7 @@ var DiscountController = {
         else if (valueRadio == 1)//so tien chiet khau
         {
             idInput.ID = "DiscountAmount";
-            idInput.Min = "0";
+            idInput.Min = "1000";
             idInput.Max = "";
         }
         var html = Mustache.render(template, idInput);

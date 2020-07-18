@@ -2,8 +2,7 @@
 <section class="bg-SignIn js-section-SignIn" id="register">
     <div class="SignIn container">
         <h3 class="h3_title   h3_title-sigin"> Trở thành thành viên</h3>
-        <form class="form-content" method="post" id="RegisterUser" name="RegisterUser" asp-action="RegisterUser">
-            @*<div asp-validation-summary="ModelOnly">*@
+        <form class="form-content" method="post" id="RegisterUser" name="RegisterUser" asp-action="RegisterUser" asp-controller="Home">
             <div class="form-group">
                 <input asp-for="FullName" class="form-control" aria-describedby="emailHelp" placeholder="Nhập họ và tên">
                 <span asp-validation-for="FullName"></span>
@@ -22,10 +21,49 @@
                 <span asp-validation-for="RePassword"></span>
             </div>
             <button type="submit" class="btn btn-primary btn-signin w-100">Đăng kí</button>
-            @*</div>*@
-        </form>
+            <div class="form-group">
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
+            <div class="form-group divfb">
+                <div id="fb-root">
+                    <div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="rounded" scope="public_profile,email"
+                         onlogin="checkLoginState();" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
+                </div>
+                <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v7.0&appId=541536780060115&autoLogAppEvents=1" nonce="heMF7ETv"></script>
+            </div>
+        </form>      
     </div>
 </section>
+<script>
+    function checkLoginState() {
+        FB.getLoginStatus(function (response) {
+            if (response.status === 'connected') {
+                var tokenFB = response.authResponse.accessToken;
+                var __RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+                $.ajax({
+                    url: "Home/FacebookLogin",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        Token: tokenFB,
+                        __RequestVerificationToken: __RequestVerificationToken
+                    },
+                    success: function (res) {
+                        if (res.status) {
+                            window.location.reload();
+                            common.showNotify("Đăng nhập thành công", "success");
+                        } else {
+                            common.showNotify("Đăng nhập thất bại", "error");
+                        }
+                    },
+                    error: function () {
+                        common.showNotify("Đăng nhập thất bại", "error");
+                    }
+                });
+            }
+        });
+    }
+</script>
 @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
@@ -81,3 +119,6 @@
         }
     });
 </script>
+
+
+

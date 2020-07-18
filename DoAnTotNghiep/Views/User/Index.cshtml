@@ -4,7 +4,8 @@
 }
 
 <div class="container">
-    <form class="p-4" asp-controller="User" asp-action="Update">
+    <form name="frmUser" id="frmUser" class="p-4" asp-controller="User" asp-action="Update">
+        @Html.AntiForgeryToken()
         <input asp-for="Id" type="hidden" />
         <div class="col-md-6">
             <div class="fileupload fileupload-new" data-provides="fileupload">
@@ -16,12 +17,13 @@
                     <div class="col-md-12 fileupload-img">
                         <span class="button btn-system btn-file  ">
                             <label class="btn btn-default btn-file chooseFile p-2">Chọn ảnh</label>
-                            <input type="file" name="LImage" />
+                            <input type="file" name="Image" id="Image" />
                         </span>
                     </div>
                 </div>
                 <div class="fileupload-preview thumbnail mb15" id="thumbnailpost">
                     <img style="margin-bottom:14px;" src="@Model.ImageUrl" />
+                    <input type="hidden" asp-for="ImageUrl" value="@Model.ImageUrl" />
                 </div>
             </div>
         </div>
@@ -46,9 +48,48 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="inputSex">Giới tính</label>
-                <input class="form-control" asp-for="Sex" placeholder="Nam">
+                <select class="form-control" asp-for="Sex">
+                    <option value="1">Nam</option>
+                    <option value="0">Nữ</option>
+                </select>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Cập nhật</button>
+        <button type="submit" id="frmUser" class="btn btn-primary">Cập nhật</button>
     </form>
 </div>
+@section Scripts{
+    <script>
+        $('body').on('submit', '#frmUser', function () {
+            var _self = $(this);
+            var _selfForm = new FormData();
+            if (document.getElementById("Image").files != null) {
+                var totalFiles = document.getElementById("Image").files.length;
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("Image").files[i];
+                    _selfForm.append("Image", file);
+                }
+            }
+            var arr = _self.serializeArray();
+            $.each(arr, function (i, field) {
+                _selfForm.append(field.name, field.value);
+            });
+            $.ajax({
+                url: _self.attr('action'),
+                data: _selfForm,
+                type: 'post',
+                contentType: false,
+                processData: false,
+                async: true,
+                success: function (data) {
+                    if (data.status) {
+                        common.showNotify("Cập nhật thành công", "success");
+                    }
+                    else {
+                        common.showNotify("Cập nhật thất bại", "error");
+                    }
+                }
+            });
+            return false;
+        });
+    </script>
+}

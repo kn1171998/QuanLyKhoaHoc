@@ -21,5 +21,6 @@ namespace PayCompute.Service
         Task Delete(int id);
         int CountEntity();
         IEnumerable<T> GetAll();
+        Task Delete(T entity);
     }
 }

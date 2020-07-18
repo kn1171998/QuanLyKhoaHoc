@@ -88,7 +88,8 @@ namespace DoAnTotNghiep.Controllers
             ViewBag.listPromotion = await (from c in context.Courses
                                            join u in context.Users
                                            on c.UserId equals u.Id
-                                           orderby (c.PromotionPrice - c.Price) descending
+                                           where c.Status == true
+                                           orderby (c.PromotionPrice ?? 0 - c.Price) descending
                                            select new CourseVM
                                            {
                                                Id = c.Id,
@@ -98,6 +99,10 @@ namespace DoAnTotNghiep.Controllers
                                                PromotionPrice = c.PromotionPrice,
                                                Price = c.Price
                                            }).Take(6).ToListAsync();
+            var lstUser = context.Users.Where(m => m.Status == true);
+            ViewBag.studyCount = lstUser.Where(m => m.TypeUser == TypeUser.User).Count();
+            ViewBag.teacherCount = lstUser.Where(m => m.TypeUser == TypeUser.Teacher).Count();
+            ViewBag.courseCount = _courseService.CountCondition(m => m.Status == true);
             return View();
         }
 
@@ -189,6 +194,7 @@ namespace DoAnTotNghiep.Controllers
                         FullName = facebookAccount.name,
                         Email = facebookAccount.email,
                         FacebookId = idfb,
+                        ImageUrl = facebookAccount.picture.data.url != string.Empty ? facebookAccount.picture.data.url : TypeUser.AvatarDefault,
                         Status = true
                     };
                     await _userService.CreateAsync(user);
@@ -199,16 +205,17 @@ namespace DoAnTotNghiep.Controllers
                                                                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                                                                 new Claim(ClaimTypes.Name, user.FullName),
                                                                 new Claim(ClaimTypes.Email, user.Email),
-                                                                new Claim(ClaimTypes.Role, user.TypeUser)
+                                                                new Claim(ClaimTypes.Role, user.TypeUser),
+                                                                new Claim(ClaimTypes.CookiePath, user.ImageUrl)
                                                             }, CookieAuthenticationDefaults.AuthenticationScheme);
                         var principal = new ClaimsPrincipal(identity);
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-                        return Json(new { status = true });
+                        return Json(new { status = true, message = "Đăng nhập thành công", redirect = "/Home/Index" });
                     }
                 }
                 catch (Exception)
                 {
-                    return BadRequest();
+                    return Json(new { status = false });
                 }
             }
             else if (facebookUser.FacebookId == idfb)
@@ -217,12 +224,13 @@ namespace DoAnTotNghiep.Controllers
                                                           new Claim(ClaimTypes.NameIdentifier, facebookUser.Id.ToString()),
                                                           new Claim(ClaimTypes.Name, facebookUser.FullName),
                                                            new Claim(ClaimTypes.Email, facebookUser.Email),
-                                                          new Claim(ClaimTypes.Role, facebookUser.TypeUser)
+                                                          new Claim(ClaimTypes.Role, facebookUser.TypeUser),
+                                                           new Claim(ClaimTypes.CookiePath, facebookUser.ImageUrl)
                                                         }, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-                return Json(new { status = true });
+                return Json(new { status = true, message = "Đăng nhập thành công", redirect = "/Home/Index" });
             }
             return Json(new { status = false });
         }
@@ -241,7 +249,8 @@ namespace DoAnTotNghiep.Controllers
                                                                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                                                                 new Claim(ClaimTypes.Name, user.FullName),
                                                                 new Claim(ClaimTypes.Email, user.Email),
-                                                                new Claim(ClaimTypes.Role, user.TypeUser)
+                                                                new Claim(ClaimTypes.Role, user.TypeUser),
+                                                                 new Claim(ClaimTypes.CookiePath, user.ImageUrl)
                                                             }, CookieAuthenticationDefaults.AuthenticationScheme);
                 var principal = new ClaimsPrincipal(identity);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
@@ -271,7 +280,40 @@ namespace DoAnTotNghiep.Controllers
             var checkUserExist = _userService.CountCondition(m => m.Email == email);
             return Json(checkUserExist > 0 ? false : true);
         }
-
+        [HttpPost]
+        public JsonResult CheckPassword(string oldpassword)
+        {
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = int.Parse(currentUser.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var User = _userService.GetById(currentUserId);
+            return Json(User.Password == oldpassword ? true : false);
+        }
+        public async Task<IActionResult> ChangePassword()
+        {
+            return PartialView();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(string password)
+        {
+            if (!string.IsNullOrEmpty(password))
+            {
+                try
+                {
+                    ClaimsPrincipal currentUser = this.User;
+                    var currentUserId = int.Parse(currentUser.FindFirst(ClaimTypes.NameIdentifier).Value);
+                    var User = _userService.GetById(currentUserId);
+                    User.Password = password;
+                    await _userService.UpdateAsync(User);
+                    return Json(true);
+                }
+                catch (Exception)
+                {
+                    return Json(false);
+                }
+            }
+            return Json(false);
+        }
         public IActionResult RegisterUser()
         {
             UserVM vm = new UserVM();
@@ -290,15 +332,18 @@ namespace DoAnTotNghiep.Controllers
                     vm.CreatedDate = DateTime.Now;
                     var model = _mapper.Map<Users>(vm);
                     model.Status = true;
+                    model.ImageUrl = TypeUser.AvatarDefault;
+                    model.Birthday = DateTime.Now;
+                    model.Sex = true;
                     await _userService.CreateAsync(model);
-                    return Redirect("Index");
+                    return Json(new { Message = "Đăng kí thành công", IsSuccess = true });
                 }
                 catch (Exception ex)
                 {
-                    return View("Index", vm);
+                    return Json(new { Message = "Đăng kí thất bại", IsSuccess = false });
                 }
             }
-            return View("Index", vm);
+            return Json(new { Message = "Đăng kí thất bại", IsSuccess = false });
         }
 
         public IActionResult ListCategory()
@@ -338,26 +383,31 @@ namespace DoAnTotNghiep.Controllers
 
         public async Task<IActionResult> ListAllCourseTop(int ID)
         {
-            var categoryChild = _courseCategoryService.GetCondition(m => m.ParentId == ID && m.Status == true).Select(m => new
-            {
-                m.Id,
-                m.Name,
-                m.SortOrder
-            }).ToList();
+            var categoryChild = _courseCategoryService.GetCondition(m => m.ParentId == ID && m.Status == true)
+                                                        .Select(m => new
+                                                        {
+                                                            m.Id,
+                                                            m.Name,
+                                                            m.SortOrder
+                                                        }).ToList();
             List<object> course = new List<object>();
             foreach (var item in categoryChild)
             {
-                var listCourse = _courseService.GetCondition(m => m.CategoryId == item.Id)
-                    .Select(m => new
-                    {
-                        m.Id,
-                        m.UserId,
-                        m.Name,
-                        m.Image,
-                        m.PromotionPrice,
-                        m.Price,
-                        parentId = ID
-                    }).ToList().Take(5);
+                if (course.Count >= 5)
+                {
+                    return Json(new { status = true, topCourse = course.Take(5) });
+                }
+                var listCourse = _courseService.GetCondition(m => m.CategoryId == item.Id && m.Status == true)
+                                                .Select(m => new
+                                                {
+                                                    m.Id,
+                                                    m.UserId,
+                                                    m.Name,
+                                                    m.Image,
+                                                    m.PromotionPrice,
+                                                    m.Price,
+                                                    parentId = ID
+                                                }).ToList().Take(5);
                 if (listCourse.Count() > 0)
                     course.AddRange(listCourse);
             }
@@ -445,7 +495,7 @@ namespace DoAnTotNghiep.Controllers
                         on c.UserId equals u.Id
                         join cate in context.CourseCategories
                         on c.CategoryId equals cate.Id
-                        where c.Id == ID
+                        where c.Id == ID && c.Status == true
                         select new DetailHomeVM
                         {
                             IdCourse = c.Id,
@@ -640,18 +690,27 @@ namespace DoAnTotNghiep.Controllers
                             {
                                 string orderId = Guid.NewGuid().ToString();
                                 int i = 0;
+                                var countlstCourse = listOrderDetail.Count;
                                 foreach (var item in vm.lstCourse)
                                 {
                                     var course = _courseService.GetById(item.Id);
                                     if (course != null)
                                     {
-                                        totalamount += course.Price - (listOrderDetail[i].Quantity ?? 0);
                                         OrderDetails orderDetails = new OrderDetails();
                                         orderDetails.OrderId = orderId;
                                         orderDetails.CourseId = course.Id;
-                                        orderDetails.DiscountId = listOrderDetail[i].DiscountId;
-                                        orderDetails.Quantity = listOrderDetail[i].Quantity;
-                                        orderDetails.Amount = course.Price - (listOrderDetail[i].Quantity ?? 0);
+                                        if (countlstCourse > 0)
+                                        {
+                                            totalamount += course.Price - (listOrderDetail[i].Quantity ?? 0);
+                                            orderDetails.DiscountId = listOrderDetail[i].DiscountId;
+                                            orderDetails.Quantity = listOrderDetail[i].Quantity;
+                                            orderDetails.Amount = course.Price - (listOrderDetail[i].Quantity ?? 0);
+                                        }
+                                        else
+                                        {
+                                            totalamount += course.Price;
+                                            orderDetails.Amount = course.Price;
+                                        }
                                         await _orderDetailService.CreateAsync(orderDetails);
                                     }
                                     else

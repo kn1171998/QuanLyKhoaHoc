@@ -1,24 +1,11 @@
-﻿@model UserVM
+﻿@model MyCourseVM
 @{
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
 }
 
 <div class="container">
-    <div class="row mb-3" >
-        <div class="col-5">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Sắp sếp</label>
-                </div>
-                <select class="custom-select" id="inputGroupSelect01">
-                    <option selected>chọn</option>
-                    <option value="1">Tằng dần</option>
-                    <option value="2">Giảm dần</option>
-                   
-                </select>
-            </div>
-        </div>
-        <div class="col-6">
+    <div class="row mb-3">
+        <div class="col-12">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Tìm kiếm..." aria-label="Recipient's username" aria-describedby="basic-addon2">
                 <div class="input-group-append">
@@ -28,65 +15,23 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-3">
-            <div class="card mycard">
-                <img class="card-img-top" src="~/img/p2.jpg" alt="Card image cap">
-                <div class="card-body mycard-body">
-                    <h5 class="card-title">Development</h5>
-                    <a href="#" class="name-author"><small>Nguyen Lanh</small> </a>
-                    <div class="star-courses cleafix text-left">
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                    </div>
-                    <div class="price">
-                        <span class="fake"><small> <del> 200$   </del></small></span>
-                        <span class="real"> 180$ </span>
+        @foreach (var item in Model.listCourse)
+        {
+            <a href="/Home/View/@item.Id">
+                <div class="col-3">
+                    <div class="card mycard">
+                        <img class="card-img-top" src="@item.Image" alt="@item.Name">
+                        <div class="card-body mycard-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <a href="" class="name-author"><small>@item.FullName</small> </a>
+                                <div class="price">
+                                    <span class="fake"><small> <del> @item.PromotionPrice   </del></small></span>
+                                    <span class="real"> @item.Price </span>
+                                </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="card mycard">
-                <img class="card-img-top" src="~/img/p1.jpg" alt="Card image cap">
-                <div class="card-body mycard-body">
-                    <h5 class="card-title">Development</h5>
-                    <a href="#" class="name-author"><small>Nguyen Lanh</small> </a>
-                    <div class="star-courses cleafix text-left">
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                    </div>
-                    <div class="price">
-                        <span class="fake"><small> <del> 200$   </del></small></span>
-                        <span class="real"> 180$ </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="card mycard">
-                <img class="card-img-top" src="~/img/p3.jpg" alt="Card image cap">
-                <div class="card-body mycard-body">
-                    <h5 class="card-title">Development</h5>
-                    <a href="#" class="name-author"><small>Nguyen Lanh</small> </a>
-                    <div class="star-courses cleafix text-left">
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                    </div>
-                    <div class="price">
-                        <span class="fake"><small> <del> 200$   </del></small></span>
-                        <span class="real"> 180$ </span>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </a>
+        }
     </div>
 </div>

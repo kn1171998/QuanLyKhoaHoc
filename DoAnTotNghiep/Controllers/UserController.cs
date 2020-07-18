@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WebData.Implementation;
 using WebData.Models;
@@ -16,63 +17,102 @@ namespace DoAnTotNghiep.Controllers
 {
     public class UserController : Controller
     {
-    
+
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IMapper _mapper;
         private readonly IUserService _IUserServed;
-
+        private readonly ICourseService _courseService;
 
         public UserController(
             IHostingEnvironment hostingEnvironment,
             IMapper mapper,
-            IUserService usersv)
+            IUserService usersv,
+            ICourseService courseService)
         {
             _hostingEnvironment = hostingEnvironment;
             _mapper = mapper;
             _IUserServed = usersv;
-
+            _courseService = courseService;
         }
 
         public IActionResult Index(int id)
         {
             var model = _IUserServed.GetById(id);
-            var userVM = _mapper.Map<UserVM>(model);            
+            var userVM = _mapper.Map<UserVM>(model);
             return View(userVM);
         }
         public IActionResult Teacher(int id)
         {
-           
+
             var model = _IUserServed.GetById(id);
             var userVM = _mapper.Map<UserVM>(model);
-            
-         return View(userVM);
+
+            return View(userVM);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Update(UserVM vm)
+        [ValidateAntiForgeryToken]
+        [RequestSizeLimit(3145728)]
+        public async Task<IActionResult> Update(IFormFile Image, UserVM vm)
         {
-            if (ModelState.IsValid)
+
+            try
             {
-                try
+                if (Image != null)
                 {
-                    //Create
-                        var model = _mapper.Map<Users>(vm);
-                        await _IUserServed.UpdateAsync(model);
-                        ViewBag.IsSuccess = true;
-                        return RedirectToAction(nameof(Index));
-                  
+                    string nameVideo = Path.GetFileName(Image.FileName);
+                    string pathUpload = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\resource\images");
+                    string savePath = Path.Combine(pathUpload, nameVideo);
+                    string saveDBPath = Path.Combine(@"\resource\images", nameVideo);
+                    if (!Directory.Exists(pathUpload))
+                    {
+                        Directory.CreateDirectory(pathUpload);
+                    }
+                    using (var stream = new FileStream(savePath, FileMode.CreateNew))
+                    {
+                        await Image.CopyToAsync(stream);
+                    }
+                    vm.ImageUrl = saveDBPath;
                 }
-                catch (Exception ex)
-                {
-                    ViewBag.IsSuccess = false;
-                    return View(vm);
-                }
+                var model = _mapper.Map<Users>(vm);
+                await _IUserServed.UpdateAsync(model);
+                return Json(new { status = true });
+
             }
+            catch (Exception ex)
+            {
+                return Json(new { status = false });
+            }
+
+        }
+        public IActionResult MyCourse()
+        {
+            var context = _courseService.GetContext();
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserId = int.Parse(currentUser.FindFirst(ClaimTypes.NameIdentifier).Value);
+            MyCourseVM vm = new MyCourseVM();
+            vm.listCourse = (from o in context.Orders
+                             join od in context.OrderDetails
+                             on o.Id equals od.OrderId
+                             join u in context.Users
+                             on o.UserId equals u.Id
+                             join c in context.Courses
+                             on od.CourseId equals c.Id
+                             where c.Status == true && o.UserId == currentUserId
+                             select new CourseVM
+                             {
+                                 Id = c.Id,
+                                 Name = c.Name,
+                                 Image = c.Image,
+                                 Price = c.Price,
+                                 PromotionPrice = c.PromotionPrice,
+                                 UserId = c.UserId ?? 0,
+                                 FullName = u.FullName
+                             }).Distinct();
+
+
             return View(vm);
         }
-
-      
-      
     }
 }

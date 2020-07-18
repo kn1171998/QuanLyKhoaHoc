@@ -15,7 +15,15 @@
                 <div class="row">
                     <div class="col-md-12 pb-3">
                         <div class="pb-3">Mã khuyến mãi (<span style="color:red">*</span>)</div>
-                        <textarea cols="20" class="form-control" rows="2" asp-for="CodeDiscount" placeholder="Mã khuyến mãi"></textarea>
+                        @if (string.IsNullOrEmpty(Model.CodeDiscount))
+                        {
+                            <textarea cols="20" class="form-control" rows="2" asp-for="CodeDiscount" placeholder="Mã khuyến mãi"></textarea>
+                        }
+                        else
+                        {
+                            <input type="hidden" asp-for="CodeDiscount" />
+                            <textarea dis cols="20" readonly class="form-control" rows="2" asp-for="CodeDiscount" placeholder="Mã khuyến mãi"></textarea>
+                        }
                         @Html.ValidationMessageFor(m => m.CodeDiscount)
                     </div>
                     <div class="col-md-6 pb-3">
@@ -28,26 +36,40 @@
                         <input asp-for="ToDate" class="form-control" />
                         @Html.ValidationMessageFor(m => m.ToDate)
                     </div>
+
                     <div class="col-md-12 pb-3" id="radioDiscount">
                         <div class="pb-3">Loại chiết khấu</div>
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="0" checked="checked" />
-                            <label class="form-check-label" for="percent">
-                                Phần trăm chiết khấu
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="1" />
-                            <label class="form-check-label" for="amount">
-                                Số tiền chiết khấu
-                            </label>
-                        </div>
+                        @if (Model.DiscountPercent > 0)
+                        {
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="0" checked="checked" />
+                                <label class="form-check-label" for="percent">
+                                    Phần trăm chiết khấu
+                                </label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="1" />
+                                <label class="form-check-label" for="amount">
+                                    Số tiền chiết khấu
+                                </label>
+                            </div>
+                        }
                         @Html.ValidationMessageFor(m => m.CheckTypeDiscount)
                     </div>
                     <div class="col-md-12 pb-3" id="DivInputDiscount">
                         <div class="pb-3">Chiết khấu (<span style="color:red">*</span>)</div>
-                        <input id="DiscountAmount" name="DiscountAmount" type="number" class="form-control" placeholder="Nhập chiết khấu">
-                    </div>                                  
+                        @if (Model.DiscountPercent > 0)
+                        {
+                            <input asp-for="DiscountPercent" min="1" max="100" type="number" class="form-control" placeholder="Nhập chiết khấu">
+                        }
+                        else
+                        {
+                            <input asp-for="DiscountAmount" min="1000" type="number" class="form-control" placeholder="Nhập chiết khấu">
+                        }
+                    </div>
                 </div>
             </div>
         </div>
@@ -65,11 +87,3 @@
 <script id="tableDiscount" type="text/x-jquery-tmpl">
     <option value="{{ID}}">{{Name}}</option>
 </script>
-<script>
-    var select = document.getElementById("demo");
-    multi(select, {
-        non_selected_header: "Khoá học",
-        selected_header: "Khoá học đã chọn"
-    });
-</script>
-<script src="~/lib/multi.js/multi.min.js"></script>

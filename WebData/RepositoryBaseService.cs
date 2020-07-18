@@ -69,8 +69,8 @@ namespace PayCompute.Service
                 foreach (var include in includes.Skip(1))
                 {
                     _resetSet = _resetSet.Include(include);
-                }            
-            }          
+                }
+            }
             _resetSet = predicate != null ? dbSet.Where<T>(predicate).AsQueryable() : dbSet.AsQueryable();
             _resetSet = orderbyDes != null ? _resetSet.OrderByDescending(orderbyDes).AsQueryable() : _resetSet;
             total = _resetSet.Count();
@@ -98,6 +98,11 @@ namespace PayCompute.Service
             IQueryable<T> _resetSet;
             _resetSet = predicate != null ? dbSet.Where<T>(predicate).AsQueryable() : dbSet.AsQueryable();
             return _resetSet.AsQueryable();
+        }
+        public async Task Delete(T entity)
+        {
+            dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }

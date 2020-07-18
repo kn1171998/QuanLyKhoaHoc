@@ -2,6 +2,12 @@
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
     var lst = (List<CourseVM>)ViewBag.listPromotion;
 }
+<style>
+    .divfb {
+        padding-left: 25%;
+        padding-right: 25%;
+    }
+</style>
 <section class="myCarousel mb-5">
     <div id="carouselId" class="carousel slide carousel-fade" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -16,7 +22,10 @@
                 <div class="carousel-caption myCaption d-none d-md-block text-white ">
                     <h3 class="heading-main"> Luyện mãi thành tài, miệt mài tất giỏi.</h3>
                     <p class="heading-sub">Ngủ dậy muộn thì phí mất cả ngày, ở tuổi thanh niên mà không học tập thì phí mất cả cuộc đời .</p>
-                    <a class="btn btn-pink btn-animate" href="#register">Học ngay</a>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-pink btn-animate" href="#register">Học ngay</a>
+                    }
                 </div>
             </div>
             <div class="carousel-item">
@@ -25,7 +34,10 @@
                 <div class="carousel-caption myCaption d-none d-md-block text-white js--wp-4">
                     <h3> Đời sống có hạn mà sự học thì vô hạn.</h3>
                     <p>Hãy học từ sai lầm của người khác. Bạn sẽ không bao giờ sống đủ lâu để phạm phải tất cả sai lầm.</p>
-                    <a class="btn btn-pink" href="#register">Học ngay</a>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-pink btn-animate" href="#register">Học ngay</a>
+                    }
                 </div>
             </div>
             <div class="carousel-item">
@@ -34,7 +46,10 @@
                 <div class="carousel-caption myCaption d-none d-md-block text-white js--wp-4">
                     <h3>  Biết cách học là đủ chứng tỏ bạn thông thái.</h3>
                     <p>Thất học ở thế kỷ 21 sẽ không phải là những người không thể đọc và viết, thay vì thế, là những người không thể học hỏi, gạt bỏ, và học lại.</p>
-                    <a class="btn btn-pink" href="#register">Học ngay</a>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-pink btn-animate" href="#register">Học ngay</a>
+                    }
                 </div>
             </div>
         </div>
@@ -159,15 +174,15 @@
     <div class="row  bg-info  ">
         <div class="info-overlay"></div>
         <div class="col-6 col-sm-3 col-md-3 info_content ">
-            <h4>50</h4>
+            <h4 id="studyCount">@ViewBag.studyCount</h4>
             <h6>Học viên</h6>
         </div>
         <div class="col-6 col-sm-3 col-md-3 info_content">
-            <h4>10</h4>
+            <h4 id="teacherCount">@ViewBag.teacherCount</h4>
             <h6>Giảng viên</h6>
         </div>
         <div class="col-6 col-sm-3 col-md-3 info_content">
-            <h4>20</h4>
+            <h4 id="courseCount">@ViewBag.courseCount</h4>
             <h6>Khóa học</h6>
         </div>
         <div class="col-6 col-sm-3 col-md-3 info_content">
@@ -209,14 +224,13 @@
             {
                 foreach (CourseVM item in lst)
                 {
-                
-                        <div class="col ">
-
+                    <div class="col ">
+                        <a href="/Home/Detail/@item.Id">
                             <div class="card mycard">
                                 <img class="card-img-top" src="@item.Image" alt="Card image cap">
                                 <div class="card-body mycard-body">
                                     <h5 class="card-title">@item.Name</h5>
-                                    <a href="#" class="name-author"><small>@item.FullName</small> </a>
+                                    <a href="/User/Teacher/@item.UserId" class="name-author"><small>@item.FullName</small> </a>
                                     <div class="star-courses cleafix text-left">
                                         <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
                                         <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
@@ -230,12 +244,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                   
-                        }
-                        }
-
-                </div>
+                        </a>
+                    </div>
+                }
+            }
+        </div>
     </div>
 </section>
 <section class="intructor m-0 ">
@@ -255,9 +268,6 @@
             <div class="col-12 p-0">
                 <h3 class="h3_title">Góc học viên</h3>
             </div>
-            <!-- <div class="col-12 p-0">
-              <p class="text-center">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Deserunt maxime illum aperiam nesciunt </p>
-            </div> -->
         </div>
         <div class="teacher-info">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -342,10 +352,39 @@
         </div>
     </div>
 </section>
-@model UserVM
-@{await Html.RenderPartialAsync("RegisterUser", Model);}
+@if (!User.Identity.IsAuthenticated)
+{        
+    @model UserVM
+    await Html.RenderPartialAsync("RegisterUser", Model);    
+}
+@if (User.Identity.IsAuthenticated)
+{
+    await Html.RenderPartialAsync("ChangePassword");
+}
 
 @section Scripts{
+    <script>
+        $('body').on('submit', '#RegisterUser', function () {
+            var _self = $(this);
+            var _selfForm = new FormData();
+            var arr = _self.serializeArray();
+            $.each(arr, function (i, field) {
+                _selfForm.append(field.name, field.value);
+            });
+            $.ajax({
+                url: _self.attr('action'),
+                data: _selfForm,
+                type: 'POST',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    common.showNotify(data.message, data.isSuccess ? "success" : "error");
+                    window.location.reload();
+                }
+            });
+            return false;
+        });
+    </script>
 
     <!-- #region NavigationCategory -->
     <script type="text/x-jquery-tmpl" id="dropdownCategory">
@@ -425,9 +464,6 @@
         </a>
     </script>
     <!-- #endregion -->
-   
+
     <script src="~/js/controllers/homeController.js"></script>
-    <script>
-     
-    </script>
 }

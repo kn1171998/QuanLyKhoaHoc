@@ -13,35 +13,35 @@
     <!-- Custom CSS -->
     <environment include="Development">
 
-        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link href="~/css/font-awesome/css/fontawesome-all.css" rel="stylesheet" />*@
-        <link href="~/css/startuppost.css" rel="stylesheet" />
-        <link href="~/css/style.css" rel="stylesheet" />
         <link href="~/css/bootstrap.min.css" rel="stylesheet" />
-        <link href="~/lib/pnotify/pnotify.css" rel="stylesheet" />
         <link href="~/lib/upload/fileupload.css" rel="stylesheet" />
         <link href="~/lib/jqueryui/jquery-ui.css" rel="stylesheet" />
+        <link href="~/lib/pnotify/pnotify.css" rel="stylesheet" />
         <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
         <!-- Custom CSS -->
         <link href="~/css/main.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+        <link href="~/css/startuppost.css" rel="stylesheet" />
+        <link href="~/css/style.css" rel="stylesheet" />
     </environment>
     <environment include="Staging,Production">
 
-        <link href="~/css/startuppost.css" rel="stylesheet" />
-        <link href="~/css/style.css" rel="stylesheet" />
+
         <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/lib/jqueryui/jquery-ui.min.css" rel="stylesheet" />
         <link href="~/lib/pnotify/pnotify.css" rel="stylesheet" />
         <link href="~/lib/upload/fileupload.css" rel="stylesheet" />
-        <link href="~/lib/jqueryui/jquery-ui.min.css" rel="stylesheet" />
+
         <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
         <!-- Custom CSS -->
         <link href="~/css/main.css" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+        <link href="~/css/startuppost.css" rel="stylesheet" />
+        <link href="~/css/style.css" rel="stylesheet" />
     </environment>
     <style>
         body {
@@ -64,8 +64,8 @@
 
             <div class="img bg-wrap text-center py-4" style="background-image: url(../images/bg_1.jpg);">
                 <div class="user-logo">
-                    <div class="img" style="background-image: url(../images/logo.jpg);"></div>
-                    <h3>Catriona Henderson</h3>
+                    <div class="img" style="background-image: url(@User.FindFirst( System.Security.Claims.ClaimTypes.CookiePath).Value);"></div>
+                    <h3> @User.FindFirst(System.Security.Claims.ClaimTypes.Name).Value</h3>
                 </div>
             </div>
             <ul class="list-unstyled components mb-5">
@@ -108,13 +108,7 @@
             <ul class="dropdown-menu bg-primary">
               <li><a asp-action="Index" asp-controller="UserCategory"><span class="fa fa-chevron-down mr-3"></span>Danh mục người dùng</a></li>
             </ul>
-        </li>
-                @*<li>
-                    <a href="#"><span class="fa fa-user mr-3"></span>Quản lý người dùng</a>
-                    <ul>
-                        <li><a asp-action="Index" asp-controller="UserCategory"><span class="fa fa-chevron-down mr-3"></span>Danh mục người dùng</a></li>
-                    </ul>
-                </li>*@
+        </li>             
                 <li class="nav-item mr-3">
                     <a class="nav-link" href="/Home/Logout">
                         <span class="ffa fa-sign-out-alt mr-3"></span>   Đăng xuất
@@ -124,8 +118,7 @@
             </ul>
         </nav>
         <!-- Page Content  -->
-        <div id="content" class="p-4 p-md-5 pt-5">
-            <!--<div class="row mb-4 ml-1"><a class="btn btn-outline-danger" asp-action="Index" asp-controller="Home"> &larr;  trang chủ</a></div>-->
+        <div id="content" class="p-4 p-md-5 pt-5">        
             @RenderBody()
             <hr />
             <footer>
@@ -178,6 +171,7 @@
         <script src="~/lib/mustache/mustache.js"></script>
         <script src="~/lib/twbs-pagination/jquery.twbsPagination.js"></script>
         <script src="~/lib/pnotify/pnotify.js"></script>
+        <script src="~/lib/pnotify/pnotify.custom.js"></script>
         <script src="~/lib/bootbox.js/bootbox.js"></script>
         <script src="~/lib/upload/fileupload.js"></script>
         <script src="~/lib/select2/js/select2.min.js"></script>
@@ -202,6 +196,7 @@
         <script src="~/lib/mustache/mustache.js"></script>
         <script src="~/lib/twbs-pagination/jquery.twbsPagination.min.js"></script>
         <script src="~/lib/pnotify/pnotify.js"></script>
+        <script src="~/lib/pnotify/pnotify.custom.js"></script>
         <script src="~/lib/bootbox.js/bootbox.min.js"></script>
         <script src="~/lib/upload/fileupload.js"></script>
         <script src="~/lib/select2/js/select2.min.js"></script>

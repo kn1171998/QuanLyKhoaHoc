@@ -11,26 +11,21 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="~/images/favicon.png">
     <!-- Custom CSS -->
-    <environment include="Development">
-
-        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link href="~/css/font-awesome/css/fontawesome-all.css" rel="stylesheet" />*@
-        <link href="~/css/startuppost.css" rel="stylesheet" />
-        <link href="~/css/style.css" rel="stylesheet" />
-        <link href="~/css/bootstrap.min.css" rel="stylesheet" />
-        <link href="~/lib/pnotify/pnotify.css" rel="stylesheet" />
-        <link href="~/lib/upload/fileupload.css" rel="stylesheet" />
-        <link href="~/lib/jqueryui/jquery-ui.css" rel="stylesheet" />
-        <!-- Custom CSS -->
-        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
-        <style>
-            body {
-                padding: 0px;
-            }
-        </style>
-    </environment>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/jqueryui/jquery-ui.css" rel="stylesheet" />
+    <link href="~/lib/pnotify/pnotify.css" rel="stylesheet" />
+    <link href="~/lib/upload/fileupload.css" rel="stylesheet" />
+    <link href="~/css/startuppost.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+    <style>
+        body {
+            padding: 0px;
+        }
+    </style>
 </head>
 <body>
     <div class="wrapper d-flex align-items-stretch">
@@ -40,38 +35,22 @@
             </div>
             <div class="img bg-wrap text-center py-4" style="background-image: url(../images/bg_1.jpg);">
                 <div class="user-logo">
-                    <div class="img" style="background-image: url(../images/logo.jpg);"></div>
-                    <h3>Catriona Henderson</h3>
+                    <div class="img" style="background-image: url(@User.FindFirst( System.Security.Claims.ClaimTypes.CookiePath).Value);"></div>
+                    <h3>@User.FindFirst(System.Security.Claims.ClaimTypes.Name).Value</h3>
                 </div>
             </div>
             <ul class="list-unstyled components mb-5">
                 <li class="active">
-                    <a href="#"><span class="fa fa-home mr-3"></span> Home</a>
-                </li>
-                @*<li>
-                    <a href="#"><span class="fa fa-download mr-3 notif"><small class="d-flex align-items-center justify-content-center">5</small></span>Cập Nhật thông tin</a>
-                    <ul>
-                        <li><a asp-action="Index" asp-controller="CourseCategory">Danh mục khoá học</a></li>
-                        <li><a asp-action="Index" asp-controller="Course">Các khoá học</a></li>
-                    </ul>
+                    <a href="/Home/Index"><span class="fa fa-home mr-3"></span>Trang chủ</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-gift mr-3"></span>Quản lý người dùng</a>
-                    <ul>
-                        <li><a asp-action="Index" asp-controller="User">Danh mục người dùng</a></li>
-                    </ul>
-                </li>*@
-                <li>
-                    <a href="#"><span class="fa fa-trophy mr-3"></span> Khóa học của tôi</a>
+                    <a href="User/MyCourse"><span class="fa fa-trophy mr-3"></span> Khóa học của tôi</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
+                    <a href="/User/Index/@User.FindFirst( System.Security.Claims.ClaimTypes.NameIdentifier).Value"><span class="fa fa-cog mr-3"></span> Đổi thông tin tài khoản</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-support mr-3"></span> Support</a>
-                </li>
-                <li>
-                    <a href="#"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+                    <a href="/Home/Logout"><span class="fa fa-sign-out mr-3"></span>Đăng xuất</a>
                 </li>
             </ul>
         </nav>
@@ -110,33 +89,30 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
-    <environment include="Development">
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
 
-        <!-- All Jquery -->
-        <!-- ============================================================== -->
+    <script src="~/css/popper.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.js"></script>
+    <script src="~/css/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
-        <script src="~/css/popper.js"></script>
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/jqueryui/jquery-ui.js"></script>
-        <script src="~/css/bootstrap.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-
-        <!-- apps -->
-        <!--This page JavaScript -->
-        <script src="~/lib/mustache/mustache.js"></script>
-        <script src="~/lib/twbs-pagination/jquery.twbsPagination.js"></script>
-        <script src="~/lib/pnotify/pnotify.js"></script>
-        <script src="~/lib/bootbox.js/bootbox.js"></script>
-        <script src="~/lib/upload/fileupload.js"></script>
-        <!--Custom JavaScript -->
-        @*<script src="~/js/custom.js"></script>*@
-        <script src="~/js/main.js"></script>
-        <script src="~/js/common/commonfile.js"></script>
-    </environment>
-
+    <!-- apps -->
+    <!--This page JavaScript -->
+    <script src="~/lib/mustache/mustache.js"></script>
+    <script src="~/lib/twbs-pagination/jquery.twbsPagination.js"></script>
+    <script src="~/lib/pnotify/pnotify.js"></script>
+    <script src="~/lib/pnotify/pnotify.custom.js"></script>
+    <script src="~/lib/bootbox.js/bootbox.js"></script>
+    <script src="~/lib/upload/fileupload.js"></script>
+    <!--Custom JavaScript -->
+    @*<script src="~/js/custom.js"></script>*@
+    <script src="~/js/main.js"></script>
+    <script src="~/js/common/commonfile.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

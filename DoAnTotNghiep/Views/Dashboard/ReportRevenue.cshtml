@@ -41,6 +41,7 @@
             $('#reportrange').daterangepicker({
                 startDate: start,
                 endDate: end,
+                autoUpdateInput: true,
                 ranges: {
                     'Hôm nay': [moment(), moment()],
                     'Hôm qua': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -116,7 +117,36 @@
         </div>
     </script>
     <script>
-        $('body').on('DOMSubtreeModified', '#reportrange span', function () {
+        //$('body').on('DOMSubtreeModified', '#reportrange span', function () {
+        //    if (startDate != "" || endDate != "") {
+        //        $.ajax({
+        //            url: "/Dashboard/Report",
+        //            type: "POST",
+        //            dataType: "JSON",
+        //            data: {
+        //                startdate: startDate.toISOString(),
+        //                enddate: endDate.toISOString()
+        //            },
+        //            success: function (res) {
+        //                var template = $('#resultReport').html();
+        //                var html = '';
+        //                var formatter = new Intl.NumberFormat('en', {
+        //                    notation: 'standard',
+        //                    //style: 'standard',
+        //                    //currency: 'VND',
+        //                    //maximumFractionDigits:0
+        //                });
+        //                html = Mustache.render(template, {
+        //                    totalRevenue: formatter.format(res.revenue),
+        //                    totalCustomer: formatter.format(res.totalcustomer),
+        //                    totalCourse: formatter.format(res.totalcourse)
+        //                });
+        //                $('#report').html(html);
+        //            }
+        //        });
+        //    }
+        //});
+        $('#reportrange').on('apply.daterangepicker', function () {
             if (startDate != "" || endDate != "") {
                 $.ajax({
                     url: "/Dashboard/Report",

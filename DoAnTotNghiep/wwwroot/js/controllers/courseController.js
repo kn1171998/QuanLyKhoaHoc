@@ -6,8 +6,7 @@ var courseController = {
         courseController.loadData();
         courseController.registerEvent();
     },
-    registerEvent: function () {       
-        $('body').on('submit', '#frmUploadVideo', courseController.uploadWareHouse);
+    registerEvent: function () {
         $('body').on('change', '#CategoryParent', courseController.loadCategoryChild);
         $('body').on('input', '#Price', courseController.formatPrice)
             .on('keypress', '#Price', function (e) {
@@ -28,12 +27,13 @@ var courseController = {
         $('body').on('click', '#btnSearch', function () {
             courseController.loadData(true);
         });
-        $('body').on('keypress','#SearchCourse', function (e) {
-            if (e.which == 13) {                
+        $('body').on('keypress', '#SearchCourse', function (e) {
+            if (e.which == 13) {
                 courseController.loadData(true);
             }
         });
         $('body').on('click', '.btnDelete', courseController.deleteData);
+        $('body').on('click', '#btnExport', courseController.exportCourse);
     },
     formatPrice: function () {
         var valueFormat = common.formatCurrency(this.value.replace(/[,VNĐ]/g, ''));
@@ -77,45 +77,13 @@ var courseController = {
                             Price: formatter.format(item.price)
                         });
                     });
-                    $('#tblCourse').html(html);                   
+                    $('#tblCourse').html(html);
                     common.paging(res.total, function () {
                         courseController.loadData();
                     }, changePageSize);
                 }
             }
         });
-    },
-    uploadWareHouse: function () {
-        var _self = $(this);
-        var _selfForm = new FormData();
-        if (document.getElementById("VideoPath").files != null) {
-            var totalFiles = document.getElementById("VideoPath").files.length;
-            if (totalFiles <= 0) {
-                alert('Ảnh chưa được chọn. Vui lòng chọn ảnh trước khi lưu.');
-                return false;
-            }
-        }
-        _selfForm.append("VideoPath", $('#VideoPath')[0].files[0]);
-        $.ajax({
-            url: "/Course/UploadVideo",
-            type: 'POST',
-            data: _selfForm,
-            contentType: false,
-            processData: false,
-            success: function (res) {
-                if (res) {
-                    bootbox.alert("Thành công");
-                } else {
-                    bootbox.alert("Thất bại");
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                // When AJAX call has failed
-                console.log('AJAX call failed.');
-                console.log(textStatus + ': ' + errorThrown);
-            }
-        });
-        return false;
     },
     loadCategoryChild: function () {
         var idParent = $('#CategoryParent').val();
@@ -152,7 +120,35 @@ var courseController = {
                     data: { ID: _ID },
                     type: 'POST',
                     success: function (res) {
-                        common.showNotify("Xoá thành công", res ? "success" : "error");
+                        if (res)
+                            common.showNotify("Xoá thành công", "success");
+                        else
+                            common.showNotify("Xoá thất bại", "error");
+                        courseController.loadData();
+                    }
+                });
+            }
+        });
+    },
+    exportCourse: function () {
+        var _self = $(this);
+        var _ID = $(this).attr('data-id');
+        bootbox.confirm("Bạn có chắc muốn xuất bản không", function (result) {
+            if (result) {
+                $.ajax({
+                    url: _self.attr('action'),
+                    data: { ID: _ID },
+                    type: 'POST',
+                    success: function (res) {
+                        if (res.result == 1) {
+                            common.showNotify("Xuất bản thành công", "success");
+                        }
+                        else if (res.result == 0) {
+                            bootbox.alert(res.message)
+                        }
+                        else {
+                            common.showNotify(res.message, "error");
+                        }
                         courseController.loadData();
                     }
                 });

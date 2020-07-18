@@ -18,6 +18,7 @@
     @*<link rel="stylesheet" href="~/css/owl.carousel.min.css">*@
     <link href="~/lib/owl-carousel/owl.carousel.min.css" rel="stylesheet" />
     @*<link rel="stylesheet" href="~/css/main.css">*@
+    <link href="~/lib/jqueryui/jquery-ui.min.css" rel="stylesheet" />
     <link href="~/lib/main/main.css" rel="stylesheet" />
     <link href="~/lib/pnotify/pnotify.css" rel="stylesheet" />
     <link href="~/css/startuppost.css" rel="stylesheet" />
@@ -112,24 +113,6 @@
                                 <ul id="menuCategory"></ul>
                             </div>
                         </li>
-
-                        @*<li class="nav-item dropdown mr-3">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">
-                                User Test
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <a class="nav-link" href="/Home/Logout">
-                                        Khóa học của tôi
-                                    </a>
-                                    <a class="nav-link" href="/Home/Logout">
-                                        Đăng xuất
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>*@
-
                         @if (User.Identity.IsAuthenticated)
                         {
                             @if (User.IsInRole(TypeUser.Admin) || User.IsInRole(TypeUser.Teacher))
@@ -139,12 +122,38 @@
                                         Trang quản trị
                                     </a>
                                 </li>
+                                <li class="nav-item mr-3">
+                                    <a class="nav-link" href="/Home/Logout">
+                                        Đăng xuất
+                                    </a>
+                                </li>
                             }
-                            <li class="nav-item mr-3">
-                                <a class="nav-link" href="/Home/Logout">
-                                    Đăng xuất
-                                </a>
-                            </li>
+                            else
+                            {
+                                <li class="nav-item dropdown mr-3">
+                                    <div class="img" style="background-image: url(@User.FindFirst( System.Security.Claims.ClaimTypes.CookiePath).Value);"></div>
+                                    <a class="nav-link dropdown-toggle" href="/User/Index/@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        @User.FindFirst(System.Security.Claims.ClaimTypes.Name).Value
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a class="dropdown-item" href="/User/MyCourse">
+                                                Khóa học của tôi
+                                            </a>
+                                            <a class="dropdown-item" href="/User/Index/@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value">
+                                                Thông tin tài khoản
+                                            </a>
+                                            <a class="dropdown-item"  href="#" data-toggle="modal" data-target=".bd-example-modal-sm">
+                                                Đổi mật khẩu
+                                            </a>
+                                            <a class="dropdown-item" href="/Home/Logout">
+                                                Đăng xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
                         }
                         else
                         {
@@ -157,9 +166,9 @@
                                 <a class="nav-link  js-scroll-to-regisster" href="#register">Đăng kí</a>
                             </li>
                         }
-                        <li class="nav-item mr-3">
+                        @*<li class="nav-item mr-3">
                             <a class="nav-link" href="#"><ion-icon class="icon-cart" name="cart-outline"></ion-icon></a>
-                        </li>
+                        </li>*@
                     </ul>
                     <form class="form-inline my-2 my-lg-0 " id="mySearch">
                         <input class="form-control bg-line mr-ssale_contenttext-white" id="search" type="search" placeholder="Tìm kiếm..." aria-label="Search">
@@ -246,16 +255,13 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="~/lib/ionicons/ionicons.min.js"></script>
-    @*<script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>*@
-    @*<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>*@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
             crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
     <script src="~/lib/popper.js/dist/umd/popper.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
@@ -263,7 +269,7 @@
     @*<script src="~/js/jquery.waypoints.min.js"></script>*@
     <script src="~/lib/waypoints/jquery.waypoints.min.js"></script>
     @*<script src="~/js/main.js"></script>*@
-    <script src="~/lib/pnotify/pnotify.js"></script>
+    <script src="~/lib/pnotify/pnotify.custom.js"></script>
     <script src="~/js/common/commonfile.js"></script>
     <script src="~/lib/mustache/mustache.js"></script>
     <script src="~/lib/main/main.js"></script>
