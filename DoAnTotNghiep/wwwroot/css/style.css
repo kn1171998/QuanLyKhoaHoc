@@ -8344,13 +8344,13 @@ a[data-toggle="collapse"] {
 
 .form-control {
   height: 40px !important;
-  background: #fff;
+  /*background: #fff;*/
   color: #000;
   font-size: 13px;
   border-radius: 4px;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
-  border: transparent; }
+  /*border: transparent;*/ }
   .form-control:focus, .form-control:active {
     border-color: #000; }
   .form-control::-webkit-input-placeholder {

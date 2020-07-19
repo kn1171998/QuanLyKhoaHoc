@@ -8,14 +8,14 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <input type="hidden" asp-for="DateCreated" />
-    <div class="panel-body p-4">
-        <h3 class="h3_title-sigin text-center">Khóa học</h3>
+    <div class="panel-body p-4 text-dark clearfix">
+        <h3 class="h3_title-sigin text-center text-dark">Khóa học</h3>
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-12">
                         <div><span style="color:red">*</span></div>
-                        <textarea cols="20" class="form-control" rows="4" asp-for="Name" placeholder="Tên khoá học"></textarea>
+                        <textarea cols="20" class="form-control text-dark" rows="4" asp-for="Name" placeholder="Tên khoá học"></textarea>
                         @Html.ValidationMessageFor(m => m.Name)
                     </div>
                 </div>
