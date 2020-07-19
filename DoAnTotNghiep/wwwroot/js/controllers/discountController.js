@@ -28,6 +28,7 @@ var DiscountController = {
     },
     inputRadioDiscount: function () {
         var template = $('#inputDiscount').html();
+        Mustache.parse(template);
         var valueRadio = $('input[name=CheckTypeDiscount]:checked').val();
         var idInput = {
             ID: "DiscountPercent",
@@ -51,12 +52,10 @@ var DiscountController = {
     },
     formatPrice: function () {
         var valueFormat = common.formatCurrency(this.value.replace(/[,VNĐ]/g, ''));
-        console.log(valueFormat);
         $('#priceFormat').text(valueFormat);
     },
     formatPromotionPrice: function () {
         var valueFormat = common.formatCurrency(this.value.replace(/[,VNĐ]/g, ''));
-        console.log(valueFormat);
         $('#promotionPriceFormat').text(valueFormat);
     },
     loadData: function (changePageSize) {
@@ -73,26 +72,21 @@ var DiscountController = {
             success: function (res) {
                 var data = res.data;
                 var html = '';
-                var template = $('#discount-template').html();
+                var template = $('#discount-template').html();            
                 if (res.status) {
+                    Mustache.parse(template);
                     var data = res.data;
-                    console.log(data);
                     var formatter = new Intl.NumberFormat('en', {
-                        notation: 'standard',
-                        //style: 'standard',
-                        //currency: 'VND',                        
-                        //maximumFractionDigits:0
+                        notation: 'standard'             
                     });
-
                     $.each(data, function (i, item) {
                         html += Mustache.render(template, {
                             ID: item.id,
                             CodeDiscount: item.codeDiscount,
-                            FromDate: item.fromDate,
-                            ToDate: item.toDate,
+                            FromDate: common.formatDDMMYYYYHHMM(item.fromDate),
+                            ToDate: common.formatDDMMYYYYHHMM(item.toDate),
                             DiscountPercent: formatter.format(item.discountPercent),
-                            DiscountAmount: formatter.format(item.discountAmount),
-                            CourseName: "test"
+                            DiscountAmount: formatter.format(item.discountAmount)
                         });
                     });
                     $('#tblDiscount').html(html);
@@ -119,17 +113,5 @@ var DiscountController = {
                 });
             }
         });
-    },
-    loadCourse: function () {
-        $.ajax({
-            url: '/Discount/ListCourse',
-            type: 'GET',
-            data: {      
-                
-            },
-            dataType: 'json',
-            success: function (res) {
-            }
-        });
-    }
+    }  
 }

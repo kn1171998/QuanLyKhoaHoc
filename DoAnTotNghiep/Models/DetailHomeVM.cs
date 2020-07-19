@@ -35,5 +35,7 @@ namespace DoAnTotNghiep.Models
         public string NameCategory { get; set; }
         public int UserId { get; set; }
         public string FullName { get; set; }
+        public string ImageTeacher { get; set; }
+        public int NumberStudent { get; set; }
     }
 }

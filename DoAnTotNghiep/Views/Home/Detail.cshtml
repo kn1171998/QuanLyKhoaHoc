@@ -30,11 +30,11 @@
                             </div>
                             <div class="student col-md-3 col-12">
                                 <span>
-                                    1000 Student
+                                  @Model.NumberStudent Học sinh
                                 </span>
                             </div>
                             <div class="detail-intructor col-12 col-md-4 p-0">
-                                <span>Create by <a href="#">@Model.FullName</a> </span>
+                                <span>Giáo viên: <a href="/User/Teacher/@Model.UserId">@Model.FullName</a> </span>
 
                             </div>
 
@@ -42,30 +42,8 @@
                     </div>
                 </div>
                 <div class="row info-courses  mb-3 p-2">
-                    <h3 class="col-12 p-2">What you'll learn</h3>
-                    @Html.Raw(Model.Content)
-                    @*<div class="col-12 col-md-12 col-lg-6">
-                            <p>
-                                <ion-icon name="checkmark-outline"></ion-icon>
-                                <span>Use MongoDB to its full potential in future projects</span>
-                            </p>
-                        </div>
-                        <div class="col-12 col-md-12 col-lg-6">
-                            <p>
-                                <ion-icon name="checkmark-outline"></ion-icon>
-                                <span>
-                                    Write efficient and well-performing queries to fetch data in the format you need it
-                                </span>
-                            </p>
-                        </div>
-                        <div class="col-12 col-md-12 col-lg-6">
-                            <p>
-                                <ion-icon name="checkmark-outline"></ion-icon>
-                                <span>
-                                    Use all features MongoDB offers you to work with data efficiently
-                                </span>
-                        </div>*@
-
+                    <h3 class="col-12 p-2">Bạn sẽ học gì trong khoá học?</h3>
+                    @Html.Raw(Model.Content)                 
                 </div>
                 <div class="row Course content mr-2">
 
@@ -73,7 +51,7 @@
                         <div class="navbar p-0 clearfix navbar-default navbar-fixed-top w-100" role="navigation">
                             <div class="container p-0">
                                 <div class="navbar-header">
-                                    <h3 class="col-12">Course content</h3>
+                                    <h3 class="col-12">Nội dung khoá học</h3>
                                 </div>
                                 <div class="collapse navbar-collapse d-block">
                                     <ul class="nav navbar-nav w-100" id="menu-course">
@@ -114,11 +92,11 @@
                 <div class="row info-courses mt-5 p-2">
                     <div class="col-12 Lecturer-information mb-3">
                         <div class="lecturer-img d-float">
-                            <img src="./img/c1.jpg" alt="teacher">
+                            <img src="@Model.ImageTeacher" alt="@Model.FullName">
                         </div>
                         <div class="lecturer-info-content d-float ">
-                            <p><small>Lecturers</small></p>
-                            <a href="#" class="name-author">
+                            <p><small>Giáo viên</small></p>
+                            <a href="/User/Teacher/@Model.UserId" class="name-author">
                                 <h5>@Model.FullName</h5>
                             </a>
                             <div class="star-courses cleafix text-left">
@@ -140,7 +118,6 @@
             <div class="col-12 col-md-3   price-cart " id="price-cart ">
                 <div class="price-img ">
                     <img src="@Model.Image" class="img-responsive" alt="img">
-
                 </div>
                 @if (!Model.IsFree)
                 {
@@ -151,7 +128,7 @@
                     <div class="btn w-100">
                         @if (!Model.HasBuy)
                         {
-                            <button class="btn btn-danger w-100 mb-2">Add to cart</button>
+                            @*<button class="btn btn-danger w-100 mb-2">Add to cart</button>*@
                             <a asp-action="BuyNow" asp-controller="Home" asp-route-listIdCourse="@Model.IdCourse.ToString()" id="buynow" class="btn btn-outline-danger w-100 ">Buy now</a>
                         }
                         else

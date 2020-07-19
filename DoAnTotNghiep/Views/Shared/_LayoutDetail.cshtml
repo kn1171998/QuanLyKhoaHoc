@@ -109,7 +109,7 @@
                         {
                             @if (User.IsInRole(TypeUser.Admin) || User.IsInRole(TypeUser.Teacher))
                             {
-                                <li>
+                                <li class="nav-item mr-3">
                                     <a class="nav-link" href="/Dashboard/Index">
                                         Trang quản trị
                                     </a>
@@ -123,16 +123,23 @@
                             else
                             {
                                 <li class="nav-item dropdown mr-3">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                    <div class="img" style="background-image: url(@User.FindFirst( System.Security.Claims.ClaimTypes.CookiePath).Value);"></div>
+                                    <a class="nav-link dropdown-toggle" href="/User/Index/@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value" id="navbarDropdown" role="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false">
-                                        User Test
+                                        @User.FindFirst(System.Security.Claims.ClaimTypes.Name).Value
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li>
-                                            <a class="nav-link" href="/User/MyCourse">
+                                            <a class="dropdown-item" href="/User/MyCourse">
                                                 Khóa học của tôi
                                             </a>
-                                            <a class="nav-link" href="/Home/Logout">
+                                            <a class="dropdown-item" href="/User/Index/@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value">
+                                                Thông tin tài khoản
+                                            </a>
+                                            <a class="dropdown-item"  href="#" data-toggle="modal" data-target=".bd-example-modal-sm">
+                                                Đổi mật khẩu
+                                            </a>
+                                            <a class="dropdown-item" href="/Home/Logout">
                                                 Đăng xuất
                                             </a>
                                         </li>

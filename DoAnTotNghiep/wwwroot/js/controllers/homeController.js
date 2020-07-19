@@ -37,8 +37,8 @@ var homeController = {
                                 UserId: item.userId,
                                 UserName: item.fullName,
                                 Name: item.name,
-                                PromotionPrice: item.promotionPrice,
-                                Price: item.price,
+                                PromotionPrice: common.formatter.format(item.promotionPrice),
+                                Price: common.formatter.format(item.price),
                                 Image: item.image
                             });
                             var namecate = '#category' + item.parentId + ' #' + item.parentId;
@@ -66,6 +66,10 @@ var homeController = {
                 var templateSub = $('#dropdownSubCategory').html();
                 var templateButtonTopCategory = $('#buttonTopCourse').html();
                 var templateDivTopCategory = $('#divTopCourse').html();
+                await Mustache.parse(template);
+                await Mustache.parse(templateSub);
+                await Mustache.parse(templateButtonTopCategory);
+                await Mustache.parse(templateDivTopCategory);
                 if (res.status) {
                     $.each(parentCategory, async function (i, item) {
                         var html = '';
@@ -98,9 +102,7 @@ var homeController = {
                                 await $(nameParent).append(htmlChild);
                             });
                         }
-                    });
-                    //var categoryTop = '<button class="tablinks myTadBtn active" onclick="openCity(event, \'All\')">All</button>';
-                    //await $('#allCourse').append(categoryTop);
+                    });        
                     var categoryTop = '';
                     $.each(parentCategory, async function (i, item) {
                         if (i < 5) {

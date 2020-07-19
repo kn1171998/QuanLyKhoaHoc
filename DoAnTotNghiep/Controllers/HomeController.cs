@@ -58,30 +58,6 @@ namespace DoAnTotNghiep.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        #region Cookie
-
-        public string GetCookie(string key)
-        {
-            return HttpContext.Request.Cookies[key];
-        }
-
-        public void SetCookie(string key, string value, int? expireTime)
-        {
-            CookieOptions option = new CookieOptions();
-            if (expireTime.HasValue)
-                option.Expires = DateTime.Now.AddMinutes(expireTime.Value);
-            else
-                option.Expires = DateTime.Now.AddMilliseconds(10);
-            HttpContext.Response.Cookies.Append(key, value, option);
-        }
-
-        public void RemoveCookie(string key)
-        {
-            HttpContext.Response.Cookies.Delete(key);
-        }
-
-        #endregion Cookie
-
         public async Task<IActionResult> Index()
         {
             var context = _courseService.GetContext();
@@ -414,7 +390,7 @@ namespace DoAnTotNghiep.Controllers
             return Json(new { status = true, topCourse = course.Take(5) });
         }
 
-        public IActionResult Detail(int ID)
+        public async Task<IActionResult> Detail(int ID)
         {
             DetailHomeVM vm = new DetailHomeVM();
             var context = _courseService.GetContext();
@@ -423,7 +399,7 @@ namespace DoAnTotNghiep.Controllers
                         on c.UserId equals u.Id
                         join cate in context.CourseCategories
                         on c.CategoryId equals cate.Id
-                        where c.Id == ID
+                        where c.Id == ID && c.Status == true
                         select new DetailHomeVM
                         {
                             IdCourse = c.Id,
@@ -442,13 +418,21 @@ namespace DoAnTotNghiep.Controllers
                             Name = c.Name,
                             NameCategory = cate.Name,
                             FullName = u.FullName,
+                            ImageTeacher = u.ImageUrl,
                             UserId = u.Id,
                             PromotionPrice = c.PromotionPrice ?? 0,
                             Price = c.Price,
                             Content = c.Content,
                             Image = c.Image,
                             Description = c.Description,
-                            IsFree = c.IsFree ?? false
+                            IsFree = c.IsFree ?? false,
+                            NumberStudent = (from od in context.OrderDetails
+                                             join co in context.Courses
+                                             on od.CourseId equals co.Id
+                                             join o in context.Orders
+                                             on od.OrderId equals o.Id
+                                             where co.UserId == c.UserId //id teacher
+                                             select o.UserId).Distinct().Count()//id hoc vien
                         };
             vm = model.FirstOrDefault();
             if (!vm.IsFree)
@@ -836,7 +820,7 @@ namespace DoAnTotNghiep.Controllers
             }
             var nowDate = DateTime.Now;
             var checkExpried = currentCodeDiscount.Where(m => nowDate >= m.FromDate && nowDate <= m.ToDate).Count();
-            if (checkExpried > 0)
+            if (checkExpried == 0)
             {
                 return Json(new { status = false, message = "Mã giảm giá đã hết hạn!" });
             }

@@ -49,13 +49,6 @@
             </tr>
         </thead>
         <tbody id="tblDiscountHasNotDiscount"></tbody>
-        <tfoot>
-            <tr>
-                <th></th>
-                <th>Tên khoá học</th>
-                <th>Ảnh</th>
-            </tr>
-        </tfoot>
     </table>
 </div>
 <hr />
@@ -64,11 +57,10 @@
     <div class="table-responsive " style="grid-auto-columns:auto">
         <table class="table table-bordered table-striped table-hover" id="discountHasChoose">
             <thead class="thead-light text-center">
-
                 <tr>
                     <th><input name="select_all1" value="1" type="checkbox"></th>
                     <th>Tên khoá học</th>
-                    <th>Ảnh</th>                    
+                    <th>Ảnh</th>
                 </tr>
             </thead>
             <tbody id="tblDiscountHasDiscount"></tbody>
@@ -115,6 +107,7 @@
                         var html = '';
                         var data = res.data;
                         console.log(data);
+                        await Mustache.parse(template);
                         if (res.status) {
                             await $.each(data.lstDiscountCourse, function (i, item) {
                                 html += Mustache.render(template, {
@@ -130,21 +123,24 @@
                                     "url": "/lib/datatables/Vietnamese.json"
                                 },
                                 "lengthMenu": [3, 5, 10, 20],
-                                "processing": true,
                                 'columnDefs': [
                                     {
+                                        "orderable": false,
                                         'className': 'dt-body-center',
                                         'targets': 0,
                                         'checkboxes': {
                                             'selectRow': true
-                                        }
+                                        }          
                                     }
                                 ],
+                                "retrieve": true,
+                                "processing": true,
                                 'select': {
                                     'style': 'multi'
                                 }
                             })
                         }
+                        await Mustache.parse(templatenot);
                         html = '';
                         await $.each(data.lstCourse, function (i, item) {
                             html += Mustache.render(templatenot, {
@@ -157,18 +153,21 @@
                         table = await $('#discountHasNotDiscount').DataTable({
                             "language": {
                                 "url": "/lib/datatables/Vietnamese.json"
-                            },
+                            }, 
+                            "order": [[2, "asc"]],
                             "lengthMenu": [3, 5, 10, 20],
-                            "processing": true,
                             'columnDefs': [
                                 {
+                                    "orderable": false,
                                     'className': 'dt-body-center',
                                     'targets': 0,
                                     'checkboxes': {
                                         'selectRow': true
-                                    }
+                                    }                                    
                                 }
                             ],
+                            "retrieve": true,
+                            "processing": true,
                             'select': {
                                 'style': 'multi'
                             }
@@ -176,6 +175,7 @@
                     }
                 }).done(function () {
                     $('#discountHasNotDiscount_wrapper div.row').addClass('container');
+                    $('#discountHasChoose_wrapper div.row').addClass('container');
                 });
             }
         }
@@ -185,12 +185,10 @@
             table.$('input[type="checkbox"]:checked').each(function () {
                 // If checkbox doesn't exist in DOM
                 var self = $(this);
-                console.log(self.closest("tr")[0]);
-                console.log(self.closest("tr").find('.idcourse').val());
                 var td = self.closest("tr").find('.idcourse').val();
                 lstCourseHasChoose.push(td);
             });
-            if (table == null || lstCourseHasChoose.length <= 0) {
+            if (lstCourseHasChoose.length <= 0) {
                 bootbox.alert("Vui lòng chọn khoá học cần thêm vào mã khuyến mãi");
                 return false;
             }
@@ -217,12 +215,10 @@
             tableHasDiscount.$('input[type="checkbox"]:checked').each(function () {
                 // If checkbox doesn't exist in DOM
                 var self = $(this);
-                console.log(self.closest("tr")[0]);
-                console.log(self.closest("tr").find('.idcourse').val());
                 var td = self.closest("tr").find('.idcourse').val();
                 lstCourseHasChoose.push(td);
             });
-            if (tableHasDiscount == null || lstCourseHasChoose.length <= 0) {
+            if (lstCourseHasChoose.length <= 0) {
                 bootbox.alert("Vui lòng chọn khoá học cần xoá");
                 return false;
             }
@@ -246,3 +242,5 @@
         });
     });
 </script>
+
+

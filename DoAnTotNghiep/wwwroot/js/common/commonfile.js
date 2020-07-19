@@ -187,7 +187,7 @@ var common = {
             delay: timeout
         });
     },
-    pageSize: 3,
+    pageSize: 5,
     pageIndex: 1,
     paging: function (totalRow, callback, changePageSize) {
         var totalPage = Math.ceil(totalRow / common.pageSize);
@@ -197,8 +197,8 @@ var common = {
             $('#pagination').removeData("twbs-pagination");
             $('#pagination').unbind("page");
         }
-        $('#pagination').twbsPagination({              
-            totalPages: totalPage,            
+        $('#pagination').twbsPagination({
+            totalPages: totalPage,
             first: "Đầu",
             next: "Tiếp",
             last: "Cuối",
@@ -214,5 +214,14 @@ var common = {
         var n = number.split('').reverse().join("");
         var n2 = n.replace(/\d\d\d(?!$)/g, "$&,");
         return n2.split('').reverse().join('') + 'VNĐ';
-    }
+    },
+    formatDDMMYYYYHHMM: function (datetime) {
+        const format = "DD-MM-YYYY HH:mm";
+        var date = new Date(datetime);
+        dateTime1 = moment(date).format(format);
+        return dateTime1;
+    },
+    formatter: new Intl.NumberFormat('en', {
+        notation: 'standard'
+    })
 }
