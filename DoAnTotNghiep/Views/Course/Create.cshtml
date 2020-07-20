@@ -14,7 +14,7 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-12">
-                        <div><span style="color:red">*</span></div>
+                        <div><span style="color:red">* Tên khoá học</span></div>
                         <textarea cols="20" class="form-control text-dark" rows="4" asp-for="Name" placeholder="Tên khoá học"></textarea>
                         @Html.ValidationMessageFor(m => m.Name)
                     </div>
@@ -22,14 +22,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="col-md-12 p-0">
-                            <div><span class="text-danger">*</span></div>
+                            <div><span class="text-danger">* Giá khóa học</span></div>
                             <input asp-for="Price" class="form-control" asp-is-invariant="true" placeholder="Giá khóa học" />
                             <span id="priceFormat"></span>
                             @Html.ValidationMessageFor(m => m.Price)
                         </div>
                         <div class="col-md-12 p-0">
-                            <div><span class="text-danger">*</span></div>
-                            <input asp-for="PromotionPrice" asp-is-invariant="true" class="form-control" placeholder="Giá hiển thị" />
+                            <div><span class="text-danger">* Giá giảm</span></div>
+                            <input asp-for="PromotionPrice" asp-is-invariant="true" class="form-control" placeholder="Giá giảm" />
                             <span id="promotionPriceFormat"></span>
                             @Html.ValidationMessageFor(m => m.PromotionPrice)
                         </div>

@@ -230,17 +230,10 @@
                                 <img class="card-img-top" src="@item.Image" alt="Card image cap">
                                 <div class="card-body mycard-body">
                                     <h5 class="card-title">@item.Name</h5>
-                                    <a href="/User/Teacher/@item.UserId" class="name-author"><small>@item.FullName</small> </a>
-                                    <div class="star-courses cleafix text-left">
-                                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                        <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                    </div>
+                                    <a href="/User/Teacher/@item.UserId" class="name-author"><small>@item.FullName</small> </a>                               
                                     <div class="price">
-                                        <span class="fake"><small> <del> @item.PromotionPrice </del></small></span>
-                                        <span class="real">@item.Price </span>
+                                        <span class="fake"><small> <del>@String.Format("{0:#,0}", item.PromotionPrice) </del></small></span>
+                                        <span class="real">@String.Format("{0:#,0}", item.Price) </span>
                                     </div>
                                 </div>
                             </div>

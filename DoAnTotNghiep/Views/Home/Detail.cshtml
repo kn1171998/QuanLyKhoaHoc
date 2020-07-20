@@ -129,35 +129,35 @@
                         @if (!Model.HasBuy)
                         {
                             @*<button class="btn btn-danger w-100 mb-2">Add to cart</button>*@
-                            <a asp-action="BuyNow" asp-controller="Home" asp-route-listIdCourse="@Model.IdCourse.ToString()" id="buynow" class="btn btn-outline-danger w-100 ">Buy now</a>
+                        <a asp-action="BuyNow" asp-controller="Home" asp-route-listIdCourse="@Model.IdCourse.ToString()" id="buynow" class="btn btn-outline-danger w-100 ">Mua ngay</a>
                         }
                         else
                         {
-                            <a asp-action="View" asp-controller="Home" asp-route-id="@Model.IdCourse" class="btn btn-outline-danger w-100 ">Enroll</a>
+                        <a asp-action="View" asp-controller="Home" asp-route-id="@Model.IdCourse" class="btn btn-outline-danger w-100 ">Tham gia</a>
                         }
                     </div>
                 }
                 else
                 {
                     <div class="price detail-price p-3">
-                        <span href="#" class="real">@Model.Price </span>
-                        <span href="#" class="fake"><small> <del> @Model.PromotionPrice </del></small></span>
+                        <span class="real">@Model.Price </span>
+                        <span class="fake"><small> <del> @Model.PromotionPrice </del></small></span>
                     </div>
                     <div class="btn w-100">
-                        <a href="/Home/View/@Model.IdCourse" class="btn btn-success w-100">Free</a>
+                        <a href="/Home/View/@Model.IdCourse" class="btn btn-success w-100">Miễn phí</a>
                     </div>
                 }
                 <div class="detail-courses p-3">
                     <p>
                         <ion-icon name="car-outline" class="icon-cart"></ion-icon>
                         <span>
-                            Free ship
+                            Miễn phí
                         </span>
                     </p>
                     <p>
                         <ion-icon name="reload-outline" class="icon-cart"></ion-icon>
                         <span>
-                            Money-back commitment
+                            Hoàn tiền lại
                         </span>
                     </p>
                     <p>
@@ -165,7 +165,7 @@
 
                         </ion-icon>
                         <span>
-                            Study on the computer
+                            Học trên máy tính
                         </span>
                     </p>
                 </div>

@@ -264,7 +264,7 @@ namespace DoAnTotNghiep.Controllers
             var User = _userService.GetById(currentUserId);
             return Json(User.Password == oldpassword ? true : false);
         }
-        public async Task<IActionResult> ChangePassword()
+        public IActionResult ChangePassword()
         {
             return PartialView();
         }
