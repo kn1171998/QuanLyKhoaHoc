@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,12 +24,14 @@ namespace DoAnTotNghiep.Controllers
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IMapper _mapper;
         private readonly IChapterService _chapterService;
+        private readonly IOrderDetailService _orderDetailService;
 
         public CourseController(ICourseService courseService,
             ICourseLessonService courseLessonService,
             IHostingEnvironment hostingEnvironment,
             ICourseCategoryService courseCategoryService,
             IChapterService chapterService,
+            IOrderDetailService orderDetailService,
             IMapper mapper)
         {
             _hostingEnvironment = hostingEnvironment;
@@ -36,6 +39,7 @@ namespace DoAnTotNghiep.Controllers
             _courseLessonService = courseLessonService;
             _chapterService = chapterService;
             _courseCategoryService = courseCategoryService;
+            _orderDetailService = orderDetailService;
             _mapper = mapper;
         }
 
@@ -53,30 +57,32 @@ namespace DoAnTotNghiep.Controllers
             if (string.IsNullOrEmpty(searchCourse))
             {
                 model = _courseService.GetPaging(null, out totalRow, page, pageSize, x => x.DateCreated).
-                    Select(m => new
+                    Select(m => new CourseVM
                     {
-                        m.Id,
-                        m.Name,
-                        m.Image,
-                        m.Price,
-                        m.PromotionPrice,
-                        m.Status,
-                        m.CategoryId
+                        Id = m.Id,
+                        Name = m.Name,
+                        Image = m.Image,
+                        Price = m.Price,
+                        PromotionPrice = m.PromotionPrice,
+                        Status = m.Status ?? false,
+                        CategoryId = m.CategoryId ?? 1,
+                        HasOrder = _courseService.GetContext().OrderDetails.Any(o => o.CourseId == m.Id)
                     }).ToList();
             }
             else
             {
                 model = _courseService.GetPaging(m => m.Name.Contains(searchCourse), out totalRow, page, pageSize, x => x.DateCreated).
-                    Select(m => new
-                    {
-                        m.Id,
-                        m.Name,
-                        m.Image,
-                        m.Price,
-                        m.PromotionPrice,
-                        m.Status,
-                        m.CategoryId
-                    }).ToList(); ;
+                     Select(m => new CourseVM
+                     {
+                         Id = m.Id,
+                         Name = m.Name,
+                         Image = m.Image,
+                         Price = m.Price,
+                         PromotionPrice = m.PromotionPrice,
+                         Status = m.Status ?? false,
+                         CategoryId = m.CategoryId ?? 1,
+                         HasOrder = _courseService.GetContext().OrderDetails.Any(o => o.CourseId == m.Id)
+                     }).ToList();
             }
             return Json(new
             {
@@ -214,15 +220,58 @@ namespace DoAnTotNghiep.Controllers
             }
             return View(vm);
         }
-
+        public bool CheckFile(string path)
+        {
+            return System.IO.File.Exists(path);
+        }
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
             bool result = true;
             try
             {
-                await _courseService.Delete(id);
+                quanlykhoahocContext context = _courseService.GetContext();
+                var listChapter = _chapterService.GetCondition(m => m.CourseId == id);
+                string name1 = Directory.GetCurrentDirectory();
+                using (IDbContextTransaction transaction = context.Database.BeginTransaction())
+                {
+                    foreach (var item in listChapter)
+                    {
+                        var listLessson = _courseLessonService.GetCondition(m => m.ChapterId == item.Id);
+                        foreach (var lesson in listLessson)
+                        {
+                            try
+                            {
+                                if (!string.IsNullOrEmpty(lesson.VideoPath))
+                                {
+                                    string urlVideo = name1 + @"\wwwroot\" + lesson.VideoPath;
+                                    if (CheckFile(urlVideo))
+                                    {
+                                        System.IO.File.Delete(urlVideo);
+                                    }
+                                }
+                                if (!string.IsNullOrEmpty(lesson.SlidePath))
+                                {
+                                    string urlSlide = name1 + @"\wwwroot\" + lesson.SlidePath;
+                                    if (CheckFile(urlSlide))
+                                    {
+                                        System.IO.File.Delete(urlSlide);
+                                    }
+                                }
+                                await _courseLessonService.Delete(lesson.Id);
+                            }
+                            catch
+                            {
+                                transaction.Rollback();
+                                result = false;
+                                return Json(result);
+                            }
+                        }
+                        await _chapterService.Delete(item.Id);
+                    }
+                    await _courseService.Delete(id);
+                    transaction.Commit();
+                }               
                 return Json(result);
             }
             catch (Exception)
