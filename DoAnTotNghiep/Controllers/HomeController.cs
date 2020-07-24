@@ -73,12 +73,18 @@ namespace DoAnTotNghiep.Controllers
                                                Image = c.Image,
                                                FullName = u.FullName,
                                                PromotionPrice = c.PromotionPrice,
-                                               Price = c.Price
+                                               Price = c.Price,
+                                               UserId = c.UserId??0
                                            }).Take(6).ToListAsync();
             var lstUser = context.Users.Where(m => m.Status == true);
             ViewBag.studyCount = lstUser.Where(m => m.TypeUser == TypeUser.User).Count();
             ViewBag.teacherCount = lstUser.Where(m => m.TypeUser == TypeUser.Teacher).Count();
             ViewBag.courseCount = _courseService.CountCondition(m => m.Status == true);
+            ViewBag.lstCategoryParent = _courseCategoryService.GetParentCategory().Select(m=>new CourseCategoryVM
+                                                                                                     {
+                                                                                                        ID = m.Id,
+                                                                                                        Name = m.Name,             
+                                                                                                    }).Take(4).ToList();
             return View();
         }
 
@@ -776,7 +782,7 @@ namespace DoAnTotNghiep.Controllers
                                             on dc.Idcourse equals c.Id
                                             where item == c.Id.ToString()
                                             select ld).FirstOrDefault();
-                    if (discountIdCourse.DiscountAmount != null && discountIdCourse.DiscountPercent != 0)
+                    if (discountIdCourse.DiscountAmount != null && discountIdCourse.DiscountAmount != 0)
                     {
                         totalAmount += discountIdCourse.DiscountAmount ?? 0;
                     }

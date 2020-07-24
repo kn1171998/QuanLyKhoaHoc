@@ -17,14 +17,14 @@
                             <div class="col-lg-6 col-sm-12 mb-md-3">
                                 <div class="border p-2 pt-3 m-1 box-teacher">
                                     <div class="teacher-img">
-                                        <img src="~/img/c2.jpg" class="d-block  cangiua" alt="First slide">
+                                        <img src="@Model.ImageUrl" class="d-block  cangiua" alt="First slide">
                                     </div>
                                     <div class="teacher-caption mt-2 p-3">
                                         <p class=" m-1">
                                             <i>"Ráng vài năm nữa về hưu"</i> <br>
                                             <b class="name-teacher" asp-for="FullName">@Model.FullName</b>
                                         </p>
-                                        <p asp-for="Birthday"> @Model.Birthday</p>
+                                        <p asp-for="Birthday"> @Model.Birthday.ToString("dd/MM/yyyy")</p>
                                         <div class="footer-icon text-center m-4 mt-4 ">
                                             <a href="#"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
                                             <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
@@ -38,9 +38,7 @@
                                 <div class="  p-4  text-white">
                                     <h3 class=" pb-2">Thông Tin</h3>
                                     <p class="text-left">
-                                        - Đinh Nguyễn trọng Nguyễn, tốt nghiệp Đại học Bách khoa, khoa công nghệ thông tin. <br />
-                                        - Với 30 năm kinh nghiệm giảng dạy, anh có hàng nghìn học viên đã tốt nghiệp và làm việc trong lĩnh vực thiết kế, đặc biệt là thiết kế website chuyên nghiệp.<br />
-                                        - Ngoài ra anh còn tham gia rất nhiều dự án dạy các shortcourse cho người đi làm và các dự án freelance khác về thiết kế website dựa trên ngôn ngữ lập trình mã nguồn mở.
+                                        @Html.Raw(Model.Introduction)
                                     </p>
                                 </div>
 

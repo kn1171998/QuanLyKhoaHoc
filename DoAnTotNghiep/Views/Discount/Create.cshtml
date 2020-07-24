@@ -48,8 +48,23 @@
                                 </label>
                             </div>
                         }
+                        else if (Model.DiscountAmount > 0)
+                        {
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="1" />
+                                <label class="form-check-label" for="amount">
+                                    Số tiền chiết khấu
+                                </label>
+                            </div>
+                        }
                         else
                         {
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="0" checked="checked" />
+                                <label class="form-check-label" for="percent">
+                                    Phần trăm chiết khấu
+                                </label>
+                            </div>
                             <div class="form-check">
                                 <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="1" />
                                 <label class="form-check-label" for="amount">
