@@ -45,7 +45,7 @@ var DiscountController = {
         {
             idInput.ID = "DiscountAmount";
             idInput.Min = "1000";
-            idInput.Max = "";
+            idInput.Max = "999999999";
         }
         var html = Mustache.render(template, idInput);
         $('#DivInputDiscount').html(html);

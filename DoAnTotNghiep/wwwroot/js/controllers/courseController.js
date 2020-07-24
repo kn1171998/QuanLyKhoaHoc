@@ -60,6 +60,8 @@ var courseController = {
                 var data = res.data;
                 var html = '';
                 var template = $('#data-template').html();
+                var hasExported = $('#hasExported').html();
+                Mustache.parse(template);
                 if (res.status) {
                     var data = res.data;
                     var formatter = new Intl.NumberFormat('en', {
@@ -69,13 +71,24 @@ var courseController = {
                         //maximumFractionDigits:0
                     });
                     $.each(data, function (i, item) {
-                        html += Mustache.render(template, {
-                            ID: item.id,
-                            Name: item.name,
-                            Description: item.description,
-                            Image: item.image,
-                            Price: formatter.format(item.price)
-                        });
+                        if (item.hasOrder) {
+                            html += Mustache.render(hasExported, {
+                                ID: item.id,
+                                Name: item.name,
+                                Status: item.status ? "Đã xuất bản" : "Chưa xuất bản",
+                                Image: item.image,
+                                Price: formatter.format(item.price)
+                            });
+                        }
+                        else {
+                            html += Mustache.render(template, {
+                                ID: item.id,
+                                Name: item.name,
+                                Status: item.status ? "Đã xuất bản" : "Chưa xuất bản",
+                                Image: item.image,
+                                Price: formatter.format(item.price)
+                            });
+                        }
                     });
                     $('#tblCourse').html(html);
                     common.paging(res.total, function () {
@@ -133,7 +146,7 @@ var courseController = {
     exportCourse: function () {
         var _self = $(this);
         var _ID = $(this).attr('data-id');
-        bootbox.confirm("Bạn có chắc muốn xuất bản không", function (result) {
+        bootbox.confirm("Bạn có muốn thay đổi trạng thái của khoá học không?", function (result) {
             if (result) {
                 $.ajax({
                     url: _self.attr('action'),
@@ -141,7 +154,7 @@ var courseController = {
                     type: 'POST',
                     success: function (res) {
                         if (res.result == 1) {
-                            common.showNotify("Xuất bản thành công", "success");
+                            common.showNotify("Thay đổi thành công", "success");
                         }
                         else if (res.result == 0) {
                             bootbox.alert(res.message)

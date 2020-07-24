@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
     var lst = (List<CourseVM>)ViewBag.listPromotion;
+    var lstCategoryParent = (List<CourseCategoryVM>)ViewBag.lstCategoryParent;
 }
 <style>
     .divfb {
@@ -65,60 +66,64 @@
                 <p>Học tập là hạt giống của kiến thức, kiến thức là hạt giống của hạnh phúc</p>
             </div>
         </div>
-        <div class="row ml-2 mr-1 js--wp-1">
-            <div class="col-md-3 col-sm-12 sale_content ">
-                <div class="todayContent">
-                    <div class="today_img">
-                        <img src="~/img/t1.jpg" class="w-100" alt="today1">
+        @if (lstCategoryParent.Count == 4)
+        {
+            <div class="row ml-2 mr-1 js--wp-1">
+                <div class="col-md-3 col-sm-12 sale_content ">
+                    <div class="todayContent">
+                        <div class="today_img">
+                            <img src="~/img/t1.jpg" class="w-100" alt="today1">
+                        </div>
+                        <div class="today_overlay">
+                            <a href="#">
+                                <h4>@lstCategoryParent[0].Name</h4>
+                            </a>
+                            <p></p>
+                        </div>
                     </div>
-                    <div class="today_overlay">
-                        <a href="#">
-                            <h4>Development</h4>
-                        </a>
-                        <p>Ad Description</p>
+                </div>
+                <div class="col-md-3 col-sm-12 sale_content ">
+                    <div class="todayContent">
+                        <div class="today_img">
+                            <img src="~/img/t2.jpg" class="w-100" alt="today1">
+                        </div>
+                        <div class="today_overlay">
+                            <a href="#">
+                                <h4>@lstCategoryParent[1].Name</h4>
+                            </a>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12 sale_content ">
+                    <div class="todayContent">
+                        <div class="today_img">
+                            <img src="~/img/t3.jpg" class="w-100" alt="today1">
+                        </div>
+                        <div class="today_overlay">
+                            <a href="#">
+                                <h4>@lstCategoryParent[2].Name</h4>
+                            </a>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-12  sale_content  ">
+                    <div class="todayContent">
+                        <div class="today_img">
+                            <img src="~/img/t4.jpg" class="w-100" alt="today1">
+                        </div>
+                        <div class="today_overlay">
+                            <a href="#">
+                                <h4>@lstCategoryParent[3].Name</h4>
+                            </a>
+                            <p></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 col-sm-12 sale_content ">
-                <div class="todayContent">
-                    <div class="today_img">
-                        <img src="~/img/t2.jpg" class="w-100" alt="today1">
-                    </div>
-                    <div class="today_overlay">
-                        <a href="#">
-                            <h4>Graphic Design</h4>
-                        </a>
-                        <p>Ad Description</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-12 sale_content ">
-                <div class="todayContent">
-                    <div class="today_img">
-                        <img src="~/img/t3.jpg" class="w-100" alt="today1">
-                    </div>
-                    <div class="today_overlay">
-                        <a href="#">
-                            <h4>Languages</h4>
-                        </a>
-                        <p>Ad Description</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-12  sale_content  ">
-                <div class="todayContent">
-                    <div class="today_img">
-                        <img src="~/img/t4.jpg" class="w-100" alt="today1">
-                    </div>
-                    <div class="today_overlay">
-                        <a href="#">
-                            <h4>Photography</h4>
-                        </a>
-                        <p>Ad Description</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        }
+
     </div>
 </section>
 <section class="todaylearn bg-why m-0 ">
@@ -230,7 +235,7 @@
                                 <img class="card-img-top" src="@item.Image" alt="Card image cap">
                                 <div class="card-body mycard-body">
                                     <h5 class="card-title">@item.Name</h5>
-                                    <a href="/User/Teacher/@item.UserId" class="name-author"><small>@item.FullName</small> </a>                               
+                                    <a href="/User/Teacher/@item.UserId" class="name-author"><small>@item.FullName</small> </a>
                                     <div class="price">
                                         <span class="fake"><small> <del>@String.Format("{0:#,0}", item.PromotionPrice) </del></small></span>
                                         <span class="real">@String.Format("{0:#,0}", item.Price) </span>
@@ -346,9 +351,9 @@
     </div>
 </section>
 @if (!User.Identity.IsAuthenticated)
-{        
+{
     @model UserVM
-    await Html.RenderPartialAsync("RegisterUser", Model);    
+    await Html.RenderPartialAsync("RegisterUser", Model);
 }
 @if (User.Identity.IsAuthenticated)
 {

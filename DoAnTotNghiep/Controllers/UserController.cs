@@ -46,7 +46,8 @@ namespace DoAnTotNghiep.Controllers
 
             var model = _IUserServed.GetById(id);
             var userVM = _mapper.Map<UserVM>(model);
-
+            ViewBag.Course = _courseService.CountCondition(m => m.Status == true && m.UserId == id);
+          //  ViewBag.Student = 
             return View(userVM);
         }
 
@@ -99,7 +100,9 @@ namespace DoAnTotNghiep.Controllers
                              on o.UserId equals u.Id
                              join c in context.Courses
                              on od.CourseId equals c.Id
-                             where c.Status == true && o.UserId == currentUserId
+                             where c.Status == true
+                                    && o.UserId == currentUserId
+                                    && o.Status == OrderStatus.Paid
                              select new CourseVM
                              {
                                  Id = c.Id,
