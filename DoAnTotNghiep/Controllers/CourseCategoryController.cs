@@ -35,40 +35,50 @@ namespace DoAnTotNghiep.Controllers
             var courses = new CourseCategoryVM();
             return View(courses);
         }
-
-        public IActionResult _Index(string searchName, int page, int pageSize = 3)
+        public IActionResult _Index()
         {
-            var model = new Object();
-            int totalRow = 0;
-            if (string.IsNullOrEmpty(searchName))
+            var listCategoryParent = _courseCategoryService.GetParentCategory().Select(m => new CourseCategoryVM
             {
-                model = _courseCategoryService.GetPaging(null, out totalRow, page, pageSize, x => x.Id).
-                 Select(m => new
-                 {
-                     m.Id,
-                     m.Name,
-                     m.SortOrder,
-                     m.Status
-                 }).ToList();
+                ID = m.Id,
+                Name = m.Name,
+                listCourseCategory = _courseCategoryService.GetChildCategory(m.Id).OrderBy(l => l.SortOrder)
             }
-            else
-            {
-                model = _courseCategoryService.GetPaging(m => m.Name.Contains(searchName), out totalRow, page, pageSize, x => x.Id).
-                  Select(m => new
-                  {
-                      m.Id,
-                      m.Name,
-                      m.SortOrder,
-                      m.Status
-                  }).ToList();
-            }
-            return Json(new
-            {
-                data = model,
-                total = totalRow,
-                status = true
-            });
+            ).OrderBy(m => m.SortOrder);
+            return Json(new { status = listCategoryParent.Any(), listCategoryParent = listCategoryParent });
         }
+        //public IActionResult _Index(string searchName, int page, int pageSize = 3)
+        //{
+        //    var model = new Object();
+        //    int totalRow = 0;
+        //    if (string.IsNullOrEmpty(searchName))
+        //    {
+        //        model = _courseCategoryService.GetPaging(null, out totalRow, page, pageSize, x => x.Id).
+        //         Select(m => new
+        //         {
+        //             m.Id,
+        //             m.Name,
+        //             m.SortOrder,
+        //             m.Status
+        //         }).ToList();
+        //    }
+        //    else
+        //    {
+        //        model = _courseCategoryService.GetPaging(m => m.Name.Contains(searchName), out totalRow, page, pageSize, x => x.Id).
+        //          Select(m => new
+        //          {
+        //              m.Id,
+        //              m.Name,
+        //              m.SortOrder,
+        //              m.Status
+        //          }).ToList();
+        //    }
+        //    return Json(new
+        //    {
+        //        data = model,
+        //        total = totalRow,
+        //        status = true
+        //    });
+        //}
 
         public IActionResult Create(int ID)
         {
@@ -195,7 +205,7 @@ namespace DoAnTotNghiep.Controllers
                         Content = c.Content,
                         Image = c.Image,
                         Description = c.Description,
-                        CategoryId = c.CategoryId??0
+                        CategoryId = c.CategoryId ?? 0
                     };
             var courseVM = new CourseVM();
             courseVM.lstCourse = d.ToList();

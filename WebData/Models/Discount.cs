@@ -17,8 +17,6 @@ namespace WebData.Models
         public string CodeDiscount { get; set; }
         public int? DiscountPercent { get; set; }
         public long? DiscountAmount { get; set; }
-        public int? IdcategoryAll { get; set; }
-        public bool? IsAll { get; set; }
 
         public ICollection<DiscountCourse> DiscountCourse { get; set; }
         public ICollection<OrderDetails> OrderDetails { get; set; }

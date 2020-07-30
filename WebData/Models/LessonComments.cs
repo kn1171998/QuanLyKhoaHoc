@@ -8,7 +8,7 @@ namespace WebData.Models
         public int UserId { get; set; }
         public string Content { get; set; }
         public int LessonId { get; set; }
-        public int? Report { get; set; }
+        public DateTime? DateComment { get; set; }
 
         public CourseLessons Lesson { get; set; }
         public Users User { get; set; }

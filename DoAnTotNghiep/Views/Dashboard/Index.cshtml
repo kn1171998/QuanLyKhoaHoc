@@ -18,12 +18,12 @@
                 </div>
                 <div class="content-revenue">
                     <div class="content-revenue__text">
-                         Khoá học đã bán hôm nay
+                        Khoá học đã bán hôm nay
                     </div>
                     <div class="content-revenue__number">@Model.TotalCourseDayNow</div>
                 </div>
             </div>
-           
+
         </div>
         <div class="col-4 ">
             <div class="revenue-box">
@@ -35,7 +35,7 @@
                     <div class="content-revenue__number" id="revenuetoday">@Model.RevenueToDay</div>
                 </div>
             </div>
-            
+
         </div>
         <div class="col-4 ">
             <div class="revenue-box">
@@ -47,10 +47,10 @@
                     <div class="content-revenue__number">@Model.TotalCustomerDayNow</div>
                 </div>
             </div>
-        
+
         </div>
     </div>
-    <div class="row">       
+    <div class="row">
         @*<div class="col-6">
                 <div class="form-group p-2">
                     <select class="form-control" id="methodReport">
@@ -65,11 +65,14 @@
             </div>*@
         <div class="col-12">
             <h1 class="text-center text-white">Chart</h1>
+            <div class="container">
+                <canvas id="myChart"></canvas>
+            </div>
         </div>
     </div>
 </div>
 @section Scripts{
-    <script src="~/lib/Chart.js/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     <script>
         $(function () {
             var formatter = new Intl.NumberFormat('en', {
@@ -80,6 +83,81 @@
             });
             var revenue = formatter.format($('#revenuetoday').text());
             $('#revenuetoday').text(revenue);
+        })
+
+        $(function () {
+            var data = [];
+            $.ajax({
+                url: '/Dashboard/LoadChart',
+                type: 'get',
+                data: {
+
+                },
+                dataType: 'json',
+                success: function (res) {
+                    if (res.status) {
+                        data = res.data;
+                    } else {
+                        data = [60, 80, 81, 56, 55, 40, 12, 43, 54, 65, 76, 76];
+                    }
+
+                    let myChart = document.getElementById('myChart').getContext('2d');
+                    // Global Options
+                    Chart.defaults.global.defaultFontFamily = 'Lato';
+                    Chart.defaults.global.defaultFontSize = 18;
+                    Chart.defaults.global.defaultFontColor = '#777';
+                    let massPopChart = new Chart(myChart, {
+                        type: 'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+                        data: {
+                            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                            datasets: [{                          
+                                data: data,
+                                //backgroundColor:'green',
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.6)',//thang1
+                                    'rgba(54, 162, 235, 0.6)',//thang2
+                                    'rgba(255, 206, 86, 0.6)',//thang3
+                                    'rgba(75, 192, 192, 0.6)',//thang4
+                                    'rgba(153, 102, 255, 0.6)',//thang5
+                                    'rgba(255, 159, 64, 0.6)',//thang6
+                                    'rgba(54, 162, 235, 0.6)',//thang7
+                                    'rgba(255, 206, 86, 0.6)',//thang8
+                                    'rgba(75, 192, 192, 0.6)',//thang9
+                                    'rgba(153, 102, 255, 0.6)',//thang10
+                                    'rgba(255, 159, 64, 0.6)',//thang11
+                                    'rgba(255, 99, 132, 0.6)'//thang12
+                                ],
+                                borderWidth: 1,
+                                borderColor: '#777',
+                                hoverBorderWidth: 3,
+                                hoverBorderColor: '#000'
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Biểu đồ báo cáo tháng',
+                                fontSize: 25
+                            },
+                            legend: {
+                                display: false
+                            },
+                            layout: {
+                                padding: {
+                                    left: 50,
+                                    right: 0,
+                                    bottom: 0,
+                                    top: 0
+                                }
+                            },
+                            tooltips: {
+                                enabled: true
+                            }
+                        }
+                    });
+                }
+            })
+           
         })
     </script>
 }

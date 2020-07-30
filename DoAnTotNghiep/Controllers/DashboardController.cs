@@ -71,5 +71,20 @@ namespace DoAnTotNghiep.Controllers
             var RevenueDateRange = orderRange.Sum(m => m.TotalAmount);
             return Json(new { totalcourse = TotalCourseDateRange, totalcustomer = TotalCustomerDateRange, revenue = RevenueDateRange });
         }
+        public IActionResult LoadChart()
+        {
+            List<long> data = new List<long>();
+          
+            int year = DateTime.Now.Year;
+            for (int i = 1; i <= 12; i++)
+            {
+                int numberDay = System.DateTime.DaysInMonth(year, i);
+                DateTime dateBegin = new DateTime(year, i, 1);
+                DateTime dateEnd = new DateTime(year, i, numberDay);
+                var totalAmountMoney = _orderService.GetCondition(m => m.OrderDate >= dateBegin && m.OrderDate <= dateEnd).Sum(m => m.TotalAmount);
+                data.Add(totalAmountMoney);
+            }
+            return Json(new { status = data.Any(), data = data });
+        }
     }
 }

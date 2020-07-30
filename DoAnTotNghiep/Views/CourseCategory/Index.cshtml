@@ -3,52 +3,142 @@
     ViewData["Title"] = "View";
 }
 
-<header id="topbar">
-    <div class="topbar-left">
+@*<header id="topbar">
+        <div class="topbar-left">
 
-    </div>
-
-    <div class="row">
-            <div class="col-3 topbar-right" data-tour-init="1" data-tour-key="createButton">
-            <a href="javascript:void(0);"
-               data-href="dsoft-popup-modal"
-               data-event="popup-modal"
-               data-url="/CourseCategory/Create"
-               data-title="Thêm mới"
-               data-width="1000"
-               data-height="600"
-               class="btn btn-info dsoft-btn-show-popup">
-                <span class="fa fa-plus-square"></span> Thêm mới
-            </a>
         </div>
+
+        <div class="row">
+            <div class="col-3 topbar-right" data-tour-init="1" data-tour-key="createButton">
+                <a href="javascript:void(0);"
+                   data-href="dsoft-popup-modal"
+                   data-event="popup-modal"
+                   data-url="/CourseCategory/Create"
+                   data-title="Thêm mới"
+                   data-width="1000"
+                   data-height="600"
+                   class="btn btn-info dsoft-btn-show-popup">
+                    <span class="fa fa-plus-square"></span> Thêm mới
+                </a>
+            </div>
             <div class="col-9 text-right  p12 admin-form theme-primary">
                 <div class="form-search input-group mb-3">
                     <input type="hidden" name="p" />
-                                 <input asp-for="SearchName" placeholder="Nhập tên danh mục" class="form-control " />
-                                <i class="arrow"></i>
+                    <input asp-for="SearchName" placeholder="Nhập tên danh mục" class="form-control " />
+                    <i class="arrow"></i>
                     <div class="input-group-append">
-                       <button type="submit" id="btnSearch" class="btn btn-hover btn-info"><i class="fa fa-search" aria-hidden="true"></i>Tìm kiếm</button>
+                        <button type="submit" id="btnSearch" class="btn btn-hover btn-info"><i class="fa fa-search" aria-hidden="true"></i>Tìm kiếm</button>
                     </div>
                 </div>
             </div>
         </div>
 
 
-   
-</header>
-<div class="m10">
-    <div class="tray tray-center pt20 va-t posr">
-        <div class="panel">           
-            <div id="divListCourseCategory" class="panel-body pn">
-                @await Html.PartialAsync("_Index")
+
+    </header>
+    <div class="m10">
+        <div class="tray tray-center pt20 va-t posr">
+            <div class="panel">
+                <div id="divListCourseCategory" class="panel-body pn">
+                    @await Html.PartialAsync("_Index")
+                </div>
             </div>
         </div>
+    </div>*@
+
+<header id="topbar">
+    <div class="topbar-left">
+
+    </div>
+    <div class="topbar-right" data-tour-init="1" data-tour-key="createButton">
+        <a href="javascript:void(0);"
+           data-href="dsoft-popup-modal"
+           data-event="popup-modal"
+           data-url="/CourseCategory/Create?ID=@Model.ID"
+           data-width="1000"
+           data-height="600"
+           class="btn btn-info dsoft-btn-show-popup" id="addChapter">
+            <span class="fa fa-plus pr-1"></span> Thêm mới danh mục cha
+        </a>
+    </div>
+    <input type="hidden" asp-for="ID" />
+</header>
+<div class="container " id="containerTree">
+    <div id="divTreeLesson " class="bg-dark">
+
     </div>
 </div>
-
 @section Scripts{
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <link href="~/lib/fancytree/skin-win8/ui.fancytree.css" rel="stylesheet" />
+    <script src="~/lib/fancytree/jquery.fancytree-all.js"></script>
+    <script src="~/lib/fancytree/extensions/jquery.fancytree.childcounter.js"></script>
+    <script src="~/lib/fancytree/extensions/jquery.fancytree.columnview.js"></script>
+    <script src="~/lib/fancytree/extensions/jquery.fancytree.filter.js"></script>
+    <script src="~/lib/fancytree/extensions/jquery.fancytree.dnd.js"></script>
+    <script src="~/lib/fancytree/extensions/jquery.fancytree.edit.js"></script>
+    <script src="~/lib/jquery.form/jquery.form.js"></script>
+    <script id="ParentCategory" type="x-tmpl-mustache">
+        <li class="w-100">
+            <div class="row">
+                <div class="col-8">
+                    Tên danh mục cha: {{Name}}
+                </div>
+                <div class="col-4">
+                    <a href="javascript:void(0);"
+                       data-message-confirm="Bạn có muốn xoá không?"
+                       action="/CourseCategory/Delete"
+                       data-id="{{ID}}"
+                       class="btn btn-sm btn-danger btn-radius-right btn-delete btnDelete">
+                        <span class="fa fa-window-close"></span>
+                    </a>
+                    <a href="javascript:void(0);"
+                       data-href="dsoft-popup-modal"
+                       data-event="popup-modal"
+                       data-url="/CourseCategory/Create?ID={{ID}}"
+                       data-id="{{ID}}"
+                       class="btn btn-sm btn-radius-right btn-warning dsoft-btn-show-popup">
+                        <span class="fa fa-edit"></span>
+                    </a>
+                    <a href="javascript:void(0);"
+                       data-href="dsoft-popup-modal"
+                       data-event="popup-modal"
+                       data-url="/CourseCategory/Create?ID=0&IdParent={{ID}}"
+                       class="btn btn-sm btn-radius-right btn-success dsoft-btn-show-popup" id="chapter{{ID}}">
+                        <span class="fa fa-plus"></span>
+                    </a>
+                </div>
+
+
+            </div>
+            <ul id="{{ID}}"></ul>
+        </li>
+
+    </script>
+    <script id="ChildCategory" type="x-tmpl-mustache">
+
+        <li class="mt5">
+            <div>
+                {{Name}}
+                <a href="javascript:void(0);"
+                   data-message-confirm="Bạn có muốn xoá không?"
+                   action="/CourseCategory/Delete"
+                   data-id="{{ID}}"
+                   class="btn btn-sm btn-danger btn-radius-right btn-delete btnDelete w-50">
+                    <span class="fa fa-window-close"></span>
+                </a>
+                <a href="javascript:void(0);"
+                   data-href="dsoft-popup-modal"
+                   data-event="popup-modal"
+                   data-url="/CourseCategory/Create?ID={{ID}}"
+                   class="btn btn-sm btn-radius-right btn-warning dsoft-btn-show-popup w-50">
+                    <span class="fa fa-edit"></span>
+                </a>
+            </div>
+        </li>
+
+    </script>
     <script src="~/js/controllers/coursecategoryController.js"></script>
 }

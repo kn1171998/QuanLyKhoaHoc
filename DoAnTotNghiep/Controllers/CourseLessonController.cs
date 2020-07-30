@@ -250,14 +250,20 @@ namespace DoAnTotNghiep.Controllers
                     try
                     {
                         var model = _courseLessonService.GetById(ID);
-                        var idCourse = _chapterService.GetCondition(m => m.Id == model.ChapterId).Select(m => m.CourseId).FirstOrDefault();
-                        var listUpdateOrderSort = _courseLessonService.GetCondition(m => m.SortOrder > model.SortOrder).Select(m => m).ToList();
-                        var softOrderCurrent = model.SortOrder - 1;
+                        var softOrderCurrent = model.SortOrder;
+                        var idCourse = _chapterService.GetById(model.ChapterId??0);
+                        var listUpdateOrderSort = _courseLessonService.GetCondition(m => m.SortOrder > model.SortOrder && m.ChapterId == model.ChapterId).OrderBy(m=>m.SortOrder).Select(m => m).ToList();
                         await _courseLessonService.Delete(ID);
+                        int i = 0;
                         foreach (var item in listUpdateOrderSort)
                         {
                             var modelUpdateOrderSoft = _courseLessonService.GetById(item.Id);
-                            modelUpdateOrderSoft.SortOrder = softOrderCurrent++;
+                            if (i == 0)
+                                modelUpdateOrderSoft.SortOrder = softOrderCurrent;
+
+                            else
+                                modelUpdateOrderSoft.SortOrder = ++softOrderCurrent;
+                            i++;
                             await _courseLessonService.UpdateAsync(modelUpdateOrderSoft);
                         }
                         if (!string.IsNullOrEmpty(model.VideoPath))

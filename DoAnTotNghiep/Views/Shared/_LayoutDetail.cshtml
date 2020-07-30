@@ -41,6 +41,32 @@
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v7.0'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
+    <!-- Your Chat Plugin code -->
+    <div class="fb-customerchat"
+         attribution=setup_tool
+         page_id="243747499599586"
+         theme_color="#ff5ca1"
+         logged_in_greeting="Chào! Tôi có thể giúp gì cho bạn?"
+         logged_out_greeting="Chào! Tôi có thể giúp gì cho bạn?">
+    </div>
     <header class="header">
         <div class=" container-fluid pl-md-5 pr-md-5">
             <div class="row header-detile">
@@ -136,7 +162,7 @@
                                             <a class="dropdown-item" href="/User/Index/@User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value">
                                                 Thông tin tài khoản
                                             </a>
-                                            <a class="dropdown-item"  href="#" data-toggle="modal" data-target=".bd-example-modal-sm">
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target=".bd-example-modal-sm">
                                                 Đổi mật khẩu
                                             </a>
                                             <a class="dropdown-item" href="/Home/Logout">
@@ -159,8 +185,8 @@
                             </li>
                         }
                         @*<li class="nav-item mr-3">
-            <a class="nav-link" href="#"><ion-icon class="icon-cart" name="cart-outline"></ion-icon></a>
-        </li>*@
+                                <a class="nav-link" href="#"><ion-icon class="icon-cart" name="cart-outline"></ion-icon></a>
+                            </li>*@
                     </ul>
                     <form class="form-inline my-2 my-lg-0 " id="mySearch">
                         <input class="form-control bg-line mr-ssale_contenttext-white" id="search" type="search" placeholder="Tìm kiếm..." aria-label="Search">

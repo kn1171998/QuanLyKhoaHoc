@@ -14,8 +14,7 @@ namespace WebData.Models
             : base(options)
         {
         }
-
-        public virtual DbSet<Cart> Cart { get; set; }
+        
         public virtual DbSet<CourseCategories> CourseCategories { get; set; }
         public virtual DbSet<CourseLessons> CourseLessons { get; set; }
         public virtual DbSet<Courses> Courses { get; set; }
@@ -40,49 +39,20 @@ namespace WebData.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cart>(entity =>
-            {
-                entity.HasKey(e => new { e.UserId, e.CourseId });
-
-                entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
-
-                entity.Property(e => e.Quantity).HasColumnType("decimal(18, 0)");
-
-                entity.HasOne(d => d.Course)
-                    .WithMany(p => p.Cart)
-                    .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Cart_Courses");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Cart)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Cart_Users");
-            });
-
+        
             modelBuilder.Entity<CourseCategories>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Name).HasMaxLength(250);
-
-                entity.Property(e => e.SeoAlias)
-                    .HasMaxLength(250)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.SeoMetaDescription).HasMaxLength(158);
-
-                entity.Property(e => e.SeoMetaKeywords).HasMaxLength(158);
-
-                entity.Property(e => e.SeoTitle).HasMaxLength(250);
+           
             });
 
             modelBuilder.Entity<CourseLessons>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Attachment).HasMaxLength(250);
+                entity.Property(e => e.TypeDocument).HasMaxLength(250);
 
                 entity.Property(e => e.Name).HasMaxLength(250);
 
@@ -137,9 +107,7 @@ namespace WebData.Models
 
                 entity.Property(e => e.CodeDiscount).HasMaxLength(50);
 
-                entity.Property(e => e.FromDate).HasColumnType("datetime");
-
-                entity.Property(e => e.IdcategoryAll).HasColumnName("IDCategoryAll");
+                entity.Property(e => e.FromDate).HasColumnType("datetime");                
 
                 entity.Property(e => e.ToDate).HasColumnType("datetime");
             });

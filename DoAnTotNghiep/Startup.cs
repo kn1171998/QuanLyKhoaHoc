@@ -49,8 +49,7 @@ namespace DoAnTotNghiep
                     options.LogoutPath = "/Home/Index";
                     options.LoginPath = "/Home/Index";
                 });
-            services.AddTransient<SendMailHelper>();
-            services.AddScoped<ICartService, CartService>();
+            services.AddTransient<SendMailHelper>();            
             services.AddScoped<ICourseCategoryService, CourseCategoryService>();
             services.AddScoped<ICourseLessonService, CourseLessonService>();
             services.AddScoped<ICourseService, CourseService>();

@@ -13,9 +13,7 @@ namespace DoAnTotNghiep.MappingProfile
             CreateMap<CourseVM, Courses>();
             CreateMap<Courses, CourseVM>();
             CreateMap<Chapter, ChapterVM>();
-            CreateMap<ChapterVM, Chapter>();
-            CreateMap<Cart, CartVM>();
-            CreateMap<CartVM, Cart>();
+            CreateMap<ChapterVM, Chapter>();                        
             CreateMap<CourseLessons, CourseLessonVM>();
             CreateMap<CourseLessonVM, CourseLessons>();
             CreateMap<Discount, DiscountVM>();

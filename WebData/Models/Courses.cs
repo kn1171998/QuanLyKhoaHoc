@@ -7,7 +7,6 @@ namespace WebData.Models
     {
         public Courses()
         {
-            Cart = new HashSet<Cart>();
             Chapter = new HashSet<Chapter>();
             DiscountCourse = new HashSet<DiscountCourse>();
             OrderDetails = new HashSet<OrderDetails>();
@@ -28,7 +27,6 @@ namespace WebData.Models
 
         public CourseCategories Category { get; set; }
         public Users User { get; set; }
-        public ICollection<Cart> Cart { get; set; }
         public ICollection<Chapter> Chapter { get; set; }
         public ICollection<DiscountCourse> DiscountCourse { get; set; }
         public ICollection<OrderDetails> OrderDetails { get; set; }

@@ -29,8 +29,7 @@ namespace BackEnd
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<quanlykhoahocContext>(options =>
-                                                         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<ICartService, CartService>();
+                                                         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));            
             services.AddScoped<ICourseCategoryService, CourseCategoryService>();
             services.AddScoped<ICourseLessonService, CourseLessonService>();
             services.AddScoped<ICourseService, CourseService>();

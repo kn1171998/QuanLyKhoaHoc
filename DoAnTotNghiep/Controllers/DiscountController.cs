@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using DoAnTotNghiep.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebData.Implementation;
@@ -42,6 +39,7 @@ namespace DoAnTotNghiep.Controllers
             var discount = new DiscountVM();
             return View(discount);
         }
+
         public async Task<IActionResult> LoadDiscountHasCourse(int id)
         {
             var _context = _discountService.GetContext();
@@ -65,6 +63,7 @@ namespace DoAnTotNghiep.Controllers
             vm.lstCourse = discountHasNotCourse;
             return Json(new { data = vm, status = vm.lstDiscountCourse.Count > 0 ? true : false });
         }
+
         public IActionResult Detail(int id)
         {
             DiscountDetailVM vm = new DiscountDetailVM();
@@ -74,6 +73,7 @@ namespace DoAnTotNghiep.Controllers
             vm.ID = id;
             return View("Detail", vm);
         }
+
         public IActionResult GetChildCategories(int? parentId)
         {
             if (parentId == null)
@@ -85,6 +85,7 @@ namespace DoAnTotNghiep.Controllers
                 status = child.Count() == 0 ? false : true
             });
         }
+
         public IActionResult _Index(string searchDiscount, int page, int pageSize = 3)
         {
             var model = new Object();
@@ -103,17 +104,16 @@ namespace DoAnTotNghiep.Controllers
             }
             else
             {
-                //model = _discountService.GetPaging(m => m.CodeDiscount.Contains(searchDiscount), out totalRow, page, pageSize, x => x.FromDate).
-                //    Select(m => new
-                //    {
-                //        //m.Id,
-                //        //m.Name,
-                //        //m.Image,
-                //        //m.Price,
-                //        //m.PromotionPrice,
-                //        //m.Status,
-                //        //m.CategoryId
-                //    }).ToList(); ;
+                model = _discountService.GetPaging(m => m.CodeDiscount.Contains(searchDiscount), out totalRow, page, pageSize, x => x.FromDate).
+                    Select(m => new
+                    {
+                        m.Id,
+                        m.CodeDiscount,
+                        m.DiscountAmount,
+                        m.DiscountPercent,
+                        m.FromDate,
+                        m.ToDate
+                    }).ToList(); ;
             }
             return Json(new
             {
@@ -122,6 +122,7 @@ namespace DoAnTotNghiep.Controllers
                 status = totalRow == 0 ? false : true
             });
         }
+
         public async Task<IActionResult> ApplyDiscountCourse(List<int> lstCourseHasChoose, int idDiscount)
         {
             quanlykhoahocContext context = _courseService.GetContext();
@@ -148,6 +149,7 @@ namespace DoAnTotNghiep.Controllers
             }
             return Json(new { status = status });
         }
+
         public IActionResult Create(int ID)
         {
             var vm = new DiscountVM();
@@ -208,18 +210,33 @@ namespace DoAnTotNghiep.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            bool result = true;
-            try
+            quanlykhoahocContext context = _courseService.GetContext();
+            bool status = false;
+            using (IDbContextTransaction transaction = context.Database.BeginTransaction())
             {
-                await _courseService.Delete(id);
-                return Json(result);
+                try
+                {
+                    var listDiscountCourse = _discountCourseService.GetCondition(m => m.Iddiscount == id);
+                    foreach (var item in listDiscountCourse)
+                    {
+                        DiscountCourse discountCourse = new DiscountCourse();
+                        discountCourse.Idcourse = item.Idcourse;
+                        discountCourse.Iddiscount = id;
+                        await _discountCourseService.Delete(discountCourse);
+                    }
+                    await _discountService.Delete(id);
+                    status = true;
+                    transaction.Commit();
+                }
+                catch
+                {
+                    status = false;
+                    transaction.Rollback();
+                }
             }
-            catch (Exception)
-            {
-                result = false;
-                return Json(result);
-            }
+            return Json(new { status });
         }
+
         [HttpPost]
         public async Task<IActionResult> DeleteDetail(List<int> lstCourseHasChoose, int idDiscount)
         {

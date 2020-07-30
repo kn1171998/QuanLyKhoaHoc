@@ -7,7 +7,6 @@ namespace WebData.Models
     {
         public Users()
         {
-            Cart = new HashSet<Cart>();
             Courses = new HashSet<Courses>();
             LessonComments = new HashSet<LessonComments>();
             Orders = new HashSet<Orders>();
@@ -28,7 +27,6 @@ namespace WebData.Models
         public bool? Status { get; set; }
         public DateTime? CreatedDate { get; set; }
 
-        public ICollection<Cart> Cart { get; set; }
         public ICollection<Courses> Courses { get; set; }
         public ICollection<LessonComments> LessonComments { get; set; }
         public ICollection<Orders> Orders { get; set; }

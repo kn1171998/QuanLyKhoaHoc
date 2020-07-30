@@ -66,7 +66,24 @@ var courselessonController = {
     deleteData: function () {
         var _self = $(this);
         var _ID = $(this).attr('data-id');
-        bootbox.confirm("B?n có ch?c mu?n xoá không", function (result) {
+        bootbox.confirm("Bạn có chắc muốn xoá không?", function (result) {
+            if (result) {
+                $.ajax({
+                    url: _self.attr('action'),
+                    data: { ID: _ID },
+                    type: 'POST',
+                    success: function (res) {
+                        common.showNotify("Xoá thành công", res ? "success" : "error");
+                        courselessonController.loadData();
+                    }
+                });
+            }
+        });
+    },
+    deleteChap: function () {
+        var _self = $(this);
+        var _ID = $(this).attr('data-id');
+        bootbox.confirm("Bạn có chắc muốn xoá không?", function (result) {
             if (result) {
                 $.ajax({
                     url: _self.attr('action'),
