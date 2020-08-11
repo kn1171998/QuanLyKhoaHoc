@@ -149,8 +149,8 @@
                     <div class="today_icon">
                         <i class="fa fa-car" aria-hidden="true"></i>
                     </div>
-                    <h5>Giao hàng miễn phí</h5>
-                    <p>Nhận khóa học hoàn toàn miễn phí </p>
+                    <h5>Kiến thức thực tế</h5>
+                    <p>Kiến thức mới mẻ thực tế </p>
                 </div>
             </div>
             <div class="col-md-3 col-sm-12  sale_content">
@@ -158,8 +158,8 @@
                     <div class="today_icon">
                         <i class="fa fa-money" aria-hidden="true"></i>
                     </div>
-                    <h5>Hoàn tiền</h5>
-                    <p>Hoàn nhanh chóng khi gắp sự cố </p>
+                    <h5>Giảng viên giỏi</h5>
+                    <p>Giảng viên kinh nghiệm gảng dạy lâu năm </p>
                 </div>
             </div>
             <div class="col-md-3 col-sm-12  sale_content">
@@ -434,10 +434,10 @@
             });
         });</script>
     <!-- #region button topcourse -->
-    <script id="buttonTopCourse" type="text/x-jquery-tmpl">
-        <button class="tablinks myTadBtn {{Active}}" value="{{ID}}" onclick="openCity(event, '{{TopCateID}})'">{{Name}}</button>
+    <script id="buttonTopCourse" type="x-tmpl-mustache">
+        <button class="tablinks myTadBtn {{Active}}" value="{{ID}}" onclick="openCity(event, '{{TopCateID}}')">{{Name}}</button>
     </script>
-    <script id="divTopCourse" type="text/x-jquery-tmpl">
+    <script id="divTopCourse" type="x-tmpl-mustache">
         <div id="{{TopCateID}}" class="tabcontent  my-tabcontent ">
             <div class="row  owl-theme" id="{{ID}}">
             </div>
@@ -454,9 +454,13 @@
 
                         <a href="/User/Teacher/{{UserId}}">{{UserName}}</a>
                         <h5 class="card-title mb-2">{{Name}}</h5>
-                        <span class="mr-1 m-2"><i class="fa fa-user m-1 " aria-hidden="true"></i>12</span>
-                        <span class="mr-1 m-2 text-right"><i class="fa fa-thumbs-up m-1 "></i>{{PromotionPrice}}</span>
-                        <p href="#" class="btn btn-primary btn-money d-block w-100 mt-3">{{Price}}</p>
+                        @*<span class="mr-1 m-2"><i class="fa fa-user m-1 " aria-hidden="true"></i>12</span>*@
+                        <div class="price">
+                            <span class="fake"><small> <del>{{PromotionPrice}} </del></small></span>
+                            <span class="real">{{Price}} </span>
+                        </div>
+                        @*<span class="mr-1 m-2 text-right"><i class="fa fa-thumbs-up m-1 "></i>{{PromotionPrice}}</span>
+                        <p href="#" class="btn btn-primary btn-money d-block w-100 mt-3">{{Price}}</p>*@
                     </div>
                 </div>
             </div>

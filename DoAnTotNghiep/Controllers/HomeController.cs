@@ -74,17 +74,17 @@ namespace DoAnTotNghiep.Controllers
                                                FullName = u.FullName,
                                                PromotionPrice = c.PromotionPrice,
                                                Price = c.Price,
-                                               UserId = c.UserId??0
+                                               UserId = c.UserId ?? 0
                                            }).Take(6).ToListAsync();
             var lstUser = context.Users.Where(m => m.Status == true);
             ViewBag.studyCount = lstUser.Where(m => m.TypeUser == TypeUser.User).Count();
             ViewBag.teacherCount = lstUser.Where(m => m.TypeUser == TypeUser.Teacher).Count();
             ViewBag.courseCount = _courseService.CountCondition(m => m.Status == true);
-            ViewBag.lstCategoryParent = _courseCategoryService.GetParentCategory().Select(m=>new CourseCategoryVM
-                                                                                                     {
-                                                                                                        ID = m.Id,
-                                                                                                        Name = m.Name,             
-                                                                                                    }).Take(4).ToList();
+            ViewBag.lstCategoryParent = _courseCategoryService.GetParentCategory().Select(m => new CourseCategoryVM
+            {
+                ID = m.Id,
+                Name = m.Name,
+            }).Take(4).ToList();
             return View();
         }
 
@@ -362,16 +362,15 @@ namespace DoAnTotNghiep.Controllers
             }
             return Json(new { status = status, parentCategory = category, listChild = listCategoryChild });
         }
-
         public async Task<IActionResult> ListAllCourseTop(int ID)
         {
             var categoryChild = _courseCategoryService.GetCondition(m => m.ParentId == ID && m.Status == true)
                                                         .Select(m => new
                                                         {
-                                                            m.Id,
-                                                            m.Name,
-                                                            m.SortOrder
-                                                        }).ToList();
+                                                           m.Id,
+                                                           m.Name,
+                                                           m.SortOrder
+                                                        });            
             List<object> course = new List<object>();
             foreach (var item in categoryChild)
             {
@@ -389,11 +388,15 @@ namespace DoAnTotNghiep.Controllers
                                                     m.PromotionPrice,
                                                     m.Price,
                                                     parentId = ID
-                                                }).ToList().Take(5);
+                                                }).ToList().Take(3);
                 if (listCourse.Count() > 0)
                     course.AddRange(listCourse);
             }
-            return Json(new { status = true, topCourse = course.Take(5) });
+            return Json(new
+            {
+                status = true,
+                topCourse = course.Take(5)
+            }); 
         }
 
         public async Task<IActionResult> Detail(int ID)
@@ -661,6 +664,7 @@ namespace DoAnTotNghiep.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> PaymentComplete(string listIdCourse)
         {
             PaymentVM vm = ComputePayment(listIdCourse);

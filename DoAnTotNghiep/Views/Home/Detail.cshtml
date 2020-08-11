@@ -20,23 +20,17 @@
                             </p>
                         </div>
                         <div class="detail-intructor text-white row p-3 pt-0 p-md-0">
-                            <div class="star-courses star-detail cleafix text-left col-md-4 col-12 p-0">
-                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                <a> 5.0(100 ratings)</a>
-                            </div>
-                            <div class="student col-md-3 col-12">
-                                <span>
-                                  @Model.NumberStudent Học sinh
-                                </span>
-                            </div>
-                            <div class="detail-intructor col-12 col-md-4 p-0">
-                                <span>Giáo viên: <a href="/User/Teacher/@Model.UserId">@Model.FullName</a> </span>
+                            <div class="detail-intructor col-12 col-md-6 p-0">
+                                <span class="pl-3"> <i class="fa fa-user" aria-hidden="true"></i>  <a href="/User/Teacher/@Model.UserId">@Model.FullName</a> </span>
 
                             </div>
+                        
+                            <div class="student col-md-3 col-12">
+                                <span>
+                                    @Model.NumberStudent Học sinh
+                                </span>
+                            </div>
+
 
                         </div>
                     </div>
@@ -63,7 +57,7 @@
                                                         <ion-icon name="chevron-down-outline"></ion-icon>
                                                         @item.NameChapter
                                                     </span>
-                                                    <span class="time-course ">03:00</span>
+                                                   
                                                     <b class="caret"></b>
                                                 </a>
                                                 <ul class="dropdown-menu ">
@@ -75,7 +69,7 @@
                                                                     <ion-icon name="play-circle-outline"></ion-icon>
                                                                     @child.Name
                                                                 </span>
-                                                                <span class="time-course">03:00</span>
+                                                                
                                                                 <b class="caret"></b>
                                                             </a>
                                                         </li>
@@ -100,11 +94,11 @@
                                 <h5>@Model.FullName</h5>
                             </a>
                             <div class="star-courses cleafix text-left">
+                                @*<span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
                                 <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
                                 <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
                                 <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>*@
                             </div>
                         </div>
 

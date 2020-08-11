@@ -35,6 +35,7 @@ namespace DoAnTotNghiep.Controllers
             var courses = new CourseCategoryVM();
             return View(courses);
         }
+
         public IActionResult _Index()
         {
             var listCategoryParent = _courseCategoryService.GetParentCategory().Select(m => new CourseCategoryVM
@@ -46,6 +47,7 @@ namespace DoAnTotNghiep.Controllers
             ).OrderBy(m => m.SortOrder);
             return Json(new { status = listCategoryParent.Any(), listCategoryParent = listCategoryParent });
         }
+
         //public IActionResult _Index(string searchName, int page, int pageSize = 3)
         //{
         //    var model = new Object();
@@ -80,12 +82,16 @@ namespace DoAnTotNghiep.Controllers
         //    });
         //}
 
-        public IActionResult Create(int ID)
+        public IActionResult Create(int ID, int IdParent = 0)
         {
             var vm = new CourseCategoryVM();
             if (ID == 0)
             {
                 vm.listCourseCategory = _courseCategoryService.GetAll();
+                if (IdParent != 0)
+                {
+                    vm.ParentId = IdParent;
+                }
             }
             else
             {
@@ -133,6 +139,7 @@ namespace DoAnTotNghiep.Controllers
             }
             return View(vm);
         }
+
         public IActionResult LoadCourse(string id)
         {
             var courseCategoryService = _courseCategoryService.GetParentCategory();
@@ -185,6 +192,7 @@ namespace DoAnTotNghiep.Controllers
             courseVM.CategoryId = id;
             return View("CategoryToCourse", courseVM);
         }
+
         public IActionResult search_home(string search)
         {
             var context = _courseService.GetContext();
@@ -212,6 +220,7 @@ namespace DoAnTotNghiep.Controllers
             courseVM.CategoryId = courseVM.lstCourse[0].CategoryId;
             return View("CategoryToCourse", courseVM);
         }
+
         public IActionResult GetChildCategories(int id)
         {
             if (id == 0)
@@ -296,7 +305,6 @@ namespace DoAnTotNghiep.Controllers
                          Description = c.Description,
                          IsFree = c.IsFree ?? false
                      }).OrderBy(m => m.Price).ToList();
-
             }
 
             var listTemp = new List<CourseVM>();

@@ -102,7 +102,7 @@ var homeController = {
                                 await $(nameParent).append(htmlChild);
                             });
                         }
-                    });        
+                    });
                     var categoryTop = '';
                     $.each(parentCategory, async function (i, item) {
                         if (i < 5) {
@@ -119,8 +119,47 @@ var homeController = {
                                 Name: item.name
                             });
                             await $(categoryDivTop).insertAfter('#All');
-                            if (i == 1) {
-                                await $('.active').trigger('click');
+                            if (i == 0) {
+                                //var abc = "\'category" + item.id + "\'";
+                                $('body').on('click', '.myTadBtn', function (e) {
+                                    var self = $(this);
+                                    var ID = self.val();
+                                    $.ajax({
+                                        url: "/Home/ListAllCourseTop",
+                                        type: "GET",
+                                        data: {
+                                            ID: ID
+                                        },
+                                        async: true,
+                                        dataType: 'json',
+                                        success: function (res) {
+                                            var template = $('#topCourse').html();
+                                            Mustache.parse(template);
+                                            data = res.topCourse;
+                                            var namecatenew = '#' + ID;
+                                            $(namecatenew).html('');
+                                            if (res.status) {
+                                                var html = '';
+                                                $.each(data, async function (i, item) {
+                                                    html = await Mustache.render(template, {
+                                                        ID: item.id,
+                                                        UserId: item.userId,
+                                                        UserName: item.fullName,
+                                                        Name: item.name,
+                                                        PromotionPrice: common.formatter.format(item.promotionPrice),
+                                                        Price: common.formatter.format(item.price),
+                                                        Image: item.image
+                                                    });
+                                                    var namecate = '#category' + item.parentId + ' #' + item.parentId;
+                                                    var namecate1 = 'category' + item.parentId;
+                                                    await $(namecate).append(html);
+                                                    await openCity(e, namecate1);
+                                                });
+                                            }
+                                        }
+                                    });
+                                });
+                                    await $('.myTadBtn').trigger("click");
                             }
                         }
                     });
