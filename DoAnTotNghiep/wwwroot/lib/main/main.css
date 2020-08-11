@@ -66,7 +66,7 @@ ul li {
 
     ul li a {
         font-size: 14px;
-        color: white;
+        /*color: white;*/
         font-weight: inherit;
         width: 100%;
         margin: 0 0;
@@ -116,7 +116,7 @@ ul li {
     justify-content: center;
     align-items: center;
     padding: 0;
-    width: 100%;
+    /*width: 100%;*/
 }
 
 .myMenu .nav-item {
@@ -1258,8 +1258,8 @@ a {
 }
 
 .price-cart {
-    position: fixed;
-    right: 4%;
+    /*position: fixed;*/
+    /*right: 4%;*/
     background-color: #f9f9f9;
     border: 1px solid #dedfe0;
     padding: 0;
@@ -1812,6 +1812,14 @@ a {
 }
 
 @media only screen and (max-width:911px) {
+    .myMenu .nav-item .nav-link {
+        color: black;
+        margin: 4%;
+        padding: 2px;
+        font-size: 16px;
+        font-weight: 400;
+        font-family: 'Lato', sans-serif;
+    }
     .myCaption {
         text-align: center;
         font-family: 'Lato', sans-serif;
@@ -1892,11 +1900,25 @@ a {
 }
 
 @media only screen and (max-width:767px) {
+    .card-img-top {
+        transform: scale(1);
+        transition: transform 0.5s, opacity 0.5s;
+        overflow: hidden;
+        height: 190px;
+        width: 100%;
+    }
     .myCaption {
         text-align: center;
         font-family: 'Lato', sans-serif;
     }
-
+    .myMenu .nav-item .nav-link {
+        color: black;
+        margin: 4%;
+        padding: 2px;
+        font-size: 16px;
+        font-weight: 400;
+        font-family: 'Lato', sans-serif;
+    }
         .myCaption h3 {
             font-size: 32px;
             letter-spacing: 2px;
@@ -1936,9 +1958,9 @@ a {
     /* #myMenu{
         background-color: rgb(37,43,51);
     } */
-    .price-cart {
+    /*.price-cart {
         display: none;
-    }
+    }*/
 
     .whyContent p {
         display: none;
@@ -1975,7 +1997,7 @@ a {
     }
 
     .price-cart {
-        display: none;
+        /*display: none;*/
         width: 80%;
     }
 
