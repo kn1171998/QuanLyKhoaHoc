@@ -29,6 +29,7 @@ namespace DoAnTotNghiep.Controllers
             _mapper = mapper;
             _context = _courseService.GetContext();
         }
+        [Authorize(Roles = "Admin,Teacher")]
         public IActionResult ReportRevenue()
         {
             DashboardVM vm = new DashboardVM();

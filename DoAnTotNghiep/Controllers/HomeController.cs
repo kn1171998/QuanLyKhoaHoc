@@ -367,10 +367,10 @@ namespace DoAnTotNghiep.Controllers
             var categoryChild = _courseCategoryService.GetCondition(m => m.ParentId == ID && m.Status == true)
                                                         .Select(m => new
                                                         {
-                                                           m.Id,
-                                                           m.Name,
-                                                           m.SortOrder
-                                                        });            
+                                                            m.Id,
+                                                            m.Name,
+                                                            m.SortOrder
+                                                        });
             List<object> course = new List<object>();
             foreach (var item in categoryChild)
             {
@@ -396,7 +396,7 @@ namespace DoAnTotNghiep.Controllers
             {
                 status = true,
                 topCourse = course.Take(5)
-            }); 
+            });
         }
 
         public async Task<IActionResult> Detail(int ID)
@@ -444,6 +444,10 @@ namespace DoAnTotNghiep.Controllers
                                              select o.UserId).Distinct().Count()//id hoc vien
                         };
             vm = model.FirstOrDefault();
+            if(vm == null)
+            {
+                return RedirectToAction("Error404");
+            }
             if (!vm.IsFree)
             {
                 if (User.Identity.IsAuthenticated)
@@ -477,12 +481,35 @@ namespace DoAnTotNghiep.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index");
         }
-
-        [Authorize(Roles = "User")]
+        public static int ID = 0;
+        [Authorize(Roles = "User, Admin, Teacher")]
         public IActionResult View(int ID)
         {
-            DetailHomeVM vm = new DetailHomeVM();
+
             var context = _courseService.GetContext();
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserName = int.Parse(currentUser.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var checkHasBuy = (
+                                   from o in context.Orders
+                                   join od in context.OrderDetails
+                                   on o.Id equals od.OrderId
+                                   join u in context.Users
+                                   on o.UserId equals u.Id
+                                   where u.Id == currentUserName
+                                         && od.CourseId == ID
+                                         && o.Status == OrderStatus.Paid
+                                   select od
+                                ).Count();
+          bool hasBuy = checkHasBuy > 0 ? true : false;
+            if (this.User.IsInRole("User"))
+            {
+                if (!hasBuy)
+                {
+                    return RedirectToAction("Error404");
+                }
+            }
+                DetailHomeVM vm = new DetailHomeVM();
+            HomeController.ID = ID;
             var model = from c in context.Courses
                         join u in context.Users
                         on c.UserId equals u.Id
@@ -531,12 +558,47 @@ namespace DoAnTotNghiep.Controllers
         [Authorize(Roles = "User")]
         public ActionResult GetMedia(string path)
         {
-            string fn = _hostingEnvironment.WebRootPath + path;
-            var memoryStream = new MemoryStream(System.IO.File.ReadAllBytes(fn));
-            var result = File(fileStream: memoryStream,
-                              contentType: new MediaTypeHeaderValue("video/mp4").MediaType,
-                              enableRangeProcessing: true);
-            return result;
+            var context = _courseService.GetContext();
+            ClaimsPrincipal currentUser = this.User;
+            var currentUserName = int.Parse(currentUser.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var checkHasBuy = (
+                                   from o in context.Orders
+                                   join od in context.OrderDetails
+                                   on o.Id equals od.OrderId
+                                   join u in context.Users
+                                   on o.UserId equals u.Id
+                                   where u.Id == currentUserName
+                                         && od.CourseId == HomeController.ID
+                                         && o.Status == OrderStatus.Paid
+                                   select od
+                                ).Count();
+            bool hasBuy = checkHasBuy > 0 ? true : false;
+            if (this.User.IsInRole("User"))
+            {
+                if (!hasBuy)
+                {
+                    return RedirectToAction("Error404");
+                }
+            }
+            try
+            {
+                string fn = _hostingEnvironment.WebRootPath + path;
+                var memoryStream = new MemoryStream(System.IO.File.ReadAllBytes(fn));
+                var result = File(fileStream: memoryStream,
+                                  contentType: new MediaTypeHeaderValue("video/mp4").MediaType,
+                                  enableRangeProcessing: true);
+                return result;
+            }
+            catch
+            {
+                string fn = _hostingEnvironment.WebRootPath + "/img/avatardefault.jpg";
+                var memoryStream = new MemoryStream(System.IO.File.ReadAllBytes(fn));
+                var result = File(fileStream: memoryStream,
+                                  contentType: new MediaTypeHeaderValue("video/mp4").MediaType,
+                                  enableRangeProcessing: true);
+                return result;
+            }
+
         }
 
         public PaymentVM ComputePayment(string listIdCourse)

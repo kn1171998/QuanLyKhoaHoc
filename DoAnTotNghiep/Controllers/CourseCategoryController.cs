@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DoAnTotNghiep.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -29,7 +30,7 @@ namespace DoAnTotNghiep.Controllers
             _mapper = mapper;
             _courseService = courseService;
         }
-
+        [Authorize(Roles = "Admin,Teacher")]
         public IActionResult Index()
         {
             var courses = new CourseCategoryVM();
@@ -48,39 +49,6 @@ namespace DoAnTotNghiep.Controllers
             return Json(new { status = listCategoryParent.Any(), listCategoryParent = listCategoryParent });
         }
 
-        //public IActionResult _Index(string searchName, int page, int pageSize = 3)
-        //{
-        //    var model = new Object();
-        //    int totalRow = 0;
-        //    if (string.IsNullOrEmpty(searchName))
-        //    {
-        //        model = _courseCategoryService.GetPaging(null, out totalRow, page, pageSize, x => x.Id).
-        //         Select(m => new
-        //         {
-        //             m.Id,
-        //             m.Name,
-        //             m.SortOrder,
-        //             m.Status
-        //         }).ToList();
-        //    }
-        //    else
-        //    {
-        //        model = _courseCategoryService.GetPaging(m => m.Name.Contains(searchName), out totalRow, page, pageSize, x => x.Id).
-        //          Select(m => new
-        //          {
-        //              m.Id,
-        //              m.Name,
-        //              m.SortOrder,
-        //              m.Status
-        //          }).ToList();
-        //    }
-        //    return Json(new
-        //    {
-        //        data = model,
-        //        total = totalRow,
-        //        status = true
-        //    });
-        //}
 
         public IActionResult Create(int ID, int IdParent = 0)
         {
@@ -174,7 +142,7 @@ namespace DoAnTotNghiep.Controllers
                     on c.UserId equals u.Id
                     join cate in context.CourseCategories
                     on c.CategoryId equals cate.Id
-                    where cate.Id == id
+                    where cate.Id == id && c.Status == true
                     select new CourseVM
                     {
                         Id = c.Id,
@@ -194,14 +162,14 @@ namespace DoAnTotNghiep.Controllers
         }
 
         public IActionResult search_home(string search)
-        {
+        {            
             var context = _courseService.GetContext();
             var d = from c in context.Courses
                     join u in context.Users
                     on c.UserId equals u.Id
                     join cate in context.CourseCategories
                     on c.CategoryId equals cate.Id
-                    where c.Name.Contains(search)
+                    where c.Name.Contains(search ?? string.Empty) && c.Status == true
                     select new CourseVM
                     {
                         Id = c.Id,
@@ -250,7 +218,7 @@ namespace DoAnTotNghiep.Controllers
                      on c.UserId equals u.Id
                      join cate in context.CourseCategories
                      on c.CategoryId equals cate.Id
-                     where cate.Id == id
+                     where cate.Id == id && c.Status == true
                      select new CourseVM
                      {
                          Id = c.Id,
@@ -272,7 +240,7 @@ namespace DoAnTotNghiep.Controllers
                                         on c.UserId equals u.Id
                                         join cate in context.CourseCategories
                                         on c.CategoryId equals cate.Id
-                                        where cate.Id == id
+                                        where cate.Id == id && c.Status == true
                                         select new CourseVM
                                         {
                                             Id = c.Id,

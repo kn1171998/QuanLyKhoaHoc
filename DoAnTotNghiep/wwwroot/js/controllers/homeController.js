@@ -121,9 +121,8 @@ var homeController = {
                             await $(categoryDivTop).insertAfter('#All');
                             if (i == 0) {
                                 //var abc = "\'category" + item.id + "\'";
-                                $('body').on('click', '.myTadBtn', function (e) {
-                                    var self = $(this);
-                                    var ID = self.val();
+                          
+                                    var ID = item.id;
                                     $.ajax({
                                         url: "/Home/ListAllCourseTop",
                                         type: "GET",
@@ -157,9 +156,7 @@ var homeController = {
                                                 });
                                             }
                                         }
-                                    });
-                                });
-                                    await $('.myTadBtn').trigger("click");
+                                    });                                    
                             }
                         }
                     });

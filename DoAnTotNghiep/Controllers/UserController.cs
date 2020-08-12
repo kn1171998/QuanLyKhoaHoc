@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DoAnTotNghiep.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,13 +35,14 @@ namespace DoAnTotNghiep.Controllers
             _IUserServed = usersv;
             _courseService = courseService;
         }
-
+        [Authorize(Roles = "User")]
         public IActionResult Index(int id)
         {
             var model = _IUserServed.GetById(id);
             var userVM = _mapper.Map<UserVM>(model);
             return View(userVM);
         }
+        [Authorize(Roles = "User")]
         public IActionResult Teacher(int id)
         {
 
@@ -51,7 +53,7 @@ namespace DoAnTotNghiep.Controllers
             return View(userVM);
         }
 
-
+        [Authorize(Roles = "User")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [RequestSizeLimit(3145728)]
@@ -87,6 +89,7 @@ namespace DoAnTotNghiep.Controllers
             }
 
         }
+        [Authorize(Roles = "User")]
         public IActionResult MyCourse()
         {
             var context = _courseService.GetContext();

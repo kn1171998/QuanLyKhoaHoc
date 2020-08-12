@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DoAnTotNghiep.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -25,7 +26,7 @@ namespace DoAnTotNghiep.Controllers
             _iUserService = iUserService;
             _mapper = mapper;
         }
-
+        [Authorize(Roles = "Admin,Teacher")]
         public IActionResult Index()
         {
 
@@ -47,7 +48,7 @@ namespace DoAnTotNghiep.Controllers
                      Birthday = m.Birthday ?? DateTime.Now,
                      Sex = m.Sex,
                      Introduction = m.Introduction,
-                     Status = m.Status
+                     Status = m.Status??false
                  }).ToList();
             }
             else
@@ -60,7 +61,7 @@ namespace DoAnTotNghiep.Controllers
                       Birthday = m.Birthday ?? DateTime.Now,
                       Sex = m.Sex,
                       Introduction = m.Introduction,
-                      Status = m.Status
+                      Status = m.Status??false
                   }).ToList();
             }
             return Json(new

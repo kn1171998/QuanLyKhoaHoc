@@ -40,7 +40,7 @@ namespace DoAnTotNghiep.Models
         public long? FacebookId { get; set; }
         public long? GoogleId { get; set; }
         public string ImageUrl { get; set; }
-        public bool? Status { get; set; }
+        public bool Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public string SearchName { get; set; }
         public UserVM()

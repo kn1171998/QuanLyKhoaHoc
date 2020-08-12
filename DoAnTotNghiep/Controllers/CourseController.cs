@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DoAnTotNghiep.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +43,7 @@ namespace DoAnTotNghiep.Controllers
             _orderDetailService = orderDetailService;
             _mapper = mapper;
         }
-
+        [Authorize(Roles = "Admin,Teacher")]
         public IActionResult Index()
         {
             var courses = new CourseVM();

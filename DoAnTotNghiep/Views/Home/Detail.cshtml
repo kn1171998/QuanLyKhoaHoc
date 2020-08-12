@@ -24,7 +24,7 @@
                                 <span class="pl-3"> <i class="fa fa-user" aria-hidden="true"></i>  <a href="/User/Teacher/@Model.UserId">@Model.FullName</a> </span>
 
                             </div>
-                        
+
                             <div class="student col-md-3 col-12">
                                 <span>
                                     @Model.NumberStudent Học sinh
@@ -37,7 +37,7 @@
                 </div>
                 <div class="row info-courses  mb-3 p-2">
                     <h3 class="col-12 p-2">Bạn sẽ học gì trong khoá học?</h3>
-                    @Html.Raw(Model.Content)                 
+                    @Html.Raw(Model.Content)
                 </div>
                 <div class="row Course content mr-2">
 
@@ -57,7 +57,7 @@
                                                         <ion-icon name="chevron-down-outline"></ion-icon>
                                                         @item.NameChapter
                                                     </span>
-                                                   
+
                                                     <b class="caret"></b>
                                                 </a>
                                                 <ul class="dropdown-menu ">
@@ -69,7 +69,7 @@
                                                                     <ion-icon name="play-circle-outline"></ion-icon>
                                                                     @child.Name
                                                                 </span>
-                                                                
+
                                                                 <b class="caret"></b>
                                                             </a>
                                                         </li>
@@ -95,10 +95,10 @@
                             </a>
                             <div class="star-courses cleafix text-left">
                                 @*<span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
-                                <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>*@
+                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                    <span class="mr-1"><i class="fa fa-star" aria-hidden="true"></i></span>*@
                             </div>
                         </div>
 
@@ -122,12 +122,19 @@
                     <div class="btn w-100">
                         @if (!Model.HasBuy)
                         {
-                            @*<button class="btn btn-danger w-100 mb-2">Add to cart</button>*@
-                        <a asp-action="BuyNow" asp-controller="Home" asp-route-listIdCourse="@Model.IdCourse.ToString()" id="buynow" class="btn btn-outline-danger w-100 ">Mua ngay</a>
+                            if (User.IsInRole(TypeUser.Admin) || User.IsInRole(TypeUser.Teacher))
+                            {
+
+                                <a asp-action="View" asp-controller="Home" asp-route-id="@Model.IdCourse" class="btn btn-outline-danger w-100 ">Xem</a>
+                            }
+                            else
+                            {
+                                <a asp-action="BuyNow" asp-controller="Home" asp-route-listIdCourse="@Model.IdCourse.ToString()" id="buynow" class="btn btn-outline-danger w-100 ">Mua ngay</a>
+                            }
                         }
                         else
                         {
-                        <a asp-action="View" asp-controller="Home" asp-route-id="@Model.IdCourse" class="btn btn-outline-danger w-100 ">Tham gia</a>
+                            <a asp-action="View" asp-controller="Home" asp-route-id="@Model.IdCourse" class="btn btn-outline-danger w-100 ">Tham gia</a>
                         }
                     </div>
                 }

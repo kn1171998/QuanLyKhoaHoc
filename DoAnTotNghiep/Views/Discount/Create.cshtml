@@ -44,31 +44,31 @@
                             <div class="form-check">
                                 <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="0" checked="checked" />
                                 <label class="form-check-label" for="percent">
-                                    Phần trăm chiết khấu
+                                    <span style="margin-left:20px">Phần trăm chiết khấu</span>
                                 </label>
                             </div>
                         }
                         else if (Model.DiscountAmount > 0)
                         {
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="1" />
+                                <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="1" checked="checked" />
                                 <label class="form-check-label" for="amount">
-                                    Số tiền chiết khấu
+                                    <span style="margin-left:20px">Số tiền chiết khấu</span>
                                 </label>
                             </div>
                         }
                         else
                         {
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="0" checked="checked" />
+                                <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="0" />
                                 <label class="form-check-label" for="percent">
-                                    Phần trăm chiết khấu
+                                    <span style="margin-left:20px">Phần trăm chiết khấu</span>
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="1" />
+                                <input type="radio" class="form-check-input" name="CheckTypeDiscount" asp-for="CheckTypeDiscount" value="1"  checked="checked" />
                                 <label class="form-check-label" for="amount">
-                                    Số tiền chiết khấu
+                                    <span style="margin-left:20px">Số tiền chiết khấu</span>
                                 </label>
                             </div>
                         }
@@ -83,7 +83,9 @@
                         else
                         {
                             <input asp-for="DiscountAmount" min="1000" type="number" class="form-control" placeholder="Nhập chiết khấu">
+
                         }
+                        <div class="pb-3"> <label class="error" for="DiscountAmount"></label></div>
                     </div>
                 </div>
             </div>
@@ -101,4 +103,58 @@
 </script>
 <script id="tableDiscount" type="text/x-jquery-tmpl">
     <option value="{{ID}}">{{Name}}</option>
+</script>
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+    jQuery.validator.addMethod("greaterThan",
+        function (value, element, params) {
+
+            if (!/Invalid|NaN/.test(new Date(value))) {
+                return new Date(value) > new Date($(params).val());
+            }
+
+            return isNaN(value) && isNaN($(params).val())
+                || (Number(value) > Number($(params).val()));
+        }, 'Phải lớn hơn ngày bắt đầu.');
+    $('#frmCreateDiscount').validate({
+        rules: {
+            CodeDiscount: {
+                required: true,
+                maxlength: 50
+            },
+            FromDate: {
+                required: true,
+                date: true,
+
+            },
+            ToDate: {
+                required: true,
+                date: true,
+                greaterThan: "#FromDate"
+            }
+        },
+        messages: {
+            CodeDiscount: {
+                required: "Vui lòng không để trống",
+                maxlength: "Không được dài quá 70 kí tự",
+            },
+            FromDate: {
+                required: "Vui lòng không để trống",
+                date: "Ngày sai định dạng"
+            },
+            ToDate: {
+                required: "Vui lòng không để trống",
+                date: "Ngày sai định dạng"
+            },
+            DiscountAmount: {
+                min: "Vui lòng nhập lớn hơn hoặc bằng 1000"
+            },
+            DiscountPercent: {
+                min: "Vui lòng nhập trong khoảng 1-100",
+                max: "Vui lòng nhập trong khoảng 1-100"
+            }
+        }
+    });
 </script>

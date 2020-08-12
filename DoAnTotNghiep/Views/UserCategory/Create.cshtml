@@ -62,7 +62,12 @@
                         </select>
                         @Html.ValidationMessageFor(m => m.Sex)
                     </div>
-                    <input asp-for="Status" type="hidden" />
+                    <div class="col-md-12 pb-3">
+                        <div class="pb-3">Trạng thái tài khoản</div>
+                            <input asp-for="Status" type="checkbox" class="form-control text-left mb-3" />
+                        @Html.ValidationMessageFor(m => m.Status)
+                    </div>
+              
                     <div class="col-md-12 pb-3">
                         <div class="pb-3">Giới thiệu (<span style="color:red">*</span>)</div>
                         <textarea class="form-control" style="display:none;height:0px;" asp-for="Introduction" placeholder="Giới thiệu"></textarea>

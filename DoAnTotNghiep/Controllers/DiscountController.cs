@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DoAnTotNghiep.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +34,7 @@ namespace DoAnTotNghiep.Controllers
             _discountCourseService = discountCourseService;
             _mapper = mapper;
         }
-
+        [Authorize(Roles = "Admin,Teacher")]
         public IActionResult Index()
         {
             var discount = new DiscountVM();
@@ -49,7 +50,7 @@ namespace DoAnTotNghiep.Controllers
                                            on d.Id equals dc.Iddiscount
                                            join c in _context.Courses
                                            on dc.Idcourse equals c.Id
-                                           where d.Id == id
+                                           where d.Id == id && c.Status == true
                                            select new DiscountDetailVM
                                            {
                                                CodeDiscount = d.CodeDiscount,
@@ -153,6 +154,9 @@ namespace DoAnTotNghiep.Controllers
         public IActionResult Create(int ID)
         {
             var vm = new DiscountVM();
+            vm.FromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, 0);
+            vm.ToDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day + 10, DateTime.Now.Hour, DateTime.Now.Minute, 0);
+            //vm.DiscountAmount = 1000;
             if (ID != 0)
             {
                 var model = _discountService.GetById(ID);
